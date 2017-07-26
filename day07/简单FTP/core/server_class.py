@@ -179,7 +179,7 @@ class Server_Class(object):
             if len(self.Order) != 3:
                 res = self.Show_Error(2,self.Order[0])
             elif self.Order[1] in file_list:
-                filename = '%s%s'%(home_path,self.Order[1])
+                filename = '%s\%s'%(home_path,self.Order[1])
                 f = open(filename,'rb')
                 res = [f.read(),self.Order[2]]
             else:

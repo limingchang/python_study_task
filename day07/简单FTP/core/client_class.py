@@ -85,8 +85,13 @@ class Client_Class(object):
     def Recv(self,data):
         print('服务器回复：'.center(60,'-'))
         info = pickle.loads(data)
+        print('type:', type(info['res']))
+        print(info)
         if info['act'] == 'download':
-            self.DownLoad_File(info['res'])
+            if isinstance(info['res'],error_class.Server_Error):
+                print(info['res'])
+            else:
+                self.DownLoad_File(info['res'])
         else:
             print('客户端[%s]:%s'%(info['address'],info['port']))
             print(info['res'])

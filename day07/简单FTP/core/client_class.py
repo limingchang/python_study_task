@@ -91,9 +91,10 @@ class Client_Class(object):
             if isinstance(info['res'],error_class.Server_Error):
                 print(info['res'])
             else:
-                self.DownLoad_File(info['res'])
+                msg = self.DownLoad_File(info['res'])
+                print(msg)
         else:
-            print('客户端[%s]:%s'%(info['address'],info['port']))
+            print('当前客户端[%s]:%s'%(info['address'],info['port']))
             print(info['res'])
 
 

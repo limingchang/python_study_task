@@ -1,0 +1,1 @@
+{"lmc": {"password": "37fa265330ad83eaa879efb1e2db6380896cf639", "salary": 70512, "locked": false, "shopping": {"0": {"name": "iPhone6", "price": 5800}, "1": {"name": "bike", "price": 800}, "2": {"name": "macbook pro", "price": 12888}}, "authority": 9}, "alex": {"password": "40bd001563085fc35165329ea1ff5c5ecbdbbeef", "salary": -1, "locked": false, "shopping": {}, "authority": 0}}

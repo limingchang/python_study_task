@@ -1,0 +1,1 @@
+{"wly": {"password": "37fa265330ad83eaa879efb1e2db6380896cf639", "locked": false, "money": 50000, "authority": false}, "lmc": {"password": "40bd001563085fc35165329ea1ff5c5ecbdbbeef", "locked": false, "money": 10434, "authority": true}}

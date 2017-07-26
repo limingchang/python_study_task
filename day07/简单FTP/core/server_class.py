@@ -141,7 +141,9 @@ class Server_Class(object):
             if len(self.Order[1]) > self.Recv_Size - 100:
                 res = self.Show_Error(302,self.Order[0])
             else:
-                if os.path.exists(filename):filename='%s(1)'%filename
+                if os.path.exists(filename):
+					filname_ext = filename.split('.')
+					filename='%s(1)%s'%(filname_ext[0],filname_ext[1])
                 with open(filename,'wb') as f:
                     f.write(self.Order[1])
                 res = self.Show_Error(0,self.Order[0])

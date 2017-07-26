@@ -181,7 +181,7 @@ class Server_Class(object):
             elif self.Order[1] in file_list:
                 filename = '%s%s'%(home_path,self.Order[1])
                 f = open(filename,'rb')
-                res = f.read()
+                res = [f.read(),self.Order[2]]
             else:
                 res = self.Show_Error(303,self.Order[0])
         else:

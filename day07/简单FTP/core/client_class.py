@@ -86,7 +86,7 @@ class Client_Class(object):
         print('服务器回复：'.center(60,'-'))
         info = pickle.loads(data)
         if info['act'] == 'download':
-            pass
+            self.DownLoad_File(info['res'])
         else:
             print('客户端[%s]:%s'%(info['address'],info['port']))
             print(info['res'])
@@ -112,6 +112,21 @@ class Client_Class(object):
         config.read(config_path)
         self.Port = int(config['CLIENT']['port'])#获取客户端链接端口
         self.Send_Size = int(config['CLIENT']['send_size'])#最大发送数据大小，默认10mb
+
+
+    def DownLoad_File(self,data):
+        '''
+        下载文件-》客户端
+        :param data: [data,filename]下载的二进制文件数据
+        :return:
+        '''
+        filename = data[1]
+        filedata = data[0]
+        if os.path.exists(filename):filename='%s(1)'%filename#文件存在则重命名
+        with open(filename,'wb') as f:
+            f.write(filedata)
+        res = self.Show_Error(0,'download')
+        return res
 
 
     def Close(self):

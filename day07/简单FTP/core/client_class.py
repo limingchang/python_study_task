@@ -98,7 +98,7 @@ class Client_Class(object):
         str = '%supload [filename][cloud_filename] -上传文件，filename=完整的本地路径，cloud_filename=云端文件名\n'%str
         str = '%sls -显示云端个人目录下文件列表\n'%str
         str = '%slogin [username] [password] -用户登录\n'%str
-        str = '%sdownload [filename] -下载云端文件，filename=云端文件名'%str
+        str = '%sdownload [filename] [local_filename] -下载云端文件，filename=云端文件名,local_filename=本地文件名'%str
         print(str)
 
 

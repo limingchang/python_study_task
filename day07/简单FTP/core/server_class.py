@@ -176,7 +176,7 @@ class Server_Class(object):
         if self.Is_Login:
             home_path = '%s\home\%s'%(path,self.User_Info['username'])
             file_list = os.listdir(home_path)
-            if len(self.Order) != 2:
+            if len(self.Order) != 3:
                 res = self.Show_Error(2,self.Order[0])
             elif self.Order[1] in file_list:
                 filename = '%s%s'%(home_path,self.Order[1])

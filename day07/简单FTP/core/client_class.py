@@ -45,7 +45,7 @@ class Client_Class(object):
                     res = self.Upload_Flie(act)
                     if res['msg']:
                         act[1] = res['data']
-                        print(act)
+                        #print(act)
                         self.client.sendall(pickle.dumps(act))
                     else:
                         print(res['data'])
@@ -85,8 +85,8 @@ class Client_Class(object):
     def Recv(self,data):
         print('服务器回复：'.center(60,'-'))
         info = pickle.loads(data)
-        print('type:', type(info['res']))
-        print(info)
+        #print('type:', type(info['res']))
+        #print(info)
         if info['act'] == 'download':
             if isinstance(info['res'],error_class.Server_Error):
                 print(info['res'])

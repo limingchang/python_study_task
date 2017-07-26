@@ -50,7 +50,7 @@ class Server_Class(object):
                 break
             act = pickle.loads(data)
             #act = data
-            print('server|recv:',act )
+            #print('server|recv:',act )
 
             #data = '【%s】发送数据成功'%addr[0]
             data = {
@@ -61,7 +61,7 @@ class Server_Class(object):
                 'act':act[0],
                 'res':self.Run_Action(act)
             }
-            print(data)
+            #print(data)
             conn.sendall(pickle.dumps(data))
 
 

@@ -185,13 +185,17 @@ class School_Class(object):
             role_info = self.DB_obj.GET_DATA('select %s from role'%item)
             if role_info['type'] == 'teacher' and role_info['school'] == self.School_obj.name:
                 teacher_list.append([item,role_list.index(item)])
-        for t in teacher_list:
-            print(teacher_list.index(t),'.',t[0])
-        while True:
-            act = input('请选择此班级的讲师：').strip()
-            if act.isdigit() and int(act) < len(teacher_list) and int(act) >= 0:
-                self.Teacher = teacher_list[int(act)][0]
-                break
+        if len(teacher_list) ==0:
+            print('还没有讲师关联此学校，请先创建讲师！')
+            exit()
+        else:
+            for t in teacher_list:
+                print(teacher_list.index(t),'.',t[0])
+            while True:
+                act = input('请选择此班级的讲师：').strip()
+                if act.isdigit() and int(act) < len(teacher_list) and int(act) >= 0:
+                    self.Teacher = teacher_list[int(act)][0]
+                    break
 
 
     def Relation_School(self,school_name=''):

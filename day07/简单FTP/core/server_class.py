@@ -117,7 +117,7 @@ class Server_Class(object):
         :return:
         '''
         user_info_file=os.path.join(path,'db','user_admin.dat')
-        home_path = os.path.join(path, 'home', self.User_Info['username'])
+        home_path = os.path.join(path, 'home', 'admin')
         if not os.path.exists(user_info_file):
             with open(user_info_file,'wb') as f:
                 info = {

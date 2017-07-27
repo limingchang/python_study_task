@@ -130,8 +130,8 @@ class Client_Class(object):
         filename = data[1]
         filedata = data[0]
         if os.path.exists(filename):
-			filname_ext = filename.split('.')
-			filename='%s(1)%s'%(filname_ext[0],filname_ext[1])#文件存在则重命名
+            filname_ext = filename.split('.')
+            filename='%s(1)%s'%(filname_ext[0],filname_ext[1])#文件存在则重命名
         with open(filename,'wb') as f:
             f.write(filedata)
         res = self.Show_Error(0,'download')

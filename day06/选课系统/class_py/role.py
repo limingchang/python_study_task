@@ -161,14 +161,15 @@ class Teacher(SchoolMember):
         '''
         获取班级内学生列表
         :param class_obj: 班级对象
-        :return: 返回学生对象列表
+        :return: 返回学生信息列表
         '''
         self.Auth()  # 验证登录
         role_list = self.DB_obj.DB_Index['role_list']
         student_list = []#所有学生列表
+        full_class_name =  '%s_%s'%(class_obj.school,class_obj.name)
         for student in role_list:
             student_info = self.DB_obj.GET_DATA('select %s from role'%student)
-            if student_info['type'] == 'student' and class_obj.name in student['class_list']:
+            if student_info['type'] == 'student' and full_class_name == student_info['class']:
                 student_list.append(student_info)
         return student_list
 
@@ -271,6 +272,7 @@ class Student(SchoolMember):
         info['type'] = self.Type
         self.class_obj = ''#设置班级对象
         info['class'] =self.class_obj
+        info['score'] = 0
         # 写入索引
         self.DB_obj.SAVE_DB_INDEX(data=['role', self.DB_obj.DB_Index['role_list']])
         # 写入数据库

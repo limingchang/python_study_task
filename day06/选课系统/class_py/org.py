@@ -323,8 +323,8 @@ if __name__ == '__main__':
     #a = DB_Data.GET_DATA('select * from school')
     # r_s = School.Relation(DB_Data)
     # print(r_s)
-    # DB_Data.DB_Index['school_list'].append('北京校区')
-    # DB_Data.SAVE_DB_INDEX(data=['school', DB_Data.DB_Index['school_list']])
+    DB_Data.DB_Index['role_list']=['admin', 'lmc','alex']
+    DB_Data.SAVE_DB_INDEX(data=['school', DB_Data.DB_Index['school_list']])
     #print(a)
     #print(DB_Data.DB_Index)
     #course =Course(DB_Data)

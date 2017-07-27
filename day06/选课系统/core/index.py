@@ -116,7 +116,7 @@ q.退出系统''')
             print('您没有关联班级，请联系管理员在创建班级时关联您！')
         else:
             for obj in class_obj_list:
-                print(class_obj_list.index(obj),'.',obj.name)
+                print(class_obj_list.index(obj),'.',obj.name,obj.course,'=>',obj.school)
             while True:
                 act = input('请选择：').strip()
                 if act.isdigit() and int(act) < len(class_obj_list) and int(act) >= 0:

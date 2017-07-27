@@ -299,7 +299,7 @@ class Student(SchoolMember):
                 continue
         self.User_Info['class'] = res.name
         # 写入数据库
-        self.DB_obj.SAVE_TABLE_DATA(statement='update_file', data=['role', self.UserName, self.User_Info])
+        self.DB_obj.SAVE_TABLE_DATA(statement='update_file', data=['role', self.User_Info['username'], self.User_Info])
 
 
 

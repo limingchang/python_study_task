@@ -174,23 +174,23 @@ class Teacher(SchoolMember):
         return student_list
 
 
-    def Score_Manage(self,student_name):
+    def Score_Manage(self,student_info):
         '''
         修改学生成绩
         :param cstudent_name: 学生用户名
         :return: 返回修改后信息
         '''
         self.Auth()  # 验证登录
-        student_info = self.DB_obj.GET_DATA('select %s from role'%student_name)
+        student_info = self.DB_obj.GET_DATA('select %s from role'%student_info['username'])
         print('【%s】班-【%s】当前成绩：%s'%(student_info['class'],student_info['username'],student_info['score']))
         while True:
             new_score = input('请输入新的成绩：')
             if new_score.isdigit() and int(new_score) <= 100 and int(new_score) >=0:
                 student_info['score'] = int(new_score)
                 # 写入数据库.
-                res = self.DB_obj.SAVE_TABLE_DATA(statement='update_file', data=['role', student_info['name'], student_info])
+                res = self.DB_obj.SAVE_TABLE_DATA(statement='update_file', data=['role', student_info['username'], student_info])
                 if res:
-                    print('【%s】的成绩修改为：%s'%(student_name,new_score))
+                    print('【%s】的成绩修改为：%s'%(student_info['username'],new_score))
                 break
             else:
                 print('成绩格式错误，请重新输入！')
@@ -353,5 +353,7 @@ if __name__ == '__main__':
     # DB_Data.DB_Index['course_list'] = ['上海校区_python', '北京校区_python']
     # DB_Data.DB_Index['class_list'] = [ '北京校区_第一期1班']
     # DB_Data.SAVE_DB_INDEX(data=['class',DB_Data.DB_Index['class_list']])
-    info = DB_Data.GET_DATA('select * from class')
+    info = DB_Data.GET_DATA('select admin from role')
+    info['score'] = 0
+    DB_Data.SAVE_TABLE_DATA(statement='update_file',data=['role','admin',info])
     print(info)

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 __author__ = 'Mc.Lee'
-import sys,os
+import sys,os,time
 path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0,path)
 from class_py import db,role
@@ -48,6 +48,9 @@ class ROLE_INTERFACE(object):
         else:
             if act == 'class_chose':
                 print('您开始给【%s】上课...'%class_obj.name)
+                time.sleep(1)
+                print('3秒后返回讲师视图')
+                time.sleep(3)
             elif act == 'student_list':
                 print('学生列表'.center(40, '-'))
                 for student in student_list:
@@ -59,8 +62,8 @@ class ROLE_INTERFACE(object):
                 while True:
                     act = input('请选择要修改成绩的学生：')
                     if act.isdigit() and int(act) < len(student_list) and int(act) >= 0:
-                        student_name = student_list[int(act)]
-                        self.Role.Score_Manage(student_name)
+                        student_info = student_list[int(act)]
+                        self.Role.Score_Manage(student_info)
                         break
                     else:
                         print('错误的选择！')
@@ -123,7 +126,7 @@ q.退出系统''')
                     class_obj = class_obj_list[int(act)]
                     break
             print('[%s]的操作选项'.center(40,'-')%class_obj.name)
-            print('''1.选择上课班级
+            print('''1.开始上课
 2.学生列表
 3.成绩管理
 q.退出系统''')

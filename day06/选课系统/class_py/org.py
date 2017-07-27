@@ -234,7 +234,7 @@ class School_Class(object):
             #查询班级信息
             class_info = db_obj.GET_DATA('select %s from class'%c)
             #创建班级对象
-            school_class = School_Class(db_obj,class_list['school'],class_info['name'])
+            school_class = School_Class(db_obj,class_info['school'],class_info['name'])
             #构建对象列表
             class_obj_list.append(school_class)
         return class_obj_list

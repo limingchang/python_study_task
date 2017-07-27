@@ -259,7 +259,7 @@ class Admin(SchoolMember):
 class Student(SchoolMember):
     def Enroll(self):
         SchoolMember.enroll(self)
-        print('完善个人信息'.center(40,'-'))
+        #print('完善个人信息'.center(40,'-'))
         info = {
             'username':self.UserName,
             'password':self.PassWord,
@@ -275,6 +275,7 @@ class Student(SchoolMember):
         self.DB_obj.SAVE_DB_INDEX(data=['role', self.DB_obj.DB_Index['role_list']])
         # 写入数据库
         self.DB_obj.SAVE_TABLE_DATA(statement='update_file', data=['role', self.UserName, info])
+        print('[%s]注册成功！'%self.UserName)
 
 
     def Chose_class(self):

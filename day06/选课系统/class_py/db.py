@@ -10,8 +10,10 @@ sys.path.insert(0, path)
 
 class DB_CLASS(object):
     def __init__(self):
+        self.Sep = os.sep#获取系统路径分隔符
         config = configparser.ConfigParser()
-        config_path = '%s\config\config.ini'%(path)
+        #config_path = '%s\config\config.ini'%(path)
+        config_path = '{_path}{_sep}config{_sep}config.ini'.format(_path=path,_sep=self.Sep)
         #print(config_path)
         config.read(config_path)
         self.DB_Type = config['DEFAULT']['db_type']
@@ -30,7 +32,8 @@ class DB_CLASS(object):
         '''
         if self.DB_Type == 'file':
             try:
-                conn = open('%s%sdb_index.dat' % (path, self.DB_Name), 'rb')
+                index_path = '{_path}{_sep}{_dbname}{_sep}db_index.dat'.format(_path=path, _sep=self.Sep,_dbname=self.DB_Name)
+                conn = open(index_path, 'rb')
             except FileNotFoundError:
                 print('数据表索引丢失，请联系管理员！')
                 conn = None
@@ -61,7 +64,8 @@ class DB_CLASS(object):
         if self.DB_Type == 'file':
             f = self.Conn
             if f == None:
-                with open('%s%sdb_index.dat' % (path, self.DB_Name), 'wb')as f:
+                index_path = '{_path}{_sep}{_dbname}{_sep}db_index.dat'.format(_path=path,_sep=self.Sep,_dbname=self.DB_Name)
+                with open(index_path, 'wb')as f:
                     pickle.dump(db_index, f)
             else:
                 db_index = pickle.load(f)
@@ -85,7 +89,8 @@ class DB_CLASS(object):
                 for key in item_list:
                     filename = '%s%s.dat' % (key_table[1], item_list.index(key))
                     try:
-                        f = open('{_path}{_dbname}{_filename}'.format(_path=path, _dbname=self.DB_Name, _filename=filename),'rb')
+                        info_path ='{_path}{_sep}{_dbname}{_sep}{_filename}'.format(_path=path,_sep=self.Sep, _dbname=self.DB_Name, _filename=filename)
+                        f = open(info_path,'rb')
                     except FileNotFoundError:
                         data.append('')
                     else:
@@ -95,7 +100,8 @@ class DB_CLASS(object):
                 data_id = item_list.index(key_table[0])
                 filename = '%s%s.dat'%(key_table[1],data_id)
                 try:
-                    f = open('{_path}{_dbname}{_filename}'.format(_path=path,_dbname=self.DB_Name,_filename=filename), 'rb')
+                    info_path = '{_path}{_sep}{_dbname}{_sep}{_filename}'.format(_path=path, _sep=self.Sep,_dbname=self.DB_Name,_filename=filename)
+                    f = open(info_path, 'rb')
                 except FileNotFoundError:
                     data = []
                 else:
@@ -118,7 +124,8 @@ class DB_CLASS(object):
             if statement == 'update_file':
                 file_id = self.DB_Index['%s_list'%data[0]].index(data[1])
                 filename = '%s%s.dat'%(data[0],file_id)
-                f = open('{_path}{_dbname}{_filename}'.format(_path=path, _dbname=self.DB_Name, _filename=filename),'wb')
+                info_path = '{_path}{_sep}{_dbname}{_sep}{_filename}'.format(_path=path, _sep=self.Sep,_dbname=self.DB_Name,_filename=filename)
+                f = open(info_path ,'wb')
                 pickle.dump(data[2],f)
                 f.close()
                 return True
@@ -139,8 +146,8 @@ class DB_CLASS(object):
         '''
         if self.DB_Type == 'file':
             self.DB_Index['%s_list'%data[0]] = data[1]
-            filename = 'db_index.dat'
-            f = open('{_path}{_dbname}{_filename}'.format(_path=path, _dbname=self.DB_Name, _filename=filename),'wb')
+            index_path = '{_path}{_sep}{_dbname}{_sep}db_index.dat'.format(_path=path, _sep=self.Sep,_dbname=self.DB_Name)
+            f = open(index_path,'wb')
             pickle.dump(self.DB_Index,f)
             f.close()
             return True

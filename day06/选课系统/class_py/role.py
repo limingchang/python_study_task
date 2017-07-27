@@ -298,7 +298,7 @@ class Student(SchoolMember):
                 else:
                     print('选择错误！')
                     continue
-            self.User_Info['class'] = res.name
+            self.User_Info['class'] = '%s_%s'%(res.school,res.name)
             # 写入数据库
             self.DB_obj.SAVE_TABLE_DATA(statement='update_file', data=['role', self.User_Info['username'], self.User_Info])
         else:
@@ -315,23 +315,23 @@ class Student(SchoolMember):
         res =False
         school_class = self.User_Info['class']
         #查询班级信息
-        class_info = self.DB_obj.GET_DATA('select %s from class'%c)
+        class_info = self.DB_obj.GET_DATA('select %s from class'%school_class)
         #获得缴费状态
         class_payment = self.User_Info['payment']
         if class_payment == False:
-            print('课程【%s】=》（%s）,未缴费，是否缴费？')
+            print('课程【%s】=》（%s_%s）,未缴费，是否缴费？'%(class_info['course'],class_info['school'],class_info['name']))
             act = input('输入Y/N:')
             if act.strip().lower() == 'y':
                 self.User_Info['payment'] = True
                 print('缴费成功！')
                 # 写入数据库
-                self.DB_obj.SAVE_TABLE_DATA(statement='update_file', data=['role', self.UserName, self.User_Info])
+                self.DB_obj.SAVE_TABLE_DATA(statement='update_file', data=['role', self.User_Info['username'], self.User_Info])
                 res = True
             else:
                 print('您已取消缴费')
                 res = False
         else:
-            print('您的课程已缴费，不必在此缴费！')
+            print('您的课程已缴费，不必再次缴费！')
             res = False
         return res
 

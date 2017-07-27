@@ -284,22 +284,25 @@ class Student(SchoolMember):
         :return:
         '''
         self.Auth()#验证登录
-        class_obj_list = org.School_Class.Class_List(self.DB_obj)
-        print('班级课程列表：'.center(40,'-'))
-        for obj in class_obj_list:
-            print(class_obj_list.index(obj),'.',obj.school,'|',obj.name,'|课程：',obj.course,'|讲师：',obj.teacher)
-        while True:
-            act = input('请选要学习的课程：').strip()
-            if act.isdigit() and int(act) < len(class_obj_list) and int(act) >= 0:
-                res = class_obj_list[int(act)]
-                del class_obj_list#清空班级对象列表，释放内存
-                break
-            else:
-                print('选择错误！')
-                continue
-        self.User_Info['class'] = res.name
-        # 写入数据库
-        self.DB_obj.SAVE_TABLE_DATA(statement='update_file', data=['role', self.User_Info['username'], self.User_Info])
+        if self.User_Info['class'] == '':
+            class_obj_list = org.School_Class.Class_List(self.DB_obj)
+            print('班级课程列表：'.center(40,'-'))
+            for obj in class_obj_list:
+                print(class_obj_list.index(obj),'.',obj.school,'|',obj.name,'|课程：',obj.course,'|讲师：',obj.teacher)
+            while True:
+                act = input('请选要学习的课程：').strip()
+                if act.isdigit() and int(act) < len(class_obj_list) and int(act) >= 0:
+                    res = class_obj_list[int(act)]
+                    del class_obj_list#清空班级对象列表，释放内存
+                    break
+                else:
+                    print('选择错误！')
+                    continue
+            self.User_Info['class'] = res.name
+            # 写入数据库
+            self.DB_obj.SAVE_TABLE_DATA(statement='update_file', data=['role', self.User_Info['username'], self.User_Info])
+        else:
+            print('您已选择过课程了！')
 
 
 

@@ -13,6 +13,7 @@ class Client_Class(object):
         '''
         创建客户端socket对象
         '''
+        self.Sep = os.sep#路径分隔符
         self.Get_Config()
         self.Conn()
         self.Send_Data()
@@ -114,7 +115,7 @@ class Client_Class(object):
         :return:
         '''
         config = configparser.ConfigParser()
-        config_path = '%s\config\config.ini'%path
+        config_path = '{_path}{_sep}config{_sep}config.ini'.format(_path=path,_sep=self.Sep)
         config.read(config_path)
         self.Port = int(config['CLIENT']['port'])#获取客户端链接端口
         self.Send_Size = int(config['CLIENT']['send_size'])#最大发送数据大小，默认10mb

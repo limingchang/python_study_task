@@ -13,6 +13,7 @@ class Server_Class(object):
         '''
         创建socket服务端对象并建立连接和监听
         '''
+        self.Sep = os.sep
         self.Is_Login = False
         self.Check_Defult_User()
         self.Get_Config()
@@ -94,7 +95,7 @@ class Server_Class(object):
         else:
             username = self.Order[1]
             password = self.Order[2]
-            user_info_file = '%s\db\\user_%s.dat'%(path,username)
+            user_info_file = os.path.join(path, 'db', 'user_%s.dat'%username)
             if not self.Is_Login:
                 if os.path.exists(user_info_file):
                     with open(user_info_file,'rb') as f:
@@ -115,8 +116,8 @@ class Server_Class(object):
         检查缺省用户文件是否存在
         :return:
         '''
-        user_info_file = '%s\db\\user_%s.dat' % (path, 'admin')
-        home_path = '%s\home\%s'%(path,'admin')
+        user_info_file=os.path.join(path,'db','user_admin.dat')
+        home_path = os.path.join(path, 'home', self.User_Info['username'])
         if not os.path.exists(user_info_file):
             with open(user_info_file,'wb') as f:
                 info = {
@@ -134,16 +135,16 @@ class Server_Class(object):
         :return:
         '''
         if self.Is_Login:
-            home_path = '%s\home\%s' % (path, self.User_Info['username'])
-            filename = '%s\%s'%(home_path,self.Order[2])
+            home_path = os.path.join(path, 'home', self.User_Info['username'])
+            filename =os.path.join(home_path,self.Order[2])
             if not os.path.exists(home_path):
                 os.makedirs(home_path)
             if len(self.Order[1]) > self.Recv_Size - 100:
                 res = self.Show_Error(302,self.Order[0])
             else:
                 if os.path.exists(filename):
-					filname_ext = filename.split('.')
-					filename='%s(1)%s'%(filname_ext[0],filname_ext[1])
+                    filname_ext = filename.split('.')
+                    filename='%s(1)%s'%(filname_ext[0],filname_ext[1])
                 with open(filename,'wb') as f:
                     f.write(self.Order[1])
                 res = self.Show_Error(0,self.Order[0])
@@ -159,7 +160,7 @@ class Server_Class(object):
         :return:
         '''
         if self.Is_Login:
-            home_path = '%s\home\%s'%(path,self.User_Info['username'])
+            home_path = os.path.join(path, 'home', self.User_Info['username'])
             if os.path.exists(home_path):
                 res = os.listdir(home_path)
             else:
@@ -176,12 +177,12 @@ class Server_Class(object):
         :return:二进制文件数据
         '''
         if self.Is_Login:
-            home_path = '%s\home\%s'%(path,self.User_Info['username'])
+            home_path = os.path.join(path, 'home', self.User_Info['username'])
             file_list = os.listdir(home_path)
             if len(self.Order) != 3:
                 res = self.Show_Error(2,self.Order[0])
             elif self.Order[1] in file_list:
-                filename = '%s\%s'%(home_path,self.Order[1])
+                filename =os.path.join(home_path,self.Order[1])
                 f = open(filename,'rb')
                 res = [f.read(),self.Order[2]]
             else:
@@ -198,7 +199,7 @@ class Server_Class(object):
         :return:
         '''
         config = configparser.ConfigParser()
-        config_path = '%s\config\config.ini'%path
+        config_path = '{_path}{_sep}config{_sep}config.ini'.format(_path=path, _sep=self.Sep)
         config.read(config_path)
         self.Port = int(config['SERVER']['port'])#获取服务端监听端口
         self.Recv_Size = int(config['SERVER']['recv_size'])#最大接收数据大小，默认10mb
@@ -216,4 +217,6 @@ class Server_Class(object):
 
 
 if __name__ == '__main__':
-    server = Server_Class()
+    #server = Server_Class()
+    home_path =os.path.join(path,'home','admin')
+    print(home_path)

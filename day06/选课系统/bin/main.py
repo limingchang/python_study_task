@@ -8,7 +8,7 @@ sys.path.insert(0, path)
 from core import index
 
 
-def mian():
+def main():
     print('\033[1;36;1m欢迎使用选课系统\033[0m'.center(40,'█'))
     print('请选择登录类型'.center(45,'-'))
     print('''1.学员视图
@@ -36,4 +36,4 @@ q.退出系统''')
 
 if __name__ == '__main__':
     #role = ROLE_INTERFACE("")
-    mian()
+    main()

@@ -23,12 +23,7 @@ class Application(object):
         self.master.title('FTP-Client')
         self.center_window(self.master)#设置窗口大小并居中
         self.master.resizable(False, False)#禁止改变窗口大小
-        #self.master.maxsize(575,400)
-        #self.master.minsize(575,400)
-        self.CreateWidgets()
-        #self.Create_Client_Process()
-        Client = client_class.Ftp_Client()
-        Client.handle()
+
         self.Is_Login = False
         self.User_Info = {}
         self.Login_Form()
@@ -37,11 +32,7 @@ class Application(object):
         else:
             #pass
             self.master.withdraw()
-        if Client.Chk_Platform == 'nt':
-             self.Tips_Label['text']='服务器[基于Windows]连接正常'
-        else:
-             self.Tips_Label['text'] = '服务器[基于Linux]连接正常'
-        Client.client.close()
+
 
     def Create_Client_Process(self):
         '''
@@ -74,6 +65,8 @@ class Application(object):
                 self.SubForm.destroy()
                 self.master.update()
                 self.master.deiconify()
+                self.CreateWidgets()#验证成功才创建主窗体框架
+                self.Is_Login = True
                 print('验证通过')
             else:
                 self.Message('登录失败',auth_res['info'],type='error')
@@ -112,6 +105,14 @@ class Application(object):
         self.Create_DownloadFile_Frame()
         #创建提示栏UI框架
         self.Create_Tips_Frame()
+        #检测连接和服务器平台
+        Client = client_class.Ftp_Client()
+        Client.handle()
+        if Client.Chk_Platform == 'nt':
+             self.Tips_Label['text']='服务器[基于Windows]连接正常'
+        else:
+             self.Tips_Label['text'] = '服务器[基于Linux]连接正常'
+        Client.client.close()
 
 
     def Create_Tips_Frame(self):
@@ -183,16 +184,25 @@ class Application(object):
 
 
     def Create_FileList(self,DownloadFile_Frame):
+        Client = client_class.Ftp_Client()
         self.file_list = Listbox(DownloadFile_Frame, selectmode="browse",bg='#BFEFFF',fg='#8A2BE2',font=("宋体", 12, "bold"))
-        self.home_path = path
+        self.home_path = Client.Get_HomePath(self.User_Info['username'])
+        self.top_dir = self.home_path
+        print('homepath:',self.home_path)
+        del Client
+        #Client = client_class.Ftp_Client()
+
         def add_item(list_path):
+            Client = client_class.Ftp_Client()
             print('add_item:',list_path)
             self.file_list.delete(0, END)
-            list1 = os.listdir(list_path)
+            list1 = Client.Dir_List(list_path)
             list1.insert(0,list_path)
             for item in list1:
                 if list1.index(item) != 0: item = ' ' * 5 + item
                 self.file_list.insert(END, item)
+            del Client
+
         add_item(self.home_path)
         self.file_list.place(in_=DownloadFile_Frame,relx=0, rely=0,x=5,y=30, width=200, height=185)
 
@@ -201,13 +211,15 @@ class Application(object):
             print('select_item',select_item)
             select_path = os.path.join(self.home_path,select_item)
             print('select_path',select_path)
+            Client = client_class.Ftp_Client()
             if select_item == self.home_path:
-                if select_item == path:
-                    self.home_path =path
+                if select_item == self.top_dir:
+                    self.home_path = self.top_dir
+                    self.Message('提示','您已处于顶层目录：%s'%self.top_dir,type='info')
                 else:
                     self.home_path = os.path.dirname(self.home_path)
                 print('dirname:',self.home_path)
-            elif not os.path.isfile(select_path):
+            elif not Client.Chk_File(select_path):
                 self.home_path = os.path.join(self.home_path, select_item)
                 print('jion:', self.home_path)
             else:

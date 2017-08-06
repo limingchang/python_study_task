@@ -58,9 +58,45 @@ class Ftp_Server(socketserver.BaseRequestHandler):
         finally:
             self.request.send(pickle.dumps(data))
 
+    def Dir_List(self):
+        list_path = self.cmd_data['path']
+        list_res = os.listdir(list_path)
+        print('type:',type(list_res),'|',list_res)
+        self.request.send(str(len(pickle.dumps(list_res))).encode())
+        client_answer = self.request.recv(1024)
+        self.request.send(pickle.dumps(list_res))
+
+    def Chk_File(self):
+        chk_path = self.cmd_data['path']
+        if os.path.isfile(chk_path):
+            data = {
+                'action':'Chk_File',
+                'res':True
+            }
+        else:
+            data = {
+                'action': 'Chk_File',
+                'res': False
+            }
+        self.request.send(pickle.dumps(data))
 
 
-
+    def Get_HomePath(self):
+        username = self.cmd_data['username']
+        home_path = os.path.join(path,'home',username)
+        try:
+            os.path.exists(home_path)
+            data = {
+                'home_path':True,
+                'path':home_path
+            }
+        except FileNotFoundError as e:
+            data = {
+                'home_path': False,
+                'path': None
+            }
+        finally:
+            self.request.send(pickle.dumps(data))
 
 
     def finish(self):  # 请求结束后的后事

@@ -5,10 +5,13 @@ import sys, os
 path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, path)
 
+from multiprocessing import Process
+from core import client_class
 from tkinter import *
+import tkinter.messagebox
 import tkinter.filedialog
 import tkinter.simpledialog
-import time
+import hashlib,time
 
 class Application(object):
     def __init__(self,):
@@ -17,12 +20,90 @@ class Application(object):
         #self.grid()
         self.master = Tk()
         self.master['bg']='#F0FFFF'#设置背景颜色
-        self.center_window()#设置窗口大小并居中
+        self.master.title('FTP-Client')
+        self.center_window(self.master)#设置窗口大小并居中
         self.master.resizable(False, False)#禁止改变窗口大小
         #self.master.maxsize(575,400)
         #self.master.minsize(575,400)
         self.CreateWidgets()
+        #self.Create_Client_Process()
+        Client = client_class.Ftp_Client()
+        Client.handle()
+        self.Is_Login = False
+        self.User_Info = {}
+        self.Login_Form()
+        if self.Is_Login:
+            self.SubForm.withdraw()
+        else:
+            #pass
+            self.master.withdraw()
+        if Client.Chk_Platform == 'nt':
+             self.Tips_Label['text']='服务器[基于Windows]连接正常'
+        else:
+             self.Tips_Label['text'] = '服务器[基于Linux]连接正常'
+        Client.client.close()
 
+    def Create_Client_Process(self):
+        '''
+        创建客户端进程
+        :return:
+        '''
+        def Client():
+            self.Client = client_class.Ftp_Client()
+        server_process = Process(target=Client)  # 创建进程
+        server_process.daemon = True
+        server_process.start()
+
+
+    def Auth(self):
+        '''
+        登录验证
+        :return:
+        '''
+        username = self.Username_Entry.get()
+        password = self.Password_Entry.get()
+        password = hashlib.sha1(password.encode("utf8")).hexdigest()
+        if username =='' or password == '':
+            self.Message('错误','用户名/密码不能为空！',type='error')
+        else:
+            Client = client_class.Ftp_Client()
+            auth_res = Client.Auth(username,password)
+            if auth_res['auth']:
+                self.User_Info = auth_res['info']
+                self.SubForm.withdraw()
+                self.SubForm.destroy()
+                self.master.update()
+                self.master.deiconify()
+                print('验证通过')
+            else:
+                self.Message('登录失败',auth_res['info'],type='error')
+            del Client
+
+
+
+    def Login_Form(self):
+        self.SubForm = Toplevel(self.master)
+        self.SubForm.title('用户登录')
+        username_label = Label(self.SubForm,text='用户名:',font=("宋体", 12, "bold"))
+        username_label.place(in_=self.SubForm,relx=0, rely=0,x=5,y=20, width=80, height=35, anchor=W)
+        #user_label.grid(row=0,column=0)
+        self.Username_Entry = Entry(self.SubForm,font=("宋体", 12, "bold"))
+        self.Username_Entry.place(in_=self.SubForm,relx=0, rely=0,x=90,y=20, width=200, height=35, anchor=W)
+        pass_label = Label(self.SubForm, text='密  码:',font=("宋体", 12, "bold"))
+        pass_label.place(in_=self.SubForm,relx=0, rely=0,x=5,y=60, width=80, height=35, anchor=W)
+        self.Password_Entry = Entry(self.SubForm,show = '*',font=("宋体", 12, "bold"))
+        self.Password_Entry.place(in_=self.SubForm,relx=0, rely=0,x=90,y=60, width=200, height=35, anchor=W)
+        login_button = Button(self.SubForm,text='登录',anchor=CENTER,command=self.Auth,font=("宋体", 12, "bold"))
+        login_button.place(in_=self.SubForm,relx=0, rely=0,x=75,y=100, width=50, height=35, anchor=W)
+        cancle_button = Button(self.SubForm,text='取消',anchor=CENTER,command=self.close,font=("宋体", 12, "bold"))
+        cancle_button.place(in_=self.SubForm,relx=0, rely=0,x=170,y=100, width=50, height=35, anchor=W)
+        self.center_window(self.SubForm,295,120)
+        self.SubForm.resizable(False, False)
+        self.SubForm.protocol("WM_DELETE_WINDOW", self.close)#绑定关闭按钮事件
+
+
+    def close(self):
+        exit()
 
     def CreateWidgets(self):
         #创建上传文件UI框架
@@ -43,7 +124,7 @@ class Application(object):
         Tips_Frame = Frame(self.master ,bg='#87CEFF')
         Tips_Frame.place(x=5, y=390, height=frame_height, width=frame_width)
         self.Tips_Label = Label(Tips_Frame,text='提示信息',anchor=W,bg='#87CEFF',fg='#FCFCFC',font=("宋体", 12, "bold"))
-        self.Tips_Label.place(in_=Tips_Frame,relx=0, rely=0,x=5,y=15, width=490, height=25, anchor=W)
+        self.Tips_Label.place(in_=Tips_Frame,relx=0, rely=0,x=5,y=20, width=490, height=25, anchor=W)
 
 
     def Create_DownloadFile_Frame(self):
@@ -154,16 +235,24 @@ class Application(object):
         else:
             self.filename_label['text'] = filename
 
-    def center_window(self, width=510, height=430):
+    def center_window(self,window, width=510, height=430):
         # get screen width and height
-        self.master['width']=width
-        self.master['height']=height
-        ws = self.master.winfo_screenwidth()
-        hs = self.master.winfo_screenheight()
+        window['width']=width
+        window['height']=height
+        ws = window.winfo_screenwidth()
+        hs = window.winfo_screenheight()
         # calculate position x, y
         x = (ws / 2) - (width / 2)
         y = (hs / 2) - (height/ 2)
-        self.master.geometry('%dx%d+%d+%d' % (width , height, x, y))
+        window.geometry('%dx%d+%d+%d' % (width , height, x, y))
+
+    def Message(self,title,tips,type='info'):
+        if type == 'info':
+            msg = tkinter.messagebox.showinfo(title,tips)
+        elif type == 'error':
+            msg = tkinter.messagebox.showerror(title, tips)
+        elif type == 'warning':
+            msg = tkinter.messagebox.showwarning(title, tips)
 
 
 
@@ -172,7 +261,7 @@ class Application(object):
 if __name__ == '__main__':
     app = Application()
     # 设置窗口标题:
-    app.master.title('FTP-Client')
+
     #app.center_window()
     #print(dir(Label()))
     #app.master.

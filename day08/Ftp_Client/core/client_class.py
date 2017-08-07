@@ -91,7 +91,7 @@ class Ftp_Client(object):
         }
         self.client.send(pickle.dumps(data))
         home_path = pickle.loads(self.client.recv(1024))
-        return home_path['path']
+        return home_path['path'],home_path['sep']
 
 
 

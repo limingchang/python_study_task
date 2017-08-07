@@ -88,14 +88,17 @@ class Ftp_Server(socketserver.BaseRequestHandler):
             os.path.exists(home_path)
             data = {
                 'home_path':True,
+                'sep':os.sep,
                 'path':home_path
             }
         except FileNotFoundError as e:
             data = {
                 'home_path': False,
+                'sep': os.sep,
                 'path': None
             }
         finally:
+            print(data)
             self.request.send(pickle.dumps(data))
 
 
@@ -128,3 +131,5 @@ def create_user():
 
 if __name__ == '__main__':
     create_server()
+    # a =os.path.basename(path)
+    # print(a)

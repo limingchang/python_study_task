@@ -151,8 +151,8 @@ class Application(object):
         self.new_dir_button.place(in_=DownloadFile_Frame,relx=0, rely=0,x=210,y=90, width=100, height=25, anchor=W)
         name_label = Label(DownloadFile_Frame, text='已选择：', anchor=W,bg='#87CEFF', fg='#B23AEE',font=("宋体", 10, "bold"))
         name_label.place(in_=DownloadFile_Frame, relx=0, rely=0, x=210, y=130, width=250, height=25, anchor=W)
-        chose_name_label = Label(DownloadFile_Frame, text='单击选中列表框中要下载的文件', bg='#87CEFF', fg='#B23AEE', font=("宋体", 10, "bold"),anchor=W)
-        chose_name_label.place(in_=DownloadFile_Frame, relx=0, rely=0, x=210, y=160, width=280, height=25, anchor=W)
+        self.download_filename_label = Label(DownloadFile_Frame, text='双击选中列表框中要下载的文件', bg='#87CEFF', fg='#B23AEE', font=("宋体", 10, "bold"),anchor=W)
+        self.download_filename_label.place(in_=DownloadFile_Frame, relx=0, rely=0, x=210, y=160, width=280, height=25, anchor=W)
 
         self.download_button = Button(DownloadFile_Frame, text='点击下载', command=self.Create_Dir,bg='#CD69C9',fg='#FCFCFC',font=("宋体", 10, "bold"))
         self.download_button.place(in_=DownloadFile_Frame, relx=0, rely=0, x=210, y=200, width=280, height=25, anchor=W)
@@ -186,18 +186,28 @@ class Application(object):
     def Create_FileList(self,DownloadFile_Frame):
         Client = client_class.Ftp_Client()
         self.file_list = Listbox(DownloadFile_Frame, selectmode="browse",bg='#BFEFFF',fg='#8A2BE2',font=("宋体", 12, "bold"))
-        self.home_path = Client.Get_HomePath(self.User_Info['username'])
-        self.top_dir = self.home_path
+        #个人家目录,和路径分割符
+        self.home_path,self.home_sep = Client.Get_HomePath(self.User_Info['username'])
+        #print('个人家目录', self.home_path)
+        #系统家目录名
+        self.home_name = os.path.basename(os.path.dirname(self.home_path))
+        #系统顶层目录
+        self.sys_top_dir = os.path.dirname(os.path.dirname(self.home_path))
+        #print('系统顶层目录',self.sys_top_dir)
+        #个人顶层目录
+        self.user_top_dir = self.home_path
         print('homepath:',self.home_path)
         del Client
         #Client = client_class.Ftp_Client()
 
         def add_item(list_path):
             Client = client_class.Ftp_Client()
-            print('add_item:',list_path)
+            #print('add_item:',list_path)
             self.file_list.delete(0, END)
             list1 = Client.Dir_List(list_path)
-            list1.insert(0,list_path)
+            #print(type(list_path),'|',list_path)
+            top_dir = list_path.replace(self.sys_top_dir+self.home_sep,'')
+            list1.insert(0,top_dir)
             for item in list1:
                 if list1.index(item) != 0: item = ' ' * 5 + item
                 self.file_list.insert(END, item)
@@ -208,22 +218,30 @@ class Application(object):
 
         def printList(event):
             select_item = self.file_list.get(self.file_list.curselection()).strip()
-            print('select_item',select_item)
-            select_path = os.path.join(self.home_path,select_item)
-            print('select_path',select_path)
+            print('select_item', select_item)
             Client = client_class.Ftp_Client()
-            if select_item == self.home_path:
-                if select_item == self.top_dir:
-                    self.home_path = self.top_dir
-                    self.Message('提示','您已处于顶层目录：%s'%self.top_dir,type='info')
+            now_top_dir = self.file_list.get(0).strip()
+            if select_item == now_top_dir:
+                #如果选的是顶层目录
+                select_path = os.path.join(self.sys_top_dir,select_item)
+                #print('顶层选择：',select_path)
+                #print('-系统顶层目录', self.sys_top_dir)
+                if select_path == self.user_top_dir:#如果到达个人顶层目录
+                    self.home_path = self.user_top_dir
+                    tips_str =os.path.join(self.home_name,self.User_Info['username'])
+                    self.Message('提示','您已处于顶层目录：%s'%tips_str,type='info')
                 else:
-                    self.home_path = os.path.dirname(self.home_path)
-                print('dirname:',self.home_path)
-            elif not Client.Chk_File(select_path):
-                self.home_path = os.path.join(self.home_path, select_item)
-                print('jion:', self.home_path)
+                    self.home_path = os.path.dirname(select_path)
             else:
-                print('您选择了一个文件:',select_item)
+                select_path = os.path.join(self.sys_top_dir,now_top_dir ,select_item)
+                if not Client.Chk_File(select_path):
+                    self.home_path = select_path
+                    #print('jion:', self.home_path)
+                else:
+                    self.DownLoad_File_Path = select_path
+                    #print('您选择了一个文件:', select_item)
+                    self.download_filename_label['text'] = select_item
+            #print('select_path',select_path)
             add_item(self.home_path)
 
         self.file_list.bind('<Double-Button-1>', printList)

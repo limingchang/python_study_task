@@ -208,9 +208,19 @@ class Ftp_Server(socketserver.BaseRequestHandler):
 
 
 def create_server():
-    HOST, PORT = "0.0.0.0", 6512
+    HOST, PORT = get_config()
     server = socketserver.ThreadingTCPServer((HOST, PORT), Ftp_Server)  # 多线程
     server.serve_forever()
+
+
+def get_config():
+    import configparser
+    config = configparser.ConfigParser()
+    config_path = os.path.join(path,'conf','config.ini')
+    config.read(config_path)
+    ip = config['SERVER']['ip']
+    port = int(config['SERVER']['port'])  # 获取端口
+    return ip,port
 
 
 def create_user():

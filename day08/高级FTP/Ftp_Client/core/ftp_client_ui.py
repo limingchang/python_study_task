@@ -158,7 +158,7 @@ class Application(object):
         self.download_button.place(in_=DownloadFile_Frame, relx=0, rely=0, x=210, y=200, width=280, height=25, anchor=W)
         # 进度条标签
         self.get_blok_lable = Label(DownloadFile_Frame, text='')  # 进度条标签
-        self.get_blok_lable.place(in_=DownloadFile_Frame, relx=0, rely=0, x=5, y=220, width=490, height=25)
+        self.get_blok_lable.place(in_=DownloadFile_Frame, relx=0, rely=0, x=5, y=220, width=1, height=25)
 
 
     def Create_UploadFile_Frame(self):
@@ -180,7 +180,7 @@ class Application(object):
         self.put_file_button.place(in_=UploadFile_Frame,relx=0, rely=0,x=375,y=10, width=120, height=60)
         #进度条标签
         self.put_blok_lable = Label(UploadFile_Frame, text='')  # 进度条标签
-        self.put_blok_lable.place(in_=UploadFile_Frame,relx=0, rely=0,x=5,y=95,width=490, height=25)
+        self.put_blok_lable.place(in_=UploadFile_Frame,relx=0, rely=0,x=5,y=95,width=1, height=25)
 
 
 
@@ -221,7 +221,7 @@ class Application(object):
 
         def printList(event):
             select_item = self.file_list.get(self.file_list.curselection()).strip()
-            print('select_item', select_item)
+            #print('select_item', select_item)
             Client = client_class.Ftp_Client()
             now_top_dir = self.file_list.get(0).strip()
             if select_item == now_top_dir:

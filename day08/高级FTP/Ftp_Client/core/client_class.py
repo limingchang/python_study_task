@@ -10,7 +10,8 @@ import socket,pickle,hashlib
 class Ftp_Client(object):
     def __init__(self):
         self.client = socket.socket()
-        self.connection('localhost',6512)
+        self.Server_Ip,self.Server_Port = self.get_config()
+        self.connection(self.Server_Ip,self.Server_Port)
         #self.handle()
 
     def connection(self,ip,port):
@@ -21,6 +22,15 @@ class Ftp_Client(object):
         :return:
         '''
         self.client.connect((ip,port))
+
+    def get_config(self):
+        import configparser
+        config = configparser.ConfigParser()
+        config_path = os.path.join(path,'conf','config.ini')
+        config.read(config_path)
+        ip = config['CLIENT']['server_ip']
+        port = int(config['CLIENT']['server_port'])  # 获取端口
+        return ip,port
 
 
     def handle(self):

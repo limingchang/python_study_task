@@ -157,8 +157,8 @@ class Application(object):
         self.download_button = Button(DownloadFile_Frame, text='点击下载', command=self.Create_Dir,bg='#CD69C9',fg='#FCFCFC',font=("宋体", 10, "bold"))
         self.download_button.place(in_=DownloadFile_Frame, relx=0, rely=0, x=210, y=200, width=280, height=25, anchor=W)
         # 进度条标签
-        self.put_blok_lable = Label(DownloadFile_Frame, text='')  # 进度条标签
-        self.put_blok_lable.place(in_=DownloadFile_Frame, relx=0, rely=0, x=5, y=220, width=490, height=25)
+        self.get_blok_lable = Label(DownloadFile_Frame, text='')  # 进度条标签
+        self.get_blok_lable.place(in_=DownloadFile_Frame, relx=0, rely=0, x=5, y=220, width=490, height=25)
 
 
     def Create_UploadFile_Frame(self):
@@ -175,12 +175,13 @@ class Application(object):
         chose_file_button = Button(self.master, text='1.选择文件',font=("宋体", 12, "bold"), command=self.get_filename,bg='#FFA500',fg='#FCFCFC')
         chose_file_button.place(in_=UploadFile_Frame,relx=0, rely=0,x=200,y=15, width=120, height=25, anchor=W)
         self.filename_label = Label(UploadFile_Frame,text="请单击按钮选择文件...",anchor=W,bg='#87CEFF',fg='#FF4040',font=("宋体", 12, "bold"))
-        self.filename_label.place(in_=UploadFile_Frame,relx=0, rely=0,x=5,y=40, width=395, height=25)
+        self.filename_label.place(in_=UploadFile_Frame,relx=0, rely=0,x=5,y=70, width=490, height=25)
         self.put_file_button = Button(UploadFile_Frame, text='2.上传文件',command=self.put_file,fg='#FCFCFC', bg='lightgreen',font=("宋体", 12, "bold"))
         self.put_file_button.place(in_=UploadFile_Frame,relx=0, rely=0,x=375,y=10, width=120, height=60)
         #进度条标签
         self.put_blok_lable = Label(UploadFile_Frame, text='')  # 进度条标签
-        self.put_blok_lable.place(in_=UploadFile_Frame,relx=0, rely=0,x=5,y=75,width=490, height=25)
+        self.put_blok_lable.place(in_=UploadFile_Frame,relx=0, rely=0,x=5,y=95,width=490, height=25)
+
 
 
     def Create_FileList(self,DownloadFile_Frame):
@@ -243,6 +244,7 @@ class Application(object):
                     self.download_filename_label['text'] = select_item
             #print('select_path',select_path)
             add_item(self.home_path)
+            del Client
 
         self.file_list.bind('<Double-Button-1>', printList)
 
@@ -252,7 +254,16 @@ class Application(object):
 
     def put_file(self):
         self.put_file_button['state']=DISABLED
-        time.sleep(3)
+        self.put_blok_lable.place(width =1)
+        self.master.update_idletasks()
+        if self.UpLoad_File_Path == '':
+            self.Message('错误','您没有选择任何文件！',type='error')
+        else:
+            Client = client_class.Ftp_Client()
+            save_path = self.file_list.get(0)
+            res = Client.UpLoad_File(self.UpLoad_File_Path,save_path,self.master,self.put_blok_lable,490)
+            self.Message('提示',res)
+
         self.put_file_button['state']=NORMAL
 
 
@@ -261,9 +272,14 @@ class Application(object):
         filename = tkinter.filedialog.askopenfilename(filetypes=( ("All files", "*.*"),("Text file", "*.txt*")))
         print(type(filename))
         if filename == '':
+            self.UpLoad_File_Path = ''
             self.filename_label['text'] = '请单击按钮选择文件...'
+            self.Tips_Label['text'] = '请选择文件.'
         else:
+            self.UpLoad_File_Path = filename
             self.filename_label['text'] = filename
+            self.Tips_Label['text'] = '文件将上传到:',self.file_list.get(0)
+
 
     def center_window(self,window, width=510, height=430):
         # get screen width and height

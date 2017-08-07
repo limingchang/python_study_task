@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 __author__ = 'Mc.Lee'
-import sys, os
+import sys, os,hashlib
 
 path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, path)
@@ -100,6 +100,43 @@ class Ftp_Server(socketserver.BaseRequestHandler):
         finally:
             print(data)
             self.request.send(pickle.dumps(data))
+
+
+    def UpLoad_File(self):
+        file_name = self.cmd_data['file_name']
+        file_size = self.cmd_data['file_size']
+        save_path = self.cmd_data['save_path']
+        full_save_path = os.path.join(path,save_path,file_name)
+        if os.path.isfile(full_save_path):
+            data = {
+                'continue':True,
+                'recv_size':os.path.getsize(full_save_path),
+            }
+            need_file_size = file_size - os.path.getsize(full_save_path)
+            file = open(full_save_path,'ab')
+        else:
+            data = {
+                'continue': False,
+                'recv_size': 0,
+            }
+            need_file_size = file_size
+            file = open(full_save_path,'wb')
+        self.request.send(pickle.dumps(data))#发送一个消息防止粘包
+        recv_data_size = 0
+        while recv_data_size < need_file_size:
+            if need_file_size - recv_data_size <1024:
+                size = need_file_size - recv_data_size
+            else:
+                size = 1024
+            file_data = self.request.recv(1024)
+            recv_data_size += len(file_data)
+            md5 = hashlib.md5()
+            md5.update(file_data)
+            file.write(file_data)
+        else:
+            data = {"md5":md5.hexdigest()}
+            self.request.send(pickle.dumps(data))
+
 
 
     def finish(self):  # 请求结束后的后事

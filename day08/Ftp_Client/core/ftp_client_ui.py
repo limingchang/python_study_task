@@ -67,7 +67,7 @@ class Application(object):
                 self.master.deiconify()
                 self.CreateWidgets()#验证成功才创建主窗体框架
                 self.Is_Login = True
-                print('验证通过')
+                #print('验证通过')
             else:
                 self.Message('登录失败',auth_res['info'],type='error')
             del Client
@@ -99,12 +99,12 @@ class Application(object):
         exit()
 
     def CreateWidgets(self):
+        # 创建提示栏UI框架
+        self.Create_Tips_Frame()
         #创建上传文件UI框架
         self.Create_UploadFile_Frame()
         #创建下载文件UI框架
         self.Create_DownloadFile_Frame()
-        #创建提示栏UI框架
-        self.Create_Tips_Frame()
         #检测连接和服务器平台
         Client = client_class.Ftp_Client()
         Client.handle()
@@ -154,7 +154,7 @@ class Application(object):
         self.download_filename_label = Label(DownloadFile_Frame, text='双击选中列表框中要下载的文件', bg='#87CEFF', fg='#B23AEE', font=("宋体", 10, "bold"),anchor=W)
         self.download_filename_label.place(in_=DownloadFile_Frame, relx=0, rely=0, x=210, y=160, width=280, height=25, anchor=W)
 
-        self.download_button = Button(DownloadFile_Frame, text='点击下载', command=self.Create_Dir,bg='#CD69C9',fg='#FCFCFC',font=("宋体", 10, "bold"))
+        self.download_button = Button(DownloadFile_Frame, text='点击下载', command=self.get_file,bg='#CD69C9',fg='#FCFCFC',font=("宋体", 10, "bold"))
         self.download_button.place(in_=DownloadFile_Frame, relx=0, rely=0, x=210, y=200, width=280, height=25, anchor=W)
         # 进度条标签
         self.get_blok_lable = Label(DownloadFile_Frame, text='')  # 进度条标签
@@ -197,7 +197,8 @@ class Application(object):
         #print('系统顶层目录',self.sys_top_dir)
         #个人顶层目录
         self.user_top_dir = self.home_path
-        print('homepath:',self.home_path)
+        self.DownLoad_File_Path =''
+        #print('homepath:',self.home_path)
         del Client
         #Client = client_class.Ftp_Client()
 
@@ -208,6 +209,7 @@ class Application(object):
             list1 = Client.Dir_List(list_path)
             #print(type(list_path),'|',list_path)
             top_dir = list_path.replace(self.sys_top_dir+self.home_sep,'')
+            self.Tips_Label['text']='当前目录：%s'%top_dir
             list1.insert(0,top_dir)
             for item in list1:
                 if list1.index(item) != 0: item = ' ' * 5 + item
@@ -250,10 +252,41 @@ class Application(object):
 
 
     def Create_Dir(self):
-        pass
+        will_create_dir = self.file_list.get(0).strip()
+        dir_name = self.new_dir_entry.get().strip()
+        if dir_name == '':
+            self.Message('错误','请输入文件夹名',type='error')
+        else:
+            msg_str = '将在%s下创建%s'%(will_create_dir,dir_name)
+            msg = tkinter.messagebox.askokcancel("确认？", msg_str)
+            #print(msg)
+            if msg:
+                Client = client_class.Ftp_Client()
+                res = Client.Create_Dir(will_create_dir,dir_name)
+                self.Message('提示',res)
+                del Client
+            else:
+                self.Tips_Label['text'] = '用户取消创建'
+
+
+
+    def get_file(self):
+        self.download_button['state'] = DISABLED
+        self.get_blok_lable['bg'] = '#FCFCFC'
+        self.get_blok_lable.place(width=1)
+        self.master.update_idletasks()
+        if self.DownLoad_File_Path == '':
+            self.Message('错误', '您没有选择任何文件！', type='error')
+        else:
+            Client = client_class.Ftp_Client()
+            res = Client.DownLoad_File(self.DownLoad_File_Path,self.master,self.get_blok_lable,490)
+            self.Message('提示', res)
+            del Client
+        self.download_button['state'] = NORMAL
 
     def put_file(self):
         self.put_file_button['state']=DISABLED
+        self.put_blok_lable['bg'] = '#FCFCFC'
         self.put_blok_lable.place(width =1)
         self.master.update_idletasks()
         if self.UpLoad_File_Path == '':
@@ -261,16 +294,21 @@ class Application(object):
         else:
             Client = client_class.Ftp_Client()
             save_path = self.file_list.get(0)
-            res = Client.UpLoad_File(self.UpLoad_File_Path,save_path,self.master,self.put_blok_lable,490)
-            self.Message('提示',res)
-
+            ############################################
+            chk_size = Client.Chk_Space(self.User_Info['username'],self.User_Info['space'],self.UpLoad_File_Path)
+            if chk_size:
+                res = Client.UpLoad_File(self.UpLoad_File_Path,save_path,self.master,self.put_blok_lable,490)
+                self.Message('提示',res)
+            else:
+                self.Message('警告','您的空间配额不足！',type='warning')
+            del Client
         self.put_file_button['state']=NORMAL
 
 
     def get_filename(self):
         #name = tkinter.simpledialog.askstring('test','123')
         filename = tkinter.filedialog.askopenfilename(filetypes=( ("All files", "*.*"),("Text file", "*.txt*")))
-        print(type(filename))
+        #print(type(filename))
         if filename == '':
             self.UpLoad_File_Path = ''
             self.filename_label['text'] = '请单击按钮选择文件...'

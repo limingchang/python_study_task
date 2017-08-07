@@ -1,44 +1,44 @@
-# ¼òµ¥FTP
+ï»¿# ç®€å•FTP
 
 --------
 
- - Ê¹ÓÃ×Ó½ø³ÌÍ¬Ê±Æô¶¯·şÎñ¶ËºÍ¿Í»§¶Ë
+ - ä½¿ç”¨å­è¿›ç¨‹åŒæ—¶å¯åŠ¨æœåŠ¡ç«¯å’Œå®¢æˆ·ç«¯
 
- - ÊµÏÖFTP¼òµ¥¹¦ÄÜ£¬½öÖ§³Öµ¥ÓÃ»§Á¬½Ó
+ - å®ç°FTPç®€å•åŠŸèƒ½ï¼Œä»…æ”¯æŒå•ç”¨æˆ·è¿æ¥
 
- - ²âÊÔÕËºÅ£º`admin`ÃÜÂë£º` admin`£¬Î´Ìá¹©×¢²á¹¦ÄÜ
+ - æµ‹è¯•è´¦å·ï¼š`admin`å¯†ç ï¼š` admin`ï¼Œæœªæä¾›æ³¨å†ŒåŠŸèƒ½
 
- - ³ÌĞò½á¹¹
+ - ç¨‹åºç»“æ„
 
    ```
-   ¼òµ¥FTP
-       ©À©¤bin
-       ©¦      simple_ftp.py#¿Í»§¶Ë·şÎñ¶ËÒ»¼üÆô¶¯
-       ©¦      __init__.py
-       ©¦      
-       ©À©¤config
-       ©¦      config.ini#ÅäÖÃÎÄ¼ş
-       ©¦      __init__.py
-       ©¦      
-       ©À©¤core
-       ©¦      client_class.py#¿Í»§¶ËÀà
-       ©¦      error_class.py#×Ô¶¨Òå´íÎóÀà
-       ©¦      server_class.py#·şÎñ¶ËÀà
-       ©¦      __init__.py
-       ©¦      
-       ©À©¤db#ÓÃ»§Êı¾İ
-       ©¦      user_admin.dat
-       ©¦      __init__.py
-       ©¦      
-       ©¸©¤home
-          ©¸©¤admin#ÓÃ»§Ä¿Â¼
+   ç®€å•FTP
+       â”œâ”€bin
+       â”‚      simple_ftp.py#å®¢æˆ·ç«¯æœåŠ¡ç«¯ä¸€é”®å¯åŠ¨
+       â”‚      __init__.py
+       â”‚      
+       â”œâ”€config
+       â”‚      config.ini#é…ç½®æ–‡ä»¶
+       â”‚      __init__.py
+       â”‚      
+       â”œâ”€core
+       â”‚      client_class.py#å®¢æˆ·ç«¯ç±»
+       â”‚      error_class.py#è‡ªå®šä¹‰é”™è¯¯ç±»
+       â”‚      server_class.py#æœåŠ¡ç«¯ç±»
+       â”‚      __init__.py
+       â”‚      
+       â”œâ”€db#ç”¨æˆ·æ•°æ®
+       â”‚      user_admin.dat
+       â”‚      __init__.py
+       â”‚      
+       â””â”€home
+          â””â”€admin#ç”¨æˆ·ç›®å½•
                   1_1.dat
                   2_2.dat
                   
        
    ```
 
-   ![Á÷³ÌÍ¼](./¼òµ¥FTP.png)
+   ![æµç¨‹å›¾](./ç®€å•FTP.png)
 
 ----------
 
@@ -48,10 +48,10 @@
 myname = 'MC.Lee'
 mylink = 'limich.cn'
 ```
-[ÎÒµÄ²©¿Í](https://limich.cn)
+[æˆ‘çš„åšå®¢](https://limich.cn)
 QQ:289959141
 E-mail:limich@aliyun.com
 
-[´úÂëGitHubµØÖ·](https://github.com/limingchang/python_study_task.git)
+[ä»£ç GitHubåœ°å€](https://github.com/limingchang/python_study_task.git)
 
-[´úÂë¹úÄÚÂëÔÆÍ¬²½µØÖ·](https://git.oschina.net/limich/python_study.git)
+[ä»£ç å›½å†…ç äº‘åŒæ­¥åœ°å€](https://git.oschina.net/limich/python_study.git)

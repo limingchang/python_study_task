@@ -2,7 +2,7 @@
 
 ## 使用python内置tkinter模块（UI）编写，UI界面拙略，见谅
 
-shell版本和UI版本差不多，去掉UI加载使用client_class创建实例即可，故不再编写shell版本
+shell版本和UI版本差不多，去掉UI加载使用client_class创建实例即可，固不再编写shell版本
 
 ----------
 

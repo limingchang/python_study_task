@@ -8,14 +8,16 @@ sys.path.insert(0, path)
 import paramiko
 import configparser,logging
 from datetime import datetime
-class Host_Manage(object):
+
+
+class SSH_Manage(object):
     '''
     类Fabric主机管理程序
     '''
     def __init__(self):
         self.Get_Conf()
-        print(self.DB_NAME,self.LOG_PATH)
-        self.Create_SSHClient('192.168.0.201',22,'limingchang','123456','ls')
+        #print(self.DB_NAME,self.LOG_PATH)
+        #self.Create_SSHClient('192.168.0.201',22,'limingchang','123456','ls')
         # cmd = {
         #     'act':'download',
         #     'local_file':'up.dat',

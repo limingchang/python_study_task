@@ -4,7 +4,7 @@ import sys, os
 
 path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, path)
-import pickle,
+import pickle,threading
 
 from core import ssh_class
 
@@ -24,7 +24,6 @@ class Host_Manage():
         host_dict = self.Get_Host_Dict(group_name)
 
 
-    def
     def Show_Menu(self):
         '''
         显示菜单
@@ -47,6 +46,32 @@ class Host_Manage():
                     print('选择错误！')
                     continue
             return self.Group_List[int(act)]
+
+
+    def Show_Host_Menu(self,host_dict):
+        '''
+        主机管理菜单
+        :param host_dict: 主机信息字典
+        :return:
+        '''
+        menu_list = ['1.执行命令','2.上传/下载','3.新增主机','4.修改主机信息']
+        menu_dict = {
+            '1.执行命令':'Run_Command',
+            '2.上传/下载':'FTP_File',
+            '3.新增主机':'Add_Host',
+            '4.修改主机信息':'Modify_Host'
+        }
+        for menu in menu_list:
+            print(menu)
+        while True:
+            act = input('请选择：')
+            if act.isdigit() and int(act)<len(menu_list):
+                menu = menu_dict[menu_list[int(act)]]
+            else:
+                print('选择错误！')
+                continue
+        func = getattr(self,menu)
+        func(host_dict)
 
 
     def Get_Host_Group(self):

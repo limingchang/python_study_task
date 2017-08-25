@@ -59,6 +59,8 @@ class SSH_Manage(object):
         finally:
             res_msg += '\n'+'*'*50
             #print('*'*50)
+            #释放资源
+            del SSH
         print(res_msg)
 
 
@@ -105,6 +107,9 @@ class SSH_Manage(object):
                 self.Write_Log('info', '从[%s]下载[%s]成功' % (ip, cmd_dict['host_file']))
             finally:
                 res_msg += '\n' + '*' * 50
+                #释放资源
+                del transport
+                del sftp
                 print(res_msg)
         else:
             print('FTP命令错误')
@@ -153,6 +158,3 @@ class SSH_Manage(object):
 
 
 
-
-if __name__ == "__main__":
-    HOST = Host_Manage()

@@ -6,7 +6,6 @@ path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, path)
 import pickle,threading
 
-from core import ssh_class
 
 class Host_Manage():
     '''
@@ -46,8 +45,12 @@ class Host_Manage():
             for group_name in self.Group_List:
                 print(count,'.',group_name)
             while True:
-                act = input('请选择主机组：')
-                if act.isdigit() and int(act) < len(self.Group_List):
+                act = input('请选择主机组(q退出，add新增机组)：').strip()
+                if act.lower() == 'q':
+                    exit()
+                elif act.lower() == 'add':
+                    self.Create_Group()
+                elif act.isdigit() and int(act) < len(self.Group_List):
                     break
                 else:
                     print('选择错误！')
@@ -112,7 +115,59 @@ class Host_Manage():
         self.Main_Menu()
 
     def FTP_File(self,group_name,host_dict):
-        pass
+        '''
+        上传下载文件
+        :param group_name:
+        :param host_dict:
+        :return:
+        '''
+        self.Show_Host_Info(group_name, host_dict)
+        print('命令帮助'.center(50,'-'))
+        print('上传文件：put local_file cloud_file')
+        print('下载文件：get cloud_file local_file')
+        print('-'*50)
+        while True:
+            act = input('请输入命令（q退出）：').strip()
+            if act.lower() == 'q':
+                break
+            else:
+                cmd_list = act.split()
+                if len(cmd_list) !=3:
+                    print('命令错误！')
+                    continue
+                else:
+                    if cmd_list[0].lower() == 'put':
+                        cmd_dict = {
+                            'act': 'upload',
+                            'local_file':cmd_list[1],
+                            'host_file': cmd_list[2]
+                        }
+
+                    elif cmd_list[0].lower() == 'get':
+                        cmd_dict = {
+                            'act': 'download',
+                            'local_file': cmd_list[2],
+                            'host_file': cmd_list[1]
+                        }
+
+                    else:
+                        print('命令错误！')
+                        continue
+                tread_list =[]
+                for host in host_dict:
+                    host_tread = threading.Thread(
+                        target=self.SSH.Create_SSHFTP,
+                        args=(host_dict[host]['ip'], int(host_dict[host]['port']), host_dict[host]['user'],
+                              host_dict[host]['pwd'], cmd_dict)
+                    )
+                    tread_list.append(host_tread)
+                    host_tread.start()
+                for t in tread_list:
+                    t.join()
+                continue
+        self.Main_Menu()
+
+
 
 
     def Add_Host(self,group_name,host_dict):
@@ -281,7 +336,3 @@ class Host_Manage():
         return host_dict
 
 
-
-if __name__ == '__main__':
-    ssh_obj = ssh_class.SSH_Manage()
-    host_manage = Host_Manage(ssh_obj)

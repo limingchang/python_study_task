@@ -44,6 +44,7 @@ class Host_Manage():
             count = 0
             for group_name in self.Group_List:
                 print(count,'.',group_name)
+                count += 1
             while True:
                 act = input('请选择主机组(q退出，add新增机组)：').strip()
                 if act.lower() == 'q':

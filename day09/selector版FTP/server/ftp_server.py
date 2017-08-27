@@ -36,8 +36,8 @@ class Ftp_Server(object):
         while True:
             events = self.Sel.select()
             for key , mask in events:
-                print('活动IO：',key.fileobj)
-                print('回调：',key.data)
+                #print('活动IO：',key.fileobj)
+                #print('回调：',key.data)
                 callback = key.data
                 callback(key.fileobj,mask)
             #break
@@ -83,13 +83,72 @@ class Ftp_Server(object):
                     self.Sel.unregister(conn)
                     self.Sel.register(conn,selectors.EVENT_READ,self.UpLoad_Get_FileSize)
                     print(self.Action[conn])
-
+                elif cmd_dict['act'] == 'download':
+                    conn.send(b'ready')# 发送确认信息防止粘包 down:1
+                    self.Action[conn] = cmd_dict
+                    # 重新注册事件，以更换回调函数，进入发送文件大小
+                    self.Sel.unregister(conn)
+                    self.Sel.register(conn,selectors.EVENT_READ,self.DownLoad_Send_FileSize)
 
 
             else:
                 self.Sel.unregister(conn)
+                conn.close()
         except Exception as e:
+            self.Sel.unregister(conn)
+            conn.close()
             print(e)
+
+
+    def DownLoad_Send_FileSize(self,conn,mask):
+        '''
+        发送下载文件大小
+        :param conn:
+        :param mask:
+        :return:
+        '''
+        data = {'size':0}
+        print('文件下载：',self.Action[conn]['cloudfile'])
+        chk = conn.recv(1024)#down:2 接收一个激活信号
+        filename = self.Action[conn]['cloudfile']
+        if os.path.isfile(filename):#判断文件是否存在
+            data['size'] = os.path.getsize(filename)
+            conn.send(pickle.dumps(data))#发送文件大小
+            f = open(filename,'rb')
+            self.File_Obj[conn] = {
+                'file_obj': f
+            }
+            #重新注册监听事件
+            self.Sel.unregister(conn)
+            self.Sel.register(conn,selectors.EVENT_READ,self.DownLoad_Send_FileDta)
+        else:
+            conn.send(pickle.dumps(data))  # 发送0大小，标识文件不存在
+            #回到read回调监听
+            self.Sel.unregister(conn)
+            self.Sel.register(conn, selectors.EVENT_READ, self.Read)
+            del self.Action[conn]
+
+
+    def DownLoad_Send_FileDta(self,conn,mask):
+        '''
+        发送下载文件数据
+        :param conn:
+        :param mask:
+        :return:
+        '''
+        chk = conn.recv(1024)#接收接货信号 down:3
+        file_obj = self.File_Obj[conn]['file_obj']
+        for line in file_obj:
+            conn.send(line)
+        file_obj.close()
+        #发送完毕，重新进入read监听
+        self.Sel.unregister(conn)
+        self.Sel.register(conn, selectors.EVENT_READ, self.Read)
+        del self.Action[conn]
+        del self.File_Obj[conn]
+
+
+
 
 
     def UpLoad_Get_FileSize(self,conn,mask):

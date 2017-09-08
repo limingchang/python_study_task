@@ -42,6 +42,7 @@ class RPC_Server(object):
             self.On_Response,
             queue='rpc'
         )
+        self.Channel.start_consuming()
 
 
 
@@ -55,7 +56,30 @@ class RPC_Server(object):
         :return:
         '''
         cmd = pickle.loads(body)['cmd']
-        host = pickle.loads(body)['host_list']
+        host_list = pickle.loads(body)['host_list']
+        myip = self.Get_Ip()
+        #如果本机ip在ip列表中，执行命令并返回
+        if myip in host_list:
+            res = self.Run_Command(cmd)
+            data = {
+                'host':myip,
+                'res':res
+            }
+            self.Channel.basic_publish(
+                exchange='',
+                routing_key=props.reply_to,
+                properties=pika.BasicProperties(
+                    correlation_id=props.correlation_id
+                ),
+                body=pickle.dumps(data)
+            )
+            self.Channel.basic_ack(delivery_tag=method.delivery_tag)
+        else:
+            print('recv cmd ,but it not give me!')
+
+
+    def Run_Command(self,cmd):
+        pass
 
 
     def Get_Host(self):
@@ -64,28 +88,28 @@ class RPC_Server(object):
         :return:
         '''
         hostname = socket.gethostname()
-        ip = socket.gethostbyname(socket.gethostname())
+        #ip = socket.gethostbyname(socket.gethostname())
         ipList = socket.gethostbyname_ex(socket.gethostname())
         print(ipList)
-        return ip,hostname
+        return hostname
 
 
 
-def get_ip2():
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    try:
-        # doesn't even have to be reachable
-        s.connect(('10.255.255.255', 0))
-        IP = s.getsockname()[0]
-    except:
-        IP = '127.0.0.1'
-    finally:
-        s.close()
-    return IP
+    def Get_Ip(self):
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        try:
+            # doesn't even have to be reachable
+            s.connect(('10.255.255.255', 0))
+            IP = s.getsockname()[0]
+        except:
+            IP = '127.0.0.1'
+        finally:
+            s.close()
+        return IP
 
 
 if __name__ == '__main__':
     RPC_S = RPC_Server()
     print(RPC_S.Get_Host())
-    print(get_ip2())
+    #print(get_ip2())
 

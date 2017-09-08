@@ -5,7 +5,8 @@ import sys, os
 path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, path)
 
-import pika,configparser
+import pika,configparser,pickle
+import socket, fcntl, struct
 
 class RPC_Server(object):
     '''
@@ -14,6 +15,8 @@ class RPC_Server(object):
     def __init__(self):
         #获取配置信息
         self.Get_Conf()
+        #创建连接和信道,并接收客户端消息
+        #self.Handler()
 
 
 
@@ -35,3 +38,54 @@ class RPC_Server(object):
         )
         self.Channel = self.Conn.channel()
         self.Channel.queue_declare(queue='rpc')
+        self.Channel.basic_consume(
+            self.On_Response,
+            queue='rpc'
+        )
+
+
+
+    def On_Response(self,ch,method,props,body):
+        '''
+        处理接收到的消息的回调函数
+        :param ch:
+        :param method:
+        :param props:
+        :param body:
+        :return:
+        '''
+        cmd = pickle.loads(body)['cmd']
+        host = pickle.loads(body)['host_list']
+
+
+    def Get_Host(self):
+        '''
+        获取本机IP
+        :return:
+        '''
+        # hostname = socket.gethostname()
+        # ip = socket.gethostbyname(socket.gethostname())
+        # return ip
+        ifname = 'en0'
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        ip = socket.inet_ntoa(fcntl.ioctl(s.fileno(), 0x8915, struct.pack('256s', ifname[:15]))[20:24])
+        return ip
+
+
+def get_ip2():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        # doesn't even have to be reachable
+        s.connect(('192.168.0.1', 0))
+        IP = s.getsockname()[0]
+    except:
+        IP = '127.0.0.1'
+    finally:
+        s.close()
+    return IP
+
+
+if __name__ == '__main__':
+    # RPC_S = RPC_Server()
+    # print(RPC_S.Get_Host())
+    print(get_ip2())

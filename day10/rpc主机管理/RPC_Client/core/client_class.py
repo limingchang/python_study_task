@@ -161,8 +161,8 @@ class RPC_Client(object):
                 if count > self.Time_Out*10:
                     print('host[%s] connection timeout.'%host)
                     break
-        print('Command[%s]=>'%cmd,host_list,'completed！')
-        print('Please use [check_task] get result.')
+        #print('Command[%s]=>'%cmd,host_list,'completed！')
+        #print('Please use [check_task] get result.')
 
 
     def On_Response(self,ch,method,props,body):

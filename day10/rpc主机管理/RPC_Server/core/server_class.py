@@ -64,14 +64,10 @@ class RPC_Server(object):
         :return:
         '''
         hostname = socket.gethostname()
-<<<<<<< HEAD
         ip = socket.gethostbyname(socket.gethostname())
+        ipList = socket.gethostbyname_ex(socket.gethostname())
+        print(ipList)
         return ip,hostname
-
-=======
-        #ip = socket.gethostbyname(socket.gethostname())
-        return hostname
->>>>>>> dacba49ed4a97d43ab7e0691c3fbce10551db0a3
 
 
 
@@ -91,8 +87,5 @@ def get_ip2():
 if __name__ == '__main__':
     RPC_S = RPC_Server()
     print(RPC_S.Get_Host())
-<<<<<<< HEAD
     print(get_ip2())
-=======
-    #print(get_ip2())
->>>>>>> dacba49ed4a97d43ab7e0691c3fbce10551db0a3
+

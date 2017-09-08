@@ -16,7 +16,7 @@ class RPC_Server(object):
         #获取配置信息
         self.Get_Conf()
         #创建连接和信道,并接收客户端消息
-        #self.Handler()
+        self.Handler()
 
 
 
@@ -24,7 +24,9 @@ class RPC_Server(object):
         config = configparser.ConfigParser()
         config.read(os.path.join(path,'conf','config.ini'))
         self.Host = config['RabbitMQ']['host']
-        self.Port = config['RabbitMQ']['port']
+        self.Port = int(config['RabbitMQ']['port'])
+        #获取本机IP函数有问题，只能写入配置文件
+        self.MyHost=config['LOCAL']['host']
         self.Credentials = pika.PlainCredentials(config['RabbitMQ']['user'], config['RabbitMQ']['pwd'])
 
 
@@ -57,12 +59,12 @@ class RPC_Server(object):
         '''
         cmd = pickle.loads(body)['cmd']
         host_list = pickle.loads(body)['host_list']
-        myip = self.Get_Ip()
+        #myip = self.Get_Ip()
         #如果本机ip在ip列表中，执行命令并返回
-        if myip in host_list:
+        if self.MyHost in host_list:
             res = self.Run_Command(cmd)
             data = {
-                'host':myip,
+                'host':self.MyHost,
                 'res':res
             }
             self.Channel.basic_publish(
@@ -79,12 +81,13 @@ class RPC_Server(object):
 
 
     def Run_Command(self,cmd):
-        pass
+        res = os.popen(cmd).read()
+        return res
 
 
     def Get_Host(self):
         '''
-        获取本机IP
+        linux虚拟机多网卡，测试不通过，弃用
         :return:
         '''
         hostname = socket.gethostname()
@@ -93,9 +96,11 @@ class RPC_Server(object):
         print(ipList)
         return hostname
 
-
-
     def Get_Ip(self):
+        '''
+        linux虚拟机多网卡，测试不通过，弃用
+        :return:
+        '''
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         try:
             # doesn't even have to be reachable
@@ -110,6 +115,6 @@ class RPC_Server(object):
 
 if __name__ == '__main__':
     RPC_S = RPC_Server()
-    print(RPC_S.Get_Host())
+    #print(RPC_S.Get_Host())
     #print(get_ip2())
 

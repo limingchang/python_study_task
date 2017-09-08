@@ -6,6 +6,7 @@ path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, path)
 
 import pika,configparser,random,pickle
+import time,threading
 
 class RPC_Client(object):
     '''
@@ -32,7 +33,8 @@ class RPC_Client(object):
         config = configparser.ConfigParser()
         config.read(os.path.join(path,'conf','config.ini'))
         self.Host = config['RabbitMQ']['host']
-        self.Port = config['RabbitMQ']['port']
+        self.Port = int(config['RabbitMQ']['port'])
+        self.Time_Out = int(config['RabbitMQ']['timeout'])#设置超时时间
         self.Credentials = pika.PlainCredentials(config['RabbitMQ']['user'], config['RabbitMQ']['pwd'])
 
     def Handler(self):
@@ -67,15 +69,25 @@ class RPC_Client(object):
                     else:
                         host_grop = host_str.split(' ')
                         host_list = []
+                        #生成任务ID
+                        task_id = self.Create_TaskID()
+                        #创建主机列表
                         for i in range(1,len(host_grop)):
                             host_list.append(host_grop[i])
                         #这里创建多线程
-                        self.Run(cmd,host_list)
+                        thread = threading.Thread(
+                            target=self.Run,
+                            args=(task_id,cmd,host_list)
+                        )
+                        thread.start()
+                        continue
+                        #self.Run(cmd,host_list)
                 else:
                     print('\033[1;31;1mCommand Error!\033[0m')
                     self.Help()
                 continue
             elif act.startswith('check_task'):
+                act_list = act.split()
                 if len(act_list) == 2:
                     task_id = act_list[1]
                     self.Get_Result(task_id)
@@ -101,15 +113,16 @@ class RPC_Client(object):
         print('get result: check_task task_id')
         print('input quit to exit\033[0m')
 
-    def Run(self,cmd,host_list):
+    def Run(self,task_id,cmd,host_list):
         '''
         发送命令给主机执行
+        :param task_id: 任务id
         :param cmd: 要执行的命令
         :param host_list: 主机列表
         :return:
         '''
-        print(cmd)
-        print(host_list)
+        #print(cmd)
+        #print(host_list)
         self.Handler()
         result = self.Channel.queue_declare(exclusive=True)
         self.Response_Queue = result.method.queue#创建随机queue
@@ -119,14 +132,15 @@ class RPC_Client(object):
             no_ack=True,
             queue=self.Response_Queue
         )
+        self.Send_Cmd(task_id,cmd,host_list)
 
 
-    def Send_Cmd(self,cmd,host_list):
-        task_id = self.Create_TaskID()
+    def Send_Cmd(self,task_id,cmd,host_list):
+        #task_id = self.Create_TaskID()
         #self.Res_Dict[task_id] = None
         #将返回结果初始化为空
         for host in host_list:
-            self.Res_Dict[task_id][host] = None
+            self.Res_Dict[task_id][host] = ''
         #构建消息数据
         data = {
             'cmd':cmd,
@@ -149,11 +163,16 @@ class RPC_Client(object):
         )
         #循环接收结果
         for host in host_list:
-            while self.Res_Dict[task_id][host] is None:
+            count = 0
+            while self.Res_Dict[task_id][host] == '':
                 self.Conn.process_data_events()
-            print('收到主机【%s】返回消息'%host)
-        print('命令【%s】=>'%cmd,host_list,'执行完毕！')
-        print('请使用check_task命令获取结果')
+                time.sleep(0.1)
+                count +=1
+                if count > self.Time_Out*10:
+                    print('host[%s] connection timeout.'%host)
+                    break
+        print('Command[%s]=>'%cmd,host_list,'completed！')
+        print('Please use [check_task] get result.')
 
 
     def On_Response(self,ch,method,props,body):
@@ -164,8 +183,8 @@ class RPC_Client(object):
         task_id = props.correlation_id
         res_data = pickle.loads(body)
         #返回为字典{host:res}
+        print('recived host[%s] response message.' %res_data['host'])
         self.Res_Dict[task_id][res_data['host']] = res_data['res']
-
 
 
     def Create_TaskID(self):
@@ -177,11 +196,12 @@ class RPC_Client(object):
         for i in range(5):
             current = random.randrange(0, 9)
             task_id += str(current)
-        task_id = int(task_id)
+        #task_id = int(task_id)
         if task_id in self.Res_Dict:
             self.Create_TaskID()
         else:
-            self.Res_Dict[task_id] = None
+            self.Res_Dict[task_id] = {}
+        print('task_id:',task_id)
         return task_id
 
     def Get_Result(self,id):
@@ -190,7 +210,10 @@ class RPC_Client(object):
         :param id:task_id
         :return: 返回取到的结果
         '''
-        pass
+        for host in self.Res_Dict[id]:
+            print(('From host %s'%host).center(50,'-'))
+            print(self.Res_Dict[id][host])
+        #print(self.Res_Dict[id])
 
 
 

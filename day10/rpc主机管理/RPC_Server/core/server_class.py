@@ -6,7 +6,7 @@ path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, path)
 
 import pika,configparser,pickle
-import socket, fcntl, struct
+import socket
 
 class RPC_Server(object):
     '''
@@ -63,20 +63,18 @@ class RPC_Server(object):
         获取本机IP
         :return:
         '''
-        # hostname = socket.gethostname()
-        # ip = socket.gethostbyname(socket.gethostname())
-        # return ip
-        ifname = 'en0'
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        ip = socket.inet_ntoa(fcntl.ioctl(s.fileno(), 0x8915, struct.pack('256s', ifname[:15]))[20:24])
-        return ip
+        hostname = socket.gethostname()
+        ip = socket.gethostbyname(socket.gethostname())
+        return ip,hostname
+
+
 
 
 def get_ip2():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
         # doesn't even have to be reachable
-        s.connect(('192.168.0.1', 0))
+        s.connect(('10.255.255.255', 0))
         IP = s.getsockname()[0]
     except:
         IP = '127.0.0.1'
@@ -86,6 +84,6 @@ def get_ip2():
 
 
 if __name__ == '__main__':
-    # RPC_S = RPC_Server()
-    # print(RPC_S.Get_Host())
+    RPC_S = RPC_Server()
+    print(RPC_S.Get_Host())
     print(get_ip2())

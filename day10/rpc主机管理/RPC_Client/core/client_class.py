@@ -81,7 +81,6 @@ class RPC_Client(object):
                         )
                         thread.start()
                         continue
-                        #self.Run(cmd,host_list)
                 else:
                     print('\033[1;31;1mCommand Error!\033[0m')
                     self.Help()
@@ -121,11 +120,7 @@ class RPC_Client(object):
         :param host_list: 主机列表
         :return:
         '''
-        #print(cmd)
-        #print(host_list)
         self.Handler()
-        #result = self.Channel.queue_declare(exclusive=True)
-        #self.Response_Queue = result.method.queue#创建随机queue
         #创建接收端消费者，用于接收返回结果
         self.Channel.queue_declare(queue=task_id)
         self.Channel.basic_consume(
@@ -136,14 +131,11 @@ class RPC_Client(object):
 
 
     def Send_Cmd(self,task_id,cmd,host_list):
-        #task_id = self.Create_TaskID()
-        #self.Res_Dict[task_id] = None
         #将返回结果初始化为空
         for host in host_list:
             self.Res_Dict[task_id][host] = ''
         #构建消息数据
         data = { 'cmd':cmd}
-        #self.corr_id = str(task_id)
         #循环创建发送端，绑定转发器RPC，指定routing_key为hostip
         self.Channel.exchange_declare(
             exchange='rpc',
@@ -197,7 +189,6 @@ class RPC_Client(object):
         for i in range(5):
             current = random.randrange(0, 9)
             task_id += str(current)
-        #task_id = int(task_id)
         if task_id in self.Res_Dict:
             self.Create_TaskID()
         else:
@@ -215,15 +206,9 @@ class RPC_Client(object):
             print(('From host %s'%host).center(50,'-'))
             print(self.Res_Dict[id][host])
         #提取结果就删除
-
         del self.Res_Dict[id]
-
-        #print(self.Res_Dict[id])
-
 
 
 if __name__ == "__main__":
     rpc_cli = RPC_Client()
     rpc_cli.Command_Parse()
-    #a = rpc_cli.Create_TaskID()
-    #print(a)

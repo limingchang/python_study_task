@@ -121,6 +121,4 @@ class RPC_Server(object):
 
 if __name__ == '__main__':
     RPC_S = RPC_Server()
-    #print(RPC_S.Get_Host())
-    #print(get_ip2())
 

@@ -124,13 +124,13 @@ class RPC_Client(object):
         #print(cmd)
         #print(host_list)
         self.Handler()
-        result = self.Channel.queue_declare(exclusive=True)
-        self.Response_Queue = result.method.queue#创建随机queue
+        #result = self.Channel.queue_declare(exclusive=True)
+        #self.Response_Queue = result.method.queue#创建随机queue
         #创建接收端消费者，用于接收返回结果
+        self.Channel.queue_declare(queue=task_id)
         self.Channel.basic_consume(
             self.On_Response,#callback
-            no_ack=True,
-            queue=self.Response_Queue
+            queue=task_id
         )
         self.Send_Cmd(task_id,cmd,host_list)
 
@@ -142,25 +142,23 @@ class RPC_Client(object):
         for host in host_list:
             self.Res_Dict[task_id][host] = ''
         #构建消息数据
-        data = {
-            'cmd':cmd,
-            'host_list':host_list
-        }
-        #加入任务ID列表
-        self.Task_List.append(task_id)
+        data = { 'cmd':cmd}
         #self.corr_id = str(task_id)
-        #创建发送端
-        self.Channel.basic_publish(
-            exchange='',
-            routing_key='rpc',
-            properties=pika.BasicProperties(
-                #标识返回queue
-                reply_to=self.Response_Queue,
-                #标识命令任务ID
-                correlation_id=str(task_id)
-            ),
-            body=pickle.dumps(data)
+        #循环创建发送端，绑定转发器RPC，指定routing_key为hostip
+        self.Channel.exchange_declare(
+            exchange='rpc',
+            exchange_type='direct'
         )
+        for host in host_list:
+            self.Channel.basic_publish(
+                exchange='rpc',
+                routing_key=host,
+                properties=pika.BasicProperties(
+                    #标识返回queue
+                    reply_to=task_id,
+                ),
+                body=pickle.dumps(data)
+            )
         #循环接收结果
         for host in host_list:
             count = 0
@@ -180,11 +178,14 @@ class RPC_Client(object):
         处理返回结果的函数
         :return:
         '''
-        task_id = props.correlation_id
-        res_data = pickle.loads(body)
+        task_id = props.message_id
+        res = pickle.loads(body)['res']
+        host = props.correlation_id
         #返回为字典{host:res}
-        print('recived host[%s] response message.' %res_data['host'])
-        self.Res_Dict[task_id][res_data['host']] = res_data['res']
+        print('recived host[%s] response message.' %host)
+        self.Res_Dict[task_id][host] = res
+        #告知已收到
+        self.Channel.basic_ack(delivery_tag=method.delivery_tag)
 
 
     def Create_TaskID(self):
@@ -213,6 +214,10 @@ class RPC_Client(object):
         for host in self.Res_Dict[id]:
             print(('From host %s'%host).center(50,'-'))
             print(self.Res_Dict[id][host])
+        #提取结果就删除
+
+        del self.Res_Dict[id]
+
         #print(self.Res_Dict[id])
 
 

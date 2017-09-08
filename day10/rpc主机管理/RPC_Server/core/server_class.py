@@ -39,10 +39,21 @@ class RPC_Server(object):
             )
         )
         self.Channel = self.Conn.channel()
-        self.Channel.queue_declare(queue='rpc')
+        self.Channel.exchange_declare(
+            exchange='rpc',
+            exchange_type='direct'
+        )
+        result = self.Channel.queue_declare(exclusive=True)
+        queue_name = result.method.queue
+        self.Channel.queue_bind(
+            exchange='rpc',
+            queue=queue_name,
+            routing_key=self.MyHost
+        )
         self.Channel.basic_consume(
             self.On_Response,
-            queue='rpc'
+            queue=queue_name,
+            no_ack=True
         )
         self.Channel.start_consuming()
 
@@ -57,27 +68,22 @@ class RPC_Server(object):
         :param body:
         :return:
         '''
+        #print('body:',pickle.loads(body))
         cmd = pickle.loads(body)['cmd']
-        host_list = pickle.loads(body)['host_list']
-        #myip = self.Get_Ip()
-        #如果本机ip在ip列表中，执行命令并返回
-        if self.MyHost in host_list:
-            res = self.Run_Command(cmd)
-            data = {
-                'host':self.MyHost,
-                'res':res
-            }
-            self.Channel.basic_publish(
-                exchange='',
-                routing_key=props.reply_to,
-                properties=pika.BasicProperties(
-                    correlation_id=props.correlation_id
-                ),
-                body=pickle.dumps(data)
-            )
-            self.Channel.basic_ack(delivery_tag=method.delivery_tag)
-        else:
-            print('recv cmd ,but it not give me!')
+        print('recived command[%s]'%cmd)
+        res = self.Run_Command(cmd)
+        data = {'res':res}
+        self.Channel.basic_publish(
+            exchange='',
+            routing_key=props.reply_to,
+            properties=pika.BasicProperties(
+                #标识回复主机和任务ID
+                message_id=props.reply_to,
+                correlation_id=self.MyHost
+            ),
+            body=pickle.dumps(data)
+        )
+
 
 
     def Run_Command(self,cmd):

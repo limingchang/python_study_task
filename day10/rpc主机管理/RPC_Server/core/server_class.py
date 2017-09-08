@@ -63,13 +63,10 @@ class RPC_Server(object):
         获取本机IP
         :return:
         '''
-        # hostname = socket.gethostname()
-        # ip = socket.gethostbyname(socket.gethostname())
-        # return ip
-        ifname = 'en0'
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        ip = socket.inet_ntoa(fcntl.ioctl(s.fileno(), 0x8915, struct.pack('256s', ifname[:15]))[20:24])
-        return ip
+        hostname = socket.gethostname()
+        #ip = socket.gethostbyname(socket.gethostname())
+        return hostname
+
 
 
 def get_ip2():
@@ -86,6 +83,6 @@ def get_ip2():
 
 
 if __name__ == '__main__':
-    # RPC_S = RPC_Server()
-    # print(RPC_S.Get_Host())
-    print(get_ip2())
+    RPC_S = RPC_Server()
+    print(RPC_S.Get_Host())
+    #print(get_ip2())

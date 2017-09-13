@@ -17,6 +17,7 @@ class DB_Control(object):
         self.Get_Conf()
         #self.Conn()
         self.Tables = self.Table_Framework()
+        self.Create_Default_Data()
 
     def Conn(self):
         conn_str = '%s+pymysql://%s:%s@%s/%s?charset=utf8'%(self.DB_TYPE,self.DB_USER,self.DB_PWD,self.DB_HOST,self.DB_NAME)
@@ -130,7 +131,16 @@ class DB_Control(object):
         #返回表结构对象字典
         return table_dict
 
-
+    def Create_Default_Data(self):
+        #检查并创建用户类型表数据
+        table = self.Tables['role_type']
+        type_obj = self.Session.query(table).all()
+        if len(type_obj) == 0:
+            type1 = table(name='studdent')
+            type2 = table(name='teacher')
+            type3 = table(name='admin')
+            self.Session.add_all([type1,type2,type3])
+            self.Session.commit()
 
     def Fields(self,table_name):
         '''

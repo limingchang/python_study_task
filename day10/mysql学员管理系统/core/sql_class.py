@@ -19,7 +19,7 @@ class DB_Control(object):
         self.Tables = self.Table_Framework()
 
     def Conn(self):
-        conn_str = '%s+pymysql://%s:%s@%s/%s'%(self.DB_TYPE,self.DB_USER,self.DB_PWD,self.DB_HOST,self.DB_NAME)
+        conn_str = '%s+pymysql://%s:%s@%s/%s?charset=utf8'%(self.DB_TYPE,self.DB_USER,self.DB_PWD,self.DB_HOST,self.DB_NAME)
         self.Engine = create_engine(
             conn_str,
             encoding='utf8',
@@ -52,6 +52,7 @@ class DB_Control(object):
             # course_id = Column(Integer,ForeignKey('couesr.id'))
             qq = Column(String(32))
             email = Column(String(32))
+            study_record = relationship('Study_Record', secondary=Study_Record, backref='study_record')
 
             def __repr__(self):
                 return '<User>name=%s,type=%s' % (self.name, self.type.name)
@@ -60,7 +61,7 @@ class DB_Control(object):
             __tablename__ = 'user_course'
             id = Column(Integer, primary_key=True, autoincrement=True)
             user_id = Column(Integer, ForeignKey('user.id'))
-            user = relationship('User', backref='courses', foreign_keys=[user_id])
+            user = relationship('User', backref='student_courses', foreign_keys=[user_id])
             course_id = Column(Integer, ForeignKey('course.id'))
             course = relationship('Course',backref='user',foreign_keys=[course_id])
             pay_status = Column(String(32))
@@ -83,25 +84,57 @@ class DB_Control(object):
             id = Column(Integer, primary_key=True)
             name = Column(String(32), nullable=False)
             teacher_id = Column(Integer, ForeignKey('user.id'))
-            #teacher = relationship('User',backref='')
+            teacher = relationship('User',backref='teacher_courses')
             school_id = Column(Integer, ForeignKey('school.id'))
+            school = relationship('School',backref='courses')
+
+            def __repr__(self):
+                return '<Course>%s,%s,%s'%(self.name,self.teacher.name,self.school.name)
 
         class School(Base):
             __tablename__ = 'school'
             id = Column(Integer, primary_key=True)
             name = Column(String(32), nullable=False)
             address = Column(String(32), nullable=False)
+            def __repr__(self):
+                return '<School>%s[%s]'%(self.name,self.address)
 
-        Base.metadata.create_all(self.Engine)
+        class Course_Record(Base):
+            __tablename__ = 'course_record'
+            id = Column(Integer,primary_key=True,autoincrement=True)
+            day = Column(Integer,nullable=False)
+            course_id = Column(Integer,ForeignKey('course_id'))
+            course = relationship('Course',backref='record')
+            study_record = relationship('Study_Record',secondary=Study_Record,backref='course_record')
+
+        class Study_Record(Base):
+            __tablename__ = 'study_record'
+            id = Column(Integer,primary_key=True,autoincrement=True)
+            course_record_id = Column(Integer,ForeignKey('course_record.id'))
+            course_record = relationship('Course_Record',backref='study_record')
+            student_id = Column(Integer,ForeignKey('user.id'))
+            student = relationship('User',backref='study_record')
+            score = Column(Integer,nullable=False,default=0)
+
+
+        #Base.metadata.create_all(self.Engine)
         table_dict = {
             'user':User,
             'user_courses':User_Course,
             'role_type':Role_Type,
             'course':Course,
-            'school':School
+            'school':School,
+            'course_record':Course_Record,
+            'study_record':Study_Record
         }
         #返回表结构对象字典
         return table_dict
+
+    def Create_Tables(self):
+        Base = declarative_base()
+        Base.metadata.create_all(self.Engine)
+
+
 
     def Fields(self,table_name):
         '''
@@ -125,6 +158,7 @@ if __name__ == '__main__':
     db = DB_Control()
     print(db.Tables)
     table = db.Tables['role_type']
+    db.Create_Tables()
     print(table.__dict__.keys())
     #data = db.Session.query(table).filter(table.id <5 ).all()
     #print(data)

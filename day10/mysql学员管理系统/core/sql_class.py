@@ -52,7 +52,7 @@ class DB_Control(object):
             # course_id = Column(Integer,ForeignKey('couesr.id'))
             qq = Column(String(32))
             email = Column(String(32))
-            study_record = relationship('Study_Record', secondary=Study_Record, backref='study_record')
+            #study_record = relationship('Study_Record', secondary=Study_Record, backref='study_record')
 
             def __repr__(self):
                 return '<User>name=%s,type=%s' % (self.name, self.type.name)
@@ -103,9 +103,9 @@ class DB_Control(object):
             __tablename__ = 'course_record'
             id = Column(Integer,primary_key=True,autoincrement=True)
             day = Column(Integer,nullable=False)
-            course_id = Column(Integer,ForeignKey('course_id'))
+            course_id = Column(Integer,ForeignKey('course.id'))
             course = relationship('Course',backref='record')
-            study_record = relationship('Study_Record',secondary=Study_Record,backref='course_record')
+            #study_record = relationship('Study_Record',secondary=Study_Record,backref='course_record')
 
         class Study_Record(Base):
             __tablename__ = 'study_record'
@@ -117,7 +117,7 @@ class DB_Control(object):
             score = Column(Integer,nullable=False,default=0)
 
 
-        #Base.metadata.create_all(self.Engine)
+        Base.metadata.create_all(self.Engine)
         table_dict = {
             'user':User,
             'user_courses':User_Course,
@@ -129,10 +129,6 @@ class DB_Control(object):
         }
         #返回表结构对象字典
         return table_dict
-
-    def Create_Tables(self):
-        Base = declarative_base()
-        Base.metadata.create_all(self.Engine)
 
 
 
@@ -158,7 +154,7 @@ if __name__ == '__main__':
     db = DB_Control()
     print(db.Tables)
     table = db.Tables['role_type']
-    db.Create_Tables()
+    #db.Create_Tables()
     print(table.__dict__.keys())
     #data = db.Session.query(table).filter(table.id <5 ).all()
     #print(data)

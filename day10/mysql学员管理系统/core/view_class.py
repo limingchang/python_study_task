@@ -15,10 +15,11 @@ class View_Interface(object):
         self.DB = sql_class.DB_Control()
         self.Menu()
         #self.Get_Role_Type()
-        self.Menu_For_Type(self.Login_User.type.name)
+        self.Menu_For_Type()
 
 
-    def Menu_For_Type(self,role_type):
+    def Menu_For_Type(self):
+        role_type = self.Login_User.type.name
         menu_dict = {
             'student':self.Menu_Student,
             'teacher':self.Menu_Teacher,
@@ -31,14 +32,94 @@ class View_Interface(object):
             exit()
 
     def Menu_Student(self):
-        pass
+        '''
+        if self.Is_Login:
+            print('未登录无权操作！')
+            exit()
+        menu_list = ['1.提交作业','2.查看成绩','3.成绩排名']
+        menu_dict = {
+            '1.提交作业':,
+            '2.查看成绩':,
+            '3.成绩排名':
+        }
+        while True:
+            print(('学员【%s】主页'%self.Login_User.name).center(50,'-'))
+            for menu in menu_list:
+                print(menu)
+            act = input('请选择(q退出登录)：')
+            if act.isdigit() and int(act) <= len(menu_list) and int(act) > 0:
+                func = menu_dict[menu_list[int(act)-1]]
+                func()
+            elif act == 'q':
+                self.Is_Login = False
+                self.Login_User = None
+                break
+            else:
+                print('\033[1;32;1m选择错误！\033[0m')
+                continue
+        self.Menu()
+        '''
+
+
+
+
 
     def Menu_Teacher(self):
-        pass
+        '''
+        if self.Is_Login:
+            print('未登录无权操作！')
+            exit()
 
+        menu_list = ['1.创建班级','2.开始上课','3.批改作业']
+        menu_dict = {
+            '1.创建班级':,
+            '2.开始上课':,
+            '3.批改作业':
+        }
+        while True:
+            print(('教师【%s】工作台'%self.Login_User.name).center(50,'-'))
+            for menu in menu_list:
+                print(menu)
+            act = input('请选择(q退出登录)：')
+            if act.isdigit() and int(act) <= len(menu_list) and int(act) > 0:
+                func = menu_dict[menu_list[int(act)-1]]
+                func()
+            elif act == 'q':
+                self.Is_Login = False
+                self.Login_User = None
+                break
+            else:
+                print('\033[1;32;1m选择错误！\033[0m')
+                continue
+        self.Menu()
+        '''
 
     def Menu_Admin(self):
-        print('管理员的菜单')
+        if self.Is_Login is False:
+            print('未登录无权操作！')
+            exit()
+        menu_list = ['1.创建学校','2.创建课程','3.删除用户']
+        menu_dict = {
+            '1.创建学校':self.Create_School,
+            '2.创建课程':self.Create_Course,#关联教师
+            #'3.用户管理':
+        }
+        while True:
+            print(('管理员【%s】工作台'%self.Login_User.name).center(50,'-'))
+            for menu in menu_list:
+                print(menu)
+            act = input('请选择(q退出登录)：')
+            if act.isdigit() and int(act) <= len(menu_list) and int(act) > 0:
+                func = menu_dict[menu_list[int(act)-1]]
+                func()
+            elif act == 'q':
+                self.Is_Login = False
+                self.Login_User = None
+                break
+            else:
+                print('\033[1;32;1m选择错误！\033[0m')
+                continue
+        self.Menu()
 
 
 
@@ -125,9 +206,10 @@ class View_Interface(object):
             type_list = []
             count = 1
             for type_obj in type_obj_dict:
-                print(count,'.',type_obj_dict[type_obj].name)
-                type_list.append(type_obj_dict[type_obj].name)
-                count += 1
+                if type_obj_dict[type_obj].name != 'admin':#不允许创建管理员
+                    print(count,'.',type_obj_dict[type_obj].name)
+                    type_list.append(type_obj_dict[type_obj].name)
+                    count += 1
             act = input('请选择：').strip()
             if act.isdigit() and int(act) <= len(type_list) and int(act) > 0:
                 #----判断管理员，只能由管理员创建
@@ -145,7 +227,40 @@ class View_Interface(object):
         #sha1密码
         return hashlib.md5(pwd.encode("utf8")).hexdigest()
         
+    
 
+
+
+
+    def Create_School(self):
+        #创建学校
+        while True:
+            print('创建学校'.center(50,'-'))
+            name = input('请输入学校名称：')
+            address = input('请输入学校地址：')
+            table = self.DB.Tables['school']
+            school_obj = self.DB.Session.query(table).filter(table.name == name).first()
+            if  school_obj is None:
+                new_school = table(name=name,address=address)
+                self.DB.Session.add(new_school)
+                self.DB.Session.commit()
+                print('学校【%s】创建成功！'%new_school.name)
+                break
+            else:
+                print('学校[%s]已被创建，地址：%s'%(school_obj.name,school_obj.address))
+                continue   
+
+    def Create_Course(self):
+        #创建课程
+        while True:
+            print('创建课程'.center(50,'-'))
+            name = input('请输入课程名称：')
+            course_table = self.DB.Tables['course']
+            school_list = []
+            school_table = self.DB.Tables['school']
+            school_list_obj = self.DB.Session.query(school_table).all()
+            print(school_list_obj)
+            
 
 
 

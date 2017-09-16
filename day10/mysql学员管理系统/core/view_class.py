@@ -15,9 +15,33 @@ class View_Interface(object):
         self.DB = sql_class.DB_Control()
         self.Menu()
         #self.Get_Role_Type()
+        self.Menu_For_Type(self.Login_User.type.name)
 
 
-        
+    def Menu_For_Type(self,role_type):
+        menu_dict = {
+            'student':self.Menu_Student,
+            'teacher':self.Menu_Teacher,
+            'admin':self.Menu_Admin
+        }
+        if role_type in menu_dict:
+            menu_dict[role_type]()
+        else:
+            print('角色类型错误！程序关闭！')
+            exit()
+
+    def Menu_Student(self):
+        pass
+
+    def Menu_Teacher(self):
+        pass
+
+
+    def Menu_Admin(self):
+        print('管理员的菜单')
+
+
+
 
     def Login(self):
         while True:
@@ -32,7 +56,7 @@ class View_Interface(object):
             else:
                 self.Is_Login = True
                 self.Login_User = user_obj
-                print('欢迎【%s】%s'%(user_obj.name,user_obj.type.name))
+                print('欢迎【%s】%s'%(user_obj.type.name,user_obj.name))
                 break
         return self.Is_Login
 

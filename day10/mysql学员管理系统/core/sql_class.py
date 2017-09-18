@@ -88,9 +88,20 @@ class DB_Control(object):
             teacher = relationship('User',backref='teacher_courses')
             school_id = Column(Integer, ForeignKey('school.id'))
             school = relationship('School',backref='courses')
+            price = Column(Integer,nullable=False)
 
             def __repr__(self):
                 return '<Course>%s,%s,%s'%(self.name,self.teacher.name,self.school.name)
+        class S_Class(Base):
+            __tablename__ = 's_class'
+            id =Column(Integer,primary_key=True)
+            name = Column(String(32),nullable=False)
+            course_id = Column(Integer,ForeignKey('course.id'))
+            course = relationship('Course',backref='class')
+            def __repr__(self):
+                return '<Class>%s[%s]'%(self.name,self.course.name)
+
+
 
         class School(Base):
             __tablename__ = 'school'
@@ -100,12 +111,12 @@ class DB_Control(object):
             def __repr__(self):
                 return '<School>%s[%s]'%(self.name,self.address)
 
-        class Course_Record(Base):
+        class Class_Record(Base):
             __tablename__ = 'course_record'
             id = Column(Integer,primary_key=True,autoincrement=True)
             day = Column(Integer,nullable=False)
-            course_id = Column(Integer,ForeignKey('course.id'))
-            course = relationship('Course',backref='record')
+            class_id = Column(Integer,ForeignKey('s_class.id'))
+            s_class = relationship('S_Class',backref='record')
             #study_record = relationship('Study_Record',secondary=Study_Record,backref='course_record')
 
         class Study_Record(Base):
@@ -124,8 +135,9 @@ class DB_Control(object):
             'user_courses':User_Course,
             'role_type':Role_Type,
             'course':Course,
+            'class':S_Class,
             'school':School,
-            'course_record':Course_Record,
+            'class_record':Course_Record,
             'study_record':Study_Record
         }
         #返回表结构对象字典

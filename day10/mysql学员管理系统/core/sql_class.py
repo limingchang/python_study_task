@@ -24,7 +24,7 @@ class DB_Control(object):
         self.Engine = create_engine(
             conn_str,
             encoding='utf8',
-            echo=True
+            #echo=True
         )
         DB_BASE = declarative_base()
         Session_Class = sessionmaker(bind=self.Engine)
@@ -48,9 +48,7 @@ class DB_Control(object):
             name = Column(String(32), nullable=False)
             pwd = Column(String(32), nullable=False)
             type_id = Column(Integer, ForeignKey('role_type.id'))
-            type = relationship('Role_Type', backref='user_id')
-            # type_id = relationship('Role_Tpye')
-            # course_id = Column(Integer,ForeignKey('couesr.id'))
+            type = relationship('Role_Type', backref='user')
             qq = Column(String(32))
             email = Column(String(32))
             #study_record = relationship('Study_Record', secondary=Study_Record, backref='study_record')
@@ -58,19 +56,19 @@ class DB_Control(object):
             def __repr__(self):
                 return '<User>name=%s,type=%s' % (self.name, self.type.name)
 
+
         class User_Course(Base):
             __tablename__ = 'user_course'
             id = Column(Integer, primary_key=True, autoincrement=True)
             user_id = Column(Integer, ForeignKey('user.id'))
-            user = relationship('User', backref='student_courses', foreign_keys=[user_id])
+            user = relationship('User', backref='student_courses')
             course_id = Column(Integer, ForeignKey('course.id'))
             course = relationship('Course',backref='user',foreign_keys=[course_id])
             pay_status = Column(String(32))
 
-
-
             def __repr__(self):
                 return '<user_course>user:%s,course:%s'%(self.user.name,self.course.name)
+
 
         class Role_Type(Base):
             __tablename__ = 'role_type'
@@ -79,6 +77,7 @@ class DB_Control(object):
 
             def __repr__(self):
                 return '<role_type>%s:%s'%(self.id,self.name)
+
 
         class Course(Base):
             __tablename__ = 'course'
@@ -91,7 +90,8 @@ class DB_Control(object):
             price = Column(Integer,nullable=False)
 
             def __repr__(self):
-                return '<Course>%s,%s,%s'%(self.name,self.teacher.name,self.school.name)
+                return '<Course>%s,讲师:%s校区:%s'%(self.name,self.teacher.name,self.school.name)
+
         class S_Class(Base):
             __tablename__ = 's_class'
             id =Column(Integer,primary_key=True)
@@ -100,7 +100,6 @@ class DB_Control(object):
             course = relationship('Course',backref='class')
             def __repr__(self):
                 return '<Class>%s[%s]'%(self.name,self.course.name)
-
 
 
         class School(Base):
@@ -112,7 +111,8 @@ class DB_Control(object):
                 return '<School>%s[%s]'%(self.name,self.address)
 
         class Class_Record(Base):
-            __tablename__ = 'course_record'
+            #教师开课记录
+            __tablename__ = 'class_record'
             id = Column(Integer,primary_key=True,autoincrement=True)
             day = Column(Integer,nullable=False)
             class_id = Column(Integer,ForeignKey('s_class.id'))
@@ -120,10 +120,11 @@ class DB_Control(object):
             #study_record = relationship('Study_Record',secondary=Study_Record,backref='course_record')
 
         class Study_Record(Base):
+            #对应教师开课的学习记录
             __tablename__ = 'study_record'
             id = Column(Integer,primary_key=True,autoincrement=True)
-            course_record_id = Column(Integer,ForeignKey('course_record.id'))
-            course_record = relationship('Course_Record',backref='study_record')
+            class_record_id = Column(Integer,ForeignKey('class_record.id'))
+            class_record = relationship('Class_Record',backref='study_record')
             student_id = Column(Integer,ForeignKey('user.id'))
             student = relationship('User',backref='study_record')
             score = Column(Integer,nullable=False,default=0)
@@ -137,7 +138,7 @@ class DB_Control(object):
             'course':Course,
             'class':S_Class,
             'school':School,
-            'class_record':Course_Record,
+            'class_record':Class_Record,
             'study_record':Study_Record
         }
         #返回表结构对象字典
@@ -147,8 +148,9 @@ class DB_Control(object):
         #检查并创建用户类型表数据
         table = self.Tables['role_type']
         type_obj = self.Session.query(table).all()
+        #print(type_obj)
         if len(type_obj) == 0:
-            type1 = table(name='studdent')
+            type1 = table(name='student')
             type2 = table(name='teacher')
             type3 = table(name='admin')
             self.Session.add_all([type1,type2,type3])

@@ -101,6 +101,17 @@ class DB_Control(object):
             def __repr__(self):
                 return '<Class>%s[%s]'%(self.name,self.course.name)
 
+        class Class_Students(Base):
+            #班级的学生
+            __tablename__ = 'class_students'
+            id = Column(Integer,primary_key=True,autoincrement=True)
+            class_id = Column(Integer,ForeignKey('s_class.id'))
+            s_class = relationship('S_Class',backref='student')
+            user_id = Column(Integer,ForeignKey('user.id'))
+            student = relationship('User',backref='in_class')
+            def __repr__(self):
+                return '<Class_Students>姓名：%s[课程：%s-%s]'%(self.student.name,self.s_class.name,self.s_class.course.name)
+
 
         class School(Base):
             __tablename__ = 'school'
@@ -127,7 +138,13 @@ class DB_Control(object):
             class_record = relationship('Class_Record',backref='study_record')
             student_id = Column(Integer,ForeignKey('user.id'))
             student = relationship('User',backref='study_record')
+            task_url = Column(String(40))
             score = Column(Integer,nullable=False,default=0)
+            def __repr__(self):
+                res = '<study_record>%s in %s'%(self.student.name,self.class_record.s_class.name)
+                res += '第%d天'%self.class_record.day
+                res += '[%d分]'%self.score
+                return res
 
 
         Base.metadata.create_all(self.Engine)
@@ -137,6 +154,7 @@ class DB_Control(object):
             'role_type':Role_Type,
             'course':Course,
             'class':S_Class,
+            'class_students':Class_Students,
             'school':School,
             'class_record':Class_Record,
             'study_record':Study_Record

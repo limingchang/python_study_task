@@ -40,12 +40,11 @@ class View_Interface(object):
         if self.Is_Login is False:
             print('未登录无权操作！')
             exit()
-        menu_list = ['1.挑选课程','2.提交作业','3.查看成绩','4.成绩排名']
+        menu_list = ['1.挑选课程','2.提交作业','3.查看成绩']
         menu_dict = {
             '1.挑选课程':self.Sel_Student_Course,
-            #'2.提交作业':,
-            #'3.查看成绩':,
-            #'4.成绩排名':
+            '2.提交作业':self.Submit_Homework,
+            '3.查看成绩':self.Show_Score
         }
         while True:
             print(('学员【%s】主页'%self.Login_User.name).center(50,'-'))
@@ -80,7 +79,7 @@ class View_Interface(object):
             '1.创建班级':self.Create_Class,
             '2.选择学员':self.Choose_Student,
             '3.开始上课':self.Start_Class,
-            #'4.批改作业':
+            '4.批改作业':self.Homework_Correcting
         }
         while True:
             print(('教师【%s】工作台'%self.Login_User.name).center(50,'-'))
@@ -269,6 +268,51 @@ class View_Interface(object):
             self.DB.Session.commit()
         return choose
 
+    def Submit_Homework(self):
+        #提交作业
+        table = self.DB.Tables['study_record']
+
+        while True:
+            empty_task_list = self.DB.Session.query(table).filter(table.student == self.Login_User).filter(table.task_url == None).all()
+            if len(empty_task_list) == 0:
+                print('\033[1;36;1m您没有需要提交的作业！\033[0m')
+                break
+            count = 1
+            print('选择您要提交作业的上课记录'.center(50,'-'))
+            for task in empty_task_list:
+                print(count,'.',task.class_record.s_class.name,'第',task.class_record.day,'天','[',task.class_record.s_class.course.name,']')
+                count += 1
+            act = input('请选择：')
+            if act.isdigit() and int(act) > 0 and int(act) <= len(empty_task_list):
+                task_url = input('请输入您的作业链接：')
+                empty_task_list[int(act)-1].task_url = task_url
+                self.DB.Session.commit()
+                print('\033[1;36;1m提交成功，继续提交或者q退出。\033[0m')
+                continue
+            elif act == 'q':
+                break
+            else:
+                print('选择错误！')
+                continue
+
+
+
+    def Homework_Correcting(self):
+        #批改作业
+        pass
+
+    def Show_Score(self):
+        #查看成绩
+        table = self.DB.Tables['study_record']
+        your_score_list = self.DB.Session.query(table).filter(table.student==self.Login_User).all()
+        for your_score in your_score_list:
+            #print(your_score)
+            all_score_list = self.DB.Session.query(table).filter(table.class_record==your_score.class_record).order_by(table.score.desc()).all()
+            ranking = all_score_list.index(your_score) + 1
+            #ranking = type(all_score_list)
+            print(your_score,'班级排名：',ranking)
+
+
 
 
     def Choose_Student(self):
@@ -280,9 +324,8 @@ class View_Interface(object):
         type_table = self.DB.Tables['role_type']
         role_type = self.DB.Session.query(type_table).filter(type_table.name=='student')
         #student_list = self.DB.Session.query(table).filter(table.type==role_type)
+        choose_class = self.Sel_Class()
         while True:
-            choose_class = self.Sel_Class()
-            print(choose_class.course)
             if choose_class is None:
                 break
             else:
@@ -295,8 +338,31 @@ class View_Interface(object):
                     for course in student.student_courses:#查询个人课程列表
                         if course.course == choose_class.course:
                             your_student_list.append(student)
-                print(your_student_list)
-                break
+                #print(your_student_list)
+                count = 1
+                for your_student in your_student_list:
+                    print(count,'.',your_student.name,'QQ:',your_student.qq)
+                    count += 1
+                act = input('请选择学生(q退出)：')
+                #查询这个学生是否已选择
+                if act.isdigit() and int(act) > 0 and int(act) <= len(your_student_list):
+                    choose_student = your_student_list[int(act)-1]
+                    class_student_table = self.DB.Tables['class_students']
+                    in_class = self.DB.Session.query(class_student_table).filter(class_student_table.s_class==choose_class).filter(class_student_table.student==choose_student).all()
+                    if len(in_class) == 0:
+                        add_class_student = class_student_table(s_class=choose_class,student=choose_student)
+                        self.DB.Session.add(add_class_student)
+                        self.DB.Session.commit()
+                        print('添加学员【%s】成功，请继续选择！'%choose_student.name)
+                        continue
+                    else:
+                        print('学员【%s】已经在您班级里了，请选择其他人！'%choose_student.name)
+                        continue
+                elif act == 'q':
+                    break
+                else:
+                    print('选择错误！')
+                    continue
 
 
             
@@ -324,12 +390,24 @@ class View_Interface(object):
         table = self.DB.Tables['class_record']
         choose_class = self.Sel_Class()
         record_list = self.DB.Session.query(table).filter(table.s_class==choose_class).all()
-        new_day = record_list[-1].day + 1
+        if len(record_list) == 0:
+            new_day = 1
+        else:
+            new_day = record_list[-1].day + 1
         new_record = table(day=new_day,s_class=choose_class)
         self.DB.Session.add(new_record)
         self.DB.Session.commit()
         print('%s【第%d天】开始上课...'%(choose_class,new_day))
-        #为学员创建上课记录
+        #为学员创建上课记录in table study_record
+        table_students = self.DB.Tables['class_students']
+        your_students_list = self.DB.Session.query(table_students).filter(table_students.s_class==choose_class)
+        new_study_record = []
+        for your_student in your_students_list:
+            your_student_record = self.DB.Tables['study_record'](class_record=new_record,student=your_student.student)
+            new_study_record.append(your_student_record)
+        self.DB.Session.add_all(new_study_record)
+        self.DB.Session.commit()
+
         return True
 
 

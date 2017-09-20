@@ -129,6 +129,9 @@ class DB_Control(object):
             class_id = Column(Integer,ForeignKey('s_class.id'))
             s_class = relationship('S_Class',backref='record')
             #study_record = relationship('Study_Record',secondary=Study_Record,backref='course_record')
+            def __repr__(self):
+                res = '【开课记录】%s(第%d天)'%(self.s_class.name,self.day)
+                return res
 
         class Study_Record(Base):
             #对应教师开课的学习记录
@@ -141,9 +144,12 @@ class DB_Control(object):
             task_url = Column(String(40))
             score = Column(Integer,nullable=False,default=0)
             def __repr__(self):
-                res = '<study_record>%s in %s'%(self.student.name,self.class_record.s_class.name)
-                res += '第%d天'%self.class_record.day
-                res += '[%d分]'%self.score
+                res = '<study_record>%s在%s'%(self.student.name,self.class_record.s_class.name)
+                res += '#第%d天课程#'%self.class_record.day
+                if self.score == 0:
+                    res += '[作业未提交]'
+                else:
+                    res += '[%d分]' % self.score
                 return res
 
 

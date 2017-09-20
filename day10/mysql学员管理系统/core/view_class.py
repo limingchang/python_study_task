@@ -5,7 +5,7 @@ import sys, os
 path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, path)
 
-import hashlib
+import hashlib,webbrowser
 
 from core import sql_class
 
@@ -271,7 +271,6 @@ class View_Interface(object):
     def Submit_Homework(self):
         #提交作业
         table = self.DB.Tables['study_record']
-
         while True:
             empty_task_list = self.DB.Session.query(table).filter(table.student == self.Login_User).filter(table.task_url == None).all()
             if len(empty_task_list) == 0:
@@ -299,7 +298,75 @@ class View_Interface(object):
 
     def Homework_Correcting(self):
         #批改作业
-        pass
+        choose_class = self.Sel_Class()
+        table = self.DB.Tables['study_record']
+        while True:
+            #选择class_record
+            choose_class_record = self.Sel_Class_Record(choose_class)
+            study_record_list = self.DB.Session.query(table).filter(table.class_record==choose_class_record).all()
+            count = 1
+            submited_record_list = []
+            for study_record in study_record_list:
+                if study_record.task_url is not None:
+                    print(('%d.%s的作业'%(count,study_record.student.name)).center(50,'-'))
+                    #print((count,'.',study_record.student.name,'的作业')).center(50,'-')
+                    print('作业URL：',study_record.task_url)
+                    if study_record.score == 0:
+                        print('成绩：未评分')
+                    else:
+                        print('成绩：',study_record.score)
+                    submited_record_list.append(study_record)
+                    count += 1
+            act = input('请选择学员作业评分：')
+            if act.isdigit() and int(act) > 0 and int(act) <= len(submited_record_list):
+                print(('%s的作业'%submited_record_list[int(act)-1].student.name).center(50,'-'))
+                print('作业URL：',submited_record_list[int(act)-1].task_url)
+                self.Open_Homework(submited_record_list[int(act)-1].task_url)
+                if submited_record_list[int(act)-1].score == 0:
+                    print('成绩：未评分')
+                else:
+                    print('成绩：', submited_record_list[int(act)-1].score)
+                new_score = input('请复制URL并查看作业后评分：')
+                if new_score.isdigit() and int(new_score) > 1 and int(new_score) <= 100:
+                    submited_record_list[int(act)-1].score = int(new_score)
+                    self.DB.Session.commit()
+                else:
+                    print('成绩必须为整数且在1-100之间！')
+                continue
+            elif act == 'q':
+                break
+            else:
+                print('选择错误！')
+                continue
+
+    def Open_Homework(self,url):
+        #调用浏览器打开作业链接
+        webbrowser.open_new_tab(url)
+
+    def Sel_Class_Record(self,class_obj):
+        '''
+        选择班级上课记录
+        :param class_obj: 班级ORM
+        :return: 上课记录ORM
+        '''
+        choose = None
+        table = self.DB.Tables['class_record']
+        while True:
+            print('请选择上课记录继续操作'.center(50,'-'))
+            class_record_list = self.DB.Session.query(table).filter(table.s_class==class_obj).all()
+            count = 1
+            for class_record in class_record_list:
+                print(count,'.',class_record)
+                count += 1
+            act = input('请选择记录：')
+            if act.isdigit() and int(act) > 0 and int(act) <= len(class_record_list):
+                choose = class_record_list[int(act)-1]
+                break
+            else:
+                print('\033[1;31;1m选择错误！\033[0m')
+                continue
+        return choose
+
 
     def Show_Score(self):
         #查看成绩
@@ -307,10 +374,13 @@ class View_Interface(object):
         your_score_list = self.DB.Session.query(table).filter(table.student==self.Login_User).all()
         for your_score in your_score_list:
             #print(your_score)
-            all_score_list = self.DB.Session.query(table).filter(table.class_record==your_score.class_record).order_by(table.score.desc()).all()
-            ranking = all_score_list.index(your_score) + 1
-            #ranking = type(all_score_list)
-            print(your_score,'班级排名：',ranking)
+            if your_score.score == 0:
+                print(your_score)
+            else:
+                all_score_list = self.DB.Session.query(table).filter(table.class_record==your_score.class_record).order_by(table.score.desc()).all()
+                ranking = all_score_list.index(your_score) + 1
+                #ranking = type(all_score_list)
+                print(your_score,'班级排名：',ranking)
 
 
 
@@ -569,4 +639,5 @@ class View_Interface(object):
 
 
 if __name__ =='__main__':
-    view = View_Interface()
+    #view = View_Interface()
+    webbrowser.open_new_tab('www.baidu.com')

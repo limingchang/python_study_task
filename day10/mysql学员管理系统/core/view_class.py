@@ -639,5 +639,5 @@ class View_Interface(object):
 
 
 if __name__ =='__main__':
-    #view = View_Interface()
-    webbrowser.open_new_tab('www.baidu.com')
+    view = View_Interface()
+    #webbrowser.open_new_tab('https://github.com/limingchang/python_study_task/tree/master/day10')

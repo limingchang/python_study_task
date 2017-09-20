@@ -9,14 +9,16 @@ from sqlalchemy import Column,String,create_engine,Integer,ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker,relationship
 
-import configparser
+import configparser,hashlib
 
 
 class DB_Control(object):
     def __init__(self):
+        print('数据库连接中...')
         self.Get_Conf()
         #self.Conn()
         self.Tables = self.Table_Framework()
+        print('数据库链接成功。')
         self.Create_Default_Data()
 
     def Conn(self):
@@ -146,10 +148,12 @@ class DB_Control(object):
             def __repr__(self):
                 res = '<study_record>%s在%s'%(self.student.name,self.class_record.s_class.name)
                 res += '#第%d天课程#'%self.class_record.day
-                if self.score == 0:
+                if self.task_url == None:
                     res += '[作业未提交]'
+                elif self.score == 0:
+                    res += '[讲师未评分]'
                 else:
-                    res += '[%d分]' % self.score
+                    res += '[%d分]'%self.score
                 return res
 
 
@@ -179,6 +183,28 @@ class DB_Control(object):
             type3 = table(name='admin')
             self.Session.add_all([type1,type2,type3])
             self.Session.commit()
+            type_dict = {
+                'student':type1,
+                'teacher':type2,
+                'admin':type3
+            }
+        else:
+            type_dict = {}
+            for t in type_obj:
+                type_dict[t.name]=t
+        #添加默认管理员
+        table = self.Tables['user']
+        default_user_list = self.Session.query(table).all()
+        if len(default_user_list) == 0:
+            user_admin = table(name='admin',pwd=self.Create_Pwd('admin'),type=type_dict['admin'])
+            user_student = table(name='lmc',pwd=self.Create_Pwd('123'),type=type_dict['student'],qq='289959141',email='limich@aliyun.com')
+            user_teacher = table(name='sublime',pwd=self.Create_Pwd('123'),type=type_dict['teacher'])
+            self.Session.add_all([user_admin,user_student,user_teacher])
+            self.Session.commit()
+    
+    def Create_Pwd(self,pwd):
+        #md5密码
+        return hashlib.md5(pwd.encode("utf8")).hexdigest()
 
     def Fields(self,table_name):
         '''

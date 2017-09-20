@@ -22,6 +22,7 @@ class View_Interface(object):
     def Menu_For_Type(self):
         if self.Login_User is None:
             self.Login()
+            self.Menu_For_Type()
         else:
             role_type = self.Login_User.type.name
             menu_dict = {
@@ -103,7 +104,7 @@ class View_Interface(object):
         if self.Is_Login is False:
             print('未登录无权操作！')
             exit()
-        menu_list = ['1.创建学校','2.创建课程','3.用户XX']
+        menu_list = ['1.创建学校','2.创建课程']
         menu_dict = {
             '1.创建学校':self.Create_School,
             '2.创建课程':self.Create_Course,#关联教师
@@ -131,6 +132,7 @@ class View_Interface(object):
 
     def Login(self):
         while True:
+            print('用户登录'.center(50,'-'))
             username = input('用户名:')
             password = input('密  码:')
             password = self.Create_Pwd(password)
@@ -216,7 +218,6 @@ class View_Interface(object):
                     count += 1
             act = input('请选择：').strip()
             if act.isdigit() and int(act) <= len(type_list) and int(act) > 0:
-                #----判断管理员，只能由管理员创建
                 new_user.type = type_obj_dict[type_list[int(act)-1]]
                 break
             else:
@@ -303,6 +304,7 @@ class View_Interface(object):
         while True:
             #选择class_record
             choose_class_record = self.Sel_Class_Record(choose_class)
+            if choose_class_record is None:break
             study_record_list = self.DB.Session.query(table).filter(table.class_record==choose_class_record).all()
             count = 1
             submited_record_list = []
@@ -317,6 +319,9 @@ class View_Interface(object):
                         print('成绩：',study_record.score)
                     submited_record_list.append(study_record)
                     count += 1
+            if len(submited_record_list) == 0:
+                print('还没有学生提交作业')
+                break
             act = input('请选择学员作业评分：')
             if act.isdigit() and int(act) > 0 and int(act) <= len(submited_record_list):
                 print(('%s的作业'%submited_record_list[int(act)-1].student.name).center(50,'-'))
@@ -330,6 +335,7 @@ class View_Interface(object):
                 if new_score.isdigit() and int(new_score) > 1 and int(new_score) <= 100:
                     submited_record_list[int(act)-1].score = int(new_score)
                     self.DB.Session.commit()
+                    print('评分成功！')
                 else:
                     print('成绩必须为整数且在1-100之间！')
                 continue
@@ -358,9 +364,11 @@ class View_Interface(object):
             for class_record in class_record_list:
                 print(count,'.',class_record)
                 count += 1
-            act = input('请选择记录：')
+            act = input('请选择记录(q退出)：')
             if act.isdigit() and int(act) > 0 and int(act) <= len(class_record_list):
                 choose = class_record_list[int(act)-1]
+                break
+            elif act == 'q':
                 break
             else:
                 print('\033[1;31;1m选择错误！\033[0m')
@@ -372,15 +380,18 @@ class View_Interface(object):
         #查看成绩
         table = self.DB.Tables['study_record']
         your_score_list = self.DB.Session.query(table).filter(table.student==self.Login_User).all()
-        for your_score in your_score_list:
-            #print(your_score)
-            if your_score.score == 0:
-                print(your_score)
-            else:
-                all_score_list = self.DB.Session.query(table).filter(table.class_record==your_score.class_record).order_by(table.score.desc()).all()
-                ranking = all_score_list.index(your_score) + 1
-                #ranking = type(all_score_list)
-                print(your_score,'班级排名：',ranking)
+        if len(your_score_list) == 0:
+            print('您还没有作业记录，问问老师开课没有？')
+        else:
+            for your_score in your_score_list:
+                #print(your_score)
+                if your_score.score == 0:
+                    print(your_score)
+                else:
+                    all_score_list = self.DB.Session.query(table).filter(table.class_record==your_score.class_record).order_by(table.score.desc()).all()
+                    ranking = all_score_list.index(your_score) + 1
+                    #ranking = type(all_score_list)
+                    print(your_score,'班级排名：',ranking)
 
 
 
@@ -409,6 +420,9 @@ class View_Interface(object):
                         if course.course == choose_class.course:
                             your_student_list.append(student)
                 #print(your_student_list)
+                if len(your_student_list) == 0:
+                    print('看来您还没有魅力，还没有学员选择您的课程。。。')
+                    break
                 count = 1
                 for your_student in your_student_list:
                     print(count,'.',your_student.name,'QQ:',your_student.qq)
@@ -459,26 +473,31 @@ class View_Interface(object):
         #开始上课
         table = self.DB.Tables['class_record']
         choose_class = self.Sel_Class()
-        record_list = self.DB.Session.query(table).filter(table.s_class==choose_class).all()
-        if len(record_list) == 0:
-            new_day = 1
+        res = False
+        if choose_class is None:
+            print('您还没创建班级，请先创建。')
         else:
-            new_day = record_list[-1].day + 1
-        new_record = table(day=new_day,s_class=choose_class)
-        self.DB.Session.add(new_record)
-        self.DB.Session.commit()
-        print('%s【第%d天】开始上课...'%(choose_class,new_day))
-        #为学员创建上课记录in table study_record
-        table_students = self.DB.Tables['class_students']
-        your_students_list = self.DB.Session.query(table_students).filter(table_students.s_class==choose_class)
-        new_study_record = []
-        for your_student in your_students_list:
-            your_student_record = self.DB.Tables['study_record'](class_record=new_record,student=your_student.student)
-            new_study_record.append(your_student_record)
-        self.DB.Session.add_all(new_study_record)
-        self.DB.Session.commit()
+            record_list = self.DB.Session.query(table).filter(table.s_class==choose_class).all()
+            if len(record_list) == 0:
+                new_day = 1
+            else:
+                new_day = record_list[-1].day + 1
+            new_record = table(day=new_day,s_class=choose_class)
+            self.DB.Session.add(new_record)
+            self.DB.Session.commit()
+            print('%s【第%d天】开始上课...'%(choose_class,new_day))
+            #为学员创建上课记录in table study_record
+            table_students = self.DB.Tables['class_students']
+            your_students_list = self.DB.Session.query(table_students).filter(table_students.s_class==choose_class)
+            new_study_record = []
+            for your_student in your_students_list:
+                your_student_record = self.DB.Tables['study_record'](class_record=new_record,student=your_student.student)
+                new_study_record.append(your_student_record)
+            self.DB.Session.add_all(new_study_record)
+            self.DB.Session.commit()
+            res = True
 
-        return True
+        return res
 
 
 
@@ -552,7 +571,8 @@ class View_Interface(object):
                 break
             else:
                 print('学校[%s]已被创建，地址：%s'%(school_obj.name,school_obj.address))
-                continue   
+                continue
+        return new_school   
 
     def Create_Course(self):
         #创建课程
@@ -580,7 +600,7 @@ class View_Interface(object):
         school_list_obj = self.DB.Session.query(school_table).all()
         if len(school_list_obj) == 0:
             print('学校列表为空，不能为课程关联学校，请先创建！')
-            self.Create_School()
+            choose = self.Create_School()
         else:
             while True:
                 print('选择学校'.center(50,'-'))

@@ -2,6 +2,9 @@
 	margin:0;
 	overflow:scroll;
 }
+a{
+    text-decoration:none;
+}
 .pg-head{
 	margin:0 auto;
 	/*width:980px;*/
@@ -11,6 +14,10 @@
 	height:28px;
 	background-color:#EEB4B4;
 	overflow:hidden;
+	position:fixed;
+	top:0;
+	left:0;
+	right:0;
 }
 .top-bar{
 	width:980px;
@@ -42,28 +49,109 @@ table{
 .head-logo{
 	width:980px;
 	margin:0 auto;
+	margin-top:28px;
+	height:135px;
+	line-height:135px;
 	/*height:520px;,.logo-bar*/
 }
 .logo{
 	float:left;
+	height:100%;
+	width:21%;
 }
 .logo a img{
-	width:300px;
+	height:135px;
+	border:0px;
+}
+.space{
+    width:15%;
+    height:100%;
+    float:left;
 }
 .search-bar{
-	margin:auto;
-	float:right;
+    margin:0;
+    padding:0;
+    height:100%;
+    width:44%;
+    font-size:0px;/*清除两个ipput间距（父级元素设置字体大小0）*/
+    text-align:center;
+    line-height:0px;
+	/*margin:auto;*/
+	position:relative;
+	float:left;
+}
+.search-div{
+    height:28px;
+    width:100%;
+}
+.search-div input{
+    margin:0;
+    padding:0;
+    border:1px solid #dddddd;
+}
+
+#search{
+    margin:auto;
+    height:26px;
+    border-right:0px;
+    width:70%;
+}
+#search-btn{
+    height:28px;
+    width:10%;
+    background-color:#F5F5F5;
+}
+.tips{
+    position:absolute;
+    top:80px;
+    width:80%;
+    height:30px;
+    color:#DCDCDC;
+    line-height:30px;
+    text-align:left;
+    font-size:16px;
+
+}
+.tips span,a{
+    text-size:18px;
+    width:30px;
 }
 .shopping-car{
+    width:19%;
+    height:100%;
 	float:right;
-	position: relative;
+
 }
-#triangle-down {
+.v-center{
+    /*子元素垂直居中*/
+    display:flex;
+	justify-content:center;
+	align-items:center;
+}
+
+.shopping-bar{
+    width:98%;
+    height:26px;
+    line-height:26px;
+    text-align:center;
+    border:1px solid #dddddd;
+    background-color:#F5F5F5;
+}
+.count{
+    color:red;
+}
+.triangle-down {
     width: 0;
     height: 0;
-    border-left: 50px solid transparent;
-    border-right: 50px solid transparent;
-    border-top: 100px solid red;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 10px solid red;
+}
+.pg-content{
+    height:900px;
+}
+.menu-bar{
+    height:1000px;
 }
 
 

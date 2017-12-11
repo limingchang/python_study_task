@@ -1,6 +1,7 @@
 ﻿body{
 	margin:0;
 	overflow:scroll;
+	background-color:#F5F5F5;
 }
 a{
     text-decoration:none;
@@ -12,8 +13,9 @@ a{
 }
 .head-top{
 	height:28px;
+	z-index:9;
 	background-color:#EEB4B4;
-	overflow:hidden;
+	/*overflow:hidden;*/
 	position:fixed;
 	top:0;
 	left:0;
@@ -140,18 +142,409 @@ table{
 .count{
     color:red;
 }
-.triangle-down {
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 10px solid red;
-}
+
 .pg-content{
-    height:900px;
+
+    position:relative;
+    left:0;
+    right:0;
+
 }
 .menu-bar{
-    height:1000px;
+    height:38px;
+    width:100%;
+    position:absolute;
+    left:0;
+    right0;
+    top:0;
+    background-color:#FF69B4;
+    float:left;
+}
+.menu-div{
+    z-index:8;
+    margin:0 auto;
+    height:38px;
+    width:980px;
+    color:white;
+    position:relative;
+}
+.hot{
+    /*position:absolute;
+    top:-8px;
+    left:68%;*/
+    width:3%;
+    margin-left:-8%;
+    margin-top:-8px;
+    float:left;
+    height:15px;
+    background-color:#FF8C00;
+    font-size:12px;
+    text-align:center;
+    line-height:15px;
+    border-radius:5px;
+    position:relative;
+    z-index:9;
+}
+.hot div{
+    position:absolute;
+    top:0;
+    left:3px;
+}
+.hot:after{
+    content: "";
+    width:0;
+    height:0;
+    position:absolute;
+    top:15px;
+    left:5px;
+    border:3px solid transparent;
+    border-top-color:#FF8C00;
+}
+.menu-div dl{
+
+    width:15%;
+    display:inline-block;
+    float:left;
+
+}
+.menu-div dl dt{
+    text-align:center;
+    height:32px;
+    margin-top:-10px;
+}
+.menu-div dl dd{
+    width:100%;
+    border:1px solid #dddddd;
+    border-top:0px;
+    display:inline;
+    margin-left:0;
+    float:left;
+}
+.menu-div dl dd div{
+    width:100%;
+    color:#000000;
+}
+.menu-div dl dd span{
+    width:30%;
+    margin:0 5px;
+    color:#DCDCDC;
+    font-size:12px;
 }
 
+.menu-div ul{
+    margin:0;
+    padding:0;
+    display:inline-block;
+    float:left;
+    height:38px;
+    line-height:38px;
+    width:60%;
+}
+.menu-div ul li{
+    width:15%;
+    text-align:center;
+    display:inline-block;
+}
+.menu-div ul li[name='index']{
+    background-color:#FF1493;
+}
 
+.menu-div ul li:hover{
+    background-color:#FF1493;
+}
+.right-menu-bar{
+    float:right;
+    width:19%;
+    height:38px;
+    background-color:#FF1493;
+}
+.right-menu-bar ul{
+    display:inline-block;
+    width:100%;
+    text-align:center;
+}
+.right-menu-bar ul li{
+    display:inline-block;
+    width:30%;
+    text-align:center;
+}
+.product{
+    width:980px;
+    height:1100px;
+    margin:0 auto;
+    position:absolute;
+    top:38px;
+    position:relative;
+}
+.product-title{
+    float:left;
+    height:48px;
+    width:84%;
+    position:absolute;
+    left:16%;
+    top:0;
+}
+.product-title ul{
+    display:inline-block;
+    width:100%;
+    padding:0;
+    padding-left:20px;
+}
+.product-title ul li{
+    display:inline-block;
+}
+.product-list{
+    float:left;
+    /*height:200px;*/
+    width:84%;
+    position:absolute;
+    left:16%;
+    top:48px;
+    border-top:3px solid #FF34B3;
+}
+.product-list dl{
+    width:100%;
+    margin:0;
+    line-height:48px;
+    position:relative;
+}
+.product-list dl dt,.product-list dl dd{
+    display:inline-block;
+    width:97%;
+    height:48px;
+    padding:0 20px;
+    padding-right:0px;
+    margin:0;
+    border:1px solid #dddddd;
+    border-top:0px;
+}
+
+.product-list dl dt div{
+    display:inline-block;
+
+
+}
+.product-list dl dd div{
+    display:inline-block;
+    margin-left:40px;
+}
+.product-list dl dt a{
+    margin:0 10px;
+    font-size:13px;
+    color:#CDC1C5;
+
+}
+.product-list dl dd a{
+    margin:0 10px;
+    font-size:13px;
+    color:#CDC1C5;
+}
+.product-list dl:after{
+    content:"更多选项";
+    position:absolute;
+    top:195px;
+    left:50%;
+    width:90px;
+    height:18px;
+    margin-left:-45px;
+    padding-left:10px;
+    font-size:12px;
+    line-height:18px;
+    border-radius:0 0 5px 5px;
+    border:1px solid #dddddd;
+    border-top:1px solid #F0FFFF;
+}
+.product-show{
+    float:left;
+    width:84%;
+    position:absolute;
+    left:16%;
+    top:270px;
+}
+.product-show-title{
+    float:left;
+    height:38px;
+    width:100%;
+    border:1px solid #dddddd;
+    line-height:38px;
+}
+.title-left{
+    float:left;
+    margin-left:10px;
+}
+.title-left span{
+    margin-right:10px;
+}
+.title-left a{
+    margin:0 10px;
+}
+.title-right{
+    float:right;
+    margin-right:10px;
+}
+.t-btn{
+    border:1px solid #dddddd;
+    border-radius:5px;
+    background-color:white;
+    text-align:center;
+}
+.product-div{
+    float:left;
+    width:22%;
+    margin:5px 5px;
+    padding:5px 5px;;
+    padding-top:0;
+    border:1px solid red;
+
+}
+.product-img{
+    background-color:black;
+    width:98%;
+    margin:0 auto;
+    padding:0;
+    height:150px;
+}
+.product-name{
+    float:left;
+    width:98%;
+    height:34px;
+    text-align:center;
+    line-height:34px;
+}
+.price{
+    float:left;
+    width:98%;
+    height:28px;
+    margin:auto;
+    line-height:28px;
+    margin-bottom:10px;
+}
+.p-count{
+
+    margin:0 auto;
+    width:50%;
+    height:22px;
+    text-align:center;
+    display:inline-block;
+    font-size:0;
+    text-align:right;
+}
+
+.p-count input{
+    display:inline-block;
+    height:22px;
+    width:20%;
+    border:1px solid #dddddd;
+    padding:0;
+    background-color:white;
+}
+.p-count input[type='text']{
+    width:30%;
+    height:20px;
+}
+.p-price{
+    width:35%;
+    margin-top:4px;
+    height:22px;
+    text-align:right;
+    color:red;
+    float:left;
+}
+.p-btn{
+    float:right;
+    background-color:red;
+    border:0;
+    margin-top:5px;
+}
+.pg-footer{
+    margin:0 auto;
+    width:100%;
+    height:200px;
+    border-top:1px solid #dddddd;
+    background-color:#DCDCDC;
+}
+.span-red{
+    color:red;
+}
+.tel{
+    margin-left:20px;
+    width:18%;
+    float:left;
+    height:80%;
+    text-align:left;
+    padding-left:30px;
+    padding-top:30px;
+}
+
+.tel-text1{
+    width:80%;
+    color:#696969;
+    height:28px;
+    font-size:18px;
+    line-height:28px;
+}
+.tel-text2{
+    width:80%;
+    color:#696969;
+    height:54px;
+    font-size:14px;
+
+}
+.number{
+    font-size:28px;
+    height:38px;
+    color:red;
+}
+.tel-link{
+    margin-top:15px;
+    height:28px;
+    width:80%;
+    color:#00BFFF;
+    font-size:14px;
+    text-align:center;
+}
+.tel-link a:link{
+    color:#00BFFF;
+}
+.text-link a:visited{
+    color:#00BFFF;
+}
+.about{
+    width:55%;
+    float:left;
+}
+.about dl{
+    display:inline-block;
+    float:left;
+    height:100%;
+    width:15%;
+    margin-left:10px;
+    padding-left:20px;
+    border-right:1px inset #ccc;
+
+}
+.about dl dt{
+    font-weight:900;
+}
+.about dl dd{
+    margin:0;
+    font-size:12px;
+    margin-top:8px;
+    color:#696969;
+}
+.qrcode{
+    margin-top:10px;
+    margin-left:20px;
+    width:18%;
+    float:left;
+    text-align:center;
+}
+.qrcode div{
+    padding-top:5px;
+    font-size:12px;
+    width:100%;
+    margin:0 auto;
+}
+.qrcode div img{
+    width:50%;
+}

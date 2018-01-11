@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+    <meta charset="UTF-8">
+    <title>某东商城</title>
+    <link rel="stylesheet" href="css/index.css" />
+</head>
+<body onload="img_load();">
+    <div class="top-bar">
+        <div class="top-menu">
+            <div class="provence">
+                <div style="list-style-type:none;">
+                    <div class="dropdown">云南</div>
+                    <div class="dropdown-content">
+                        <div class="p-items">
+                            <div class="p-item">北京</div>
+                            <div class="p-item">四川</div>
+                            <div class="p-item">四川</div>
+                            <div class="p-item">四川</div>
+                            <div class="p-item">河南</div>
+                            <div class="p-item">四川</div>
+                            <div class="p-item">四川</div>
+                            <div class="p-item">四川</div>
+                            <div class="p-item">贵州</div>
+                            <div class="p-item">四川</div>
+                            <div class="p-item">四川</div>
+                            <div class="p-item">青海</div>
+                            <div class="p-item">海南</div>
+                            <div class="p-item">广东</div>
+                            <div style="clear:both"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="u-menu">
+                <ul style="list-style-type:none">
+                    <li class="u-item"><a class="link-menu red" href="#">您好，请登录</a>&nbsp;&nbsp;<a class="link-menu">免费注册</a></li>
+                    <li class="spacer"></li>
+                    <li class="u-item"><a class="link-menu">我的订单</a></li>
+                    <li class="spacer"></li>
+                    <li class="u-item dropdown"><a class="link-menu">我的京东&#957;</a>
+                        <div class="dropdown-my">
+                            <div class="my-items">
+                                <div class="my-item"><a class="link-menu">待处理订单</a></div>
+                                <div class="my-item"><a class="link-menu">消息</a></div>
+                                <div class="my-item"><a class="link-menu">返修退换货</a></div>
+                                <div class="my-item"><a class="link-menu">我的问答</a></div>
+                                <div class="my-item"><a class="link-menu">降价商品</a></div>
+                                <div class="my-item"><a class="link-menu">我的关注</a></div>
+                                <div class="line-space"></div>
+                                <div class="my-item"><a class="link-menu">我的京豆</a></div>
+                                <div class="my-item"><a class="link-menu">我的优惠券</a></div>
+                                <div class="my-item"><a class="link-menu">京东白条</a></div>
+                                <div class="my-item"><a class="link-menu">我的理财</a></div>
+                                <div style="clear:both"></div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="spacer"></li>
+                    <li class="u-item"><a class="link-menu">京东会员</a></li>
+                    <li class="spacer"></li>
+                    <li class="u-item"><a class="link-menu">企业采购</a></li>
+                    <li class="spacer"></li>
+                    <li class="u-item dropdown"><a class="link-menu">客服服务&#957;</a>
+                        <div class="dropdown-server">
+                            <div class="s-menu1">
+                                <div class="tit">客户</div>
+                                <div class="s-item">帮助中心</div>
+                                <div class="s-item">售后服务</div>
+                                <div class="s-item">在线客服</div>
+                                <div class="s-item">意见建议</div>
+                                <div class="s-item">电话客服</div>
+                                <div class="s-item">客服邮箱</div>
+                                <div class="s-item">金融咨询</div>
+                                <div class="s-item">售全球客服</div>
+                                <div style="clear:both"></div>
+                            </div>
+                            <div class="s-menu2">
+                                <div class="tit">商户</div>
+                                <div class="s-item">合作招商</div>
+                                <div class="s-item">学习中心</div>
+                                <div class="s-item">商家后台</div>
+                                <div class="s-item">京麦工作台</div>
+                                <div class="s-item">商家帮助</div>
+                                <div class="s-item">规则平台</div>
+                                <div style="clear:both"></div>
+                            </div>
+                            <div style="clear:both"></div>
+                        </div>
+                    </li>
+                    <li class="spacer"></li>
+                    <li class="u-item"><a class="link-menu">网站导航&#957;</a></li>
+                    <li class="spacer"></li>
+                    <li class="u-item"><a class="link-menu">手机京东</a></li>
+                    <li style="clear:both"></li>
+                </ul>
+            </div>
+            <div style="clear:both"></div>
+        </div>
+    </div>
+    <div class="header">
+        <div class="logo">
+            <a href="www.jd.com"><img class="img-logo" src="image/logo.png"></a>
+        </div>
+        <div class="search">
+            <div class="s-form">
+                <input class="text" type="text">
+                <button class="s-btn"></button>
+                <div class="photo"></div>
+            </div>
+        </div>
+        <div class="shopping-car">
+            <div class="red">我的购物车</div>
+            <div class="shopping-list">
+                <div> 购物车中还没有商品，赶紧选购吧！</div>
+            </div>
+            <div class="line-block"></div>
+        </div>
+        <div class="hotkeys">
+            <a class="red" href="#">白条免息</a>
+            <a class="grey" href="#">听她说数码</a>
+            <a class="grey" href="#">1元养殖</a>
+            <a class="grey" href="#">箱包大促</a>
+            <a class="grey" href="#">高端家电</a>
+            <a class="grey" href="#">打印纸</a>
+        </div>
+        <div class="baritems">
+            <ul class="bargrop">
+                <li class="bar-item">秒杀</li>
+                <li class="bar-item">优惠券</li>
+                <li class="bar-item tips">
+                    <div>PLUS会员</div>
+                    <div class="new">NEW</div>
+                </li>
+                <li class="bar-item">闪购</li>
+                <li class="b-spacer"></li>
+                <li class="spacer"></li>
+                <li class="bar-item">拍卖</li>
+                <li class="bar-item">京东服饰</li>
+                <li class="bar-item">京东超市</li>
+                <li class="bar-item">生鲜</li>
+                <li class="b-spacer"></li>
+                <li class="spacer"></li>
+                <li class="bar-item">全球购</li>
+                <li class="bar-item">京东金融</li>
+            </ul>
+        </div>
+    </div>
+    <div class="content">
+        <div class="left-menu">
+            <ul class="l-grop">
+                <li class="l-item" target-data="group1" onmouseover="mOver(this);">家用电器</li>
+                <li class="l-item" target-data="group2" onmouseover="mOver(this);">手机&frasl;运营商&frasl;数码</li>
+                <li class="l-item" target-data="group3" onmouseover="mOver(this);">电脑&frasl;办公</li>
+                <li class="l-item" target-data="group4" onmouseover="mOver(this);">家居&frasl;家具&frasl;家厨&frasl;厨具</li>
+                <li class="l-item" target-data="group5" onmouseover="mOver(this);">男装&frasl;女装&frasl;童装&frasl;内衣</li>
+                <li class="l-item" target-data="group6" onmouseover="mOver(this);">美妆个护&frasl;宠物</li>
+                <li class="l-item" target-data="group7" onmouseover="mOver(this);">女鞋&frasl;箱包&frasl;钟表&frasl;珠宝</li>
+                <li class="l-item" target-data="group8" onmouseover="mOver(this);">男鞋&frasl;运动&frasl;户外</li>
+                <li class="l-item">母婴&frasl;玩具乐器</li>
+                <li class="l-item">食品&frasl;酒类&frasl;生鲜&frasl;特产</li>
+                <li class="l-item">艺术&frasl;礼品鲜花&frasl;农资绿植</li>
+                <li class="l-item">医药保健&frasl;计生情趣</li>
+                <li class="l-item">图书&frasl;音像&frasl;电子书</li>
+                <li class="l-item">机票&frasl;酒店&frasl;旅游&frasl;生活</li>
+                <li class="l-item">理财&frasl;众筹&frasl;白条&frasl;保险</li>
+            </ul>
+        </div>
+        <div class="leftout-group" id="group1">
+            <div class="group-fix">
+                <div class="group-channel">
+                    <a class="channel-lk" href="#">家电馆&gt;</a>
+                    <a class="channel-lk" href="#">乡镇专卖店&gt;</a>
+                    <a class="channel-lk" href="#">家电服务&gt;</a>
+                    <a class="channel-lk" href="#">家电企业购&gt;</a>
+                    <a class="channel-lk" href="#">家用电器&gt;</a>
+                </div>
+                <div class="group-items">
+                    <dl class="g-items1">
+                        <dt class="g-items-tit">电视&gt;</dt>
+                        <dd class="g-item">
+                            <a class="g-item-lk" href="">曲面电视</a>
+                            <a class="g-item-lk" href="">超薄电视</a>
+                            <a class="g-item-lk" href="">HDR电视</a>
+                            <a class="g-item-lk" href="">OLED电视</a>
+                            <a class="g-item-lk" href="">4K超清电视</a>
+                            <a class="g-item-lk" href="">人工智能电视</a>
+                            <a class="g-item-lk" href="">55英寸</a>
+                            <a class="g-item-lk" href="">65英寸</a>
+                            <a class="g-item-lk" href="">电视配件</a>
+                            <a style="clear:both"></a>
+                        </dd>
+                    </dl>
+                    <dl class="g-items1">
+                        <dt class="g-items-tit">空调&gt;</dt>
+                        <dd class="g-item">
+                            <a class="g-item-lk" href="">壁挂式空调</a>
+                            <a class="g-item-lk" href="">柜式空调</a>
+                            <a class="g-item-lk" href="">中央空调</a>
+                            <a class="g-item-lk" href="">以旧换新</a>
+                            <a class="g-item-lk" href="">空调配件</a>
+                            <a style="clear:both"></a>
+                        </dd>
+                    </dl>
+                    <dl class="g-items1">
+                        <dt class="g-items-tit">洗衣机&gt;</dt>
+                        <dd class="g-item">
+                            <a class="g-item-lk" href="">滚筒式洗衣机</a>
+                            <a class="g-item-lk" href="">洗烘一体机</a>
+                            <a class="g-item-lk" href="">波轮洗衣机</a>
+                            <a class="g-item-lk" href="">迷你洗衣机</a>
+                            <a class="g-item-lk" href="">烘干机</a>
+                            <a class="g-item-lk" href="">洗衣机配件</a>
+                            <a style="clear:both"></a>
+                        </dd>
+                    </dl>
+                    <dl class="g-items1">
+                        <dt class="g-items-tit">冰箱&gt;</dt>
+                        <dd class="g-item">
+                            <a class="g-item-lk" href="">多门</a>
+                            <a class="g-item-lk" href="">对开门</a>
+                            <a class="g-item-lk" href="">三门</a>
+                            <a class="g-item-lk" href="">双门</a>
+                            <a class="g-item-lk" href="">冷柜&frasl;冰柜</a>
+                            <a class="g-item-lk" href="">酒柜</a>
+                            <a class="g-item-lk" href="">冰箱配件</a>
+                            <a style="clear:both"></a>
+                        </dd>
+                    </dl>
+                    <dl class="g-items1">
+                        <dt class="g-items-tit">厨卫大电&gt;</dt>
+                        <dd class="g-item">
+                            <a class="g-item-lk" href="">油烟机</a>
+                            <a class="g-item-lk" href="">燃气灶</a>
+                            <a class="g-item-lk" href="">烟灶套装</a>
+                            <a class="g-item-lk" href="">消毒柜</a>
+                            <a class="g-item-lk" href="">洗碗机</a>
+                            <a class="g-item-lk" href="">电热水器</a>
+                            <a class="g-item-lk" href="">燃气热水器</a>
+                            <a class="g-item-lk" href="">嵌入式厨电</a>
+                            <a class="g-item-lk" href="">商用厨房电器</a>
+                            <a style="clear:both"></a>
+                        </dd>
+                    </dl>
+                    <dl class="g-items1">
+                        <dt class="g-items-tit">厨房小电&gt;</dt>
+                        <dd class="g-item">
+                            <a class="g-item-lk" href="">电饭煲</a>
+                            <a class="g-item-lk" href="">微波炉</a>
+                            <a class="g-item-lk" href="">电烤箱</a>
+                            <a class="g-item-lk" href="">电磁炉</a>
+                            <a class="g-item-lk" href="">电压力锅</a>
+                            <a class="g-item-lk" href="">空气炸锅</a>
+                            <a class="g-item-lk" href="">豆浆机</a>
+                            <a class="g-item-lk" href="">咖啡机</a>
+                            <a class="g-item-lk" href="">面包机</a>
+                            <a class="g-item-lk" href="">榨汁机/原汁机</a>
+                            <a class="g-item-lk" href="">电饼铛</a>
+                            <a class="g-item-lk" href="">养生壶/煎药壶</a>
+                            <a class="g-item-lk" href="">酸奶机</a>
+                            <a class="g-item-lk" href="">煮蛋器</a>
+                            <a class="g-item-lk" href="">面条机</a>
+                            <a class="g-item-lk" href="">电水壶/热水瓶</a>
+                            <a class="g-item-lk" href="">电炖锅</a>
+                            <a class="g-item-lk" href="">多用途锅</a>
+                            <a class="g-item-lk" href="">电烧烤炉</a>
+                            <a class="g-item-lk" href="">电热饭盒</a>
+                            <a class="g-item-lk" href="">其它厨房电器</a>
+                            <a style="clear:both"></a>
+                        </dd>
+                    </dl>
+                    <dl class="g-items1">
+                        <dt class="g-items-tit">生活电器&gt;</dt>
+                        <dd class="g-item">
+                            <a class="g-item-lk" href="">取暖电器</a>
+                            <a class="g-item-lk" href="">吸尘器/除螨仪</a>
+                            <a class="g-item-lk" href="">空气净化器</a>
+                            <a class="g-item-lk" href="">扫地机器人</a>
+                            <a class="g-item-lk" href="">加湿器</a>
+                            <a class="g-item-lk" href="">挂烫机/熨斗</a>
+                            <a class="g-item-lk" href="">电话机</a>
+                            <a class="g-item-lk" href="">插座</a>
+                            <a class="g-item-lk" href="">电风扇</a>
+                            <a class="g-item-lk" href="">冷风扇</a>
+                            <a class="g-item-lk" href="">净水器</a>
+                            <a class="g-item-lk" href="">饮水机</a>
+                            <a class="g-item-lk" href="">除湿机</a>
+                            <a class="g-item-lk" href="">干衣机</a>
+                            <a class="g-item-lk" href="">清洁机</a>
+                            <a class="g-item-lk" href="">收录/音机</a>
+                            <a class="g-item-lk" href="">毛球修剪器</a>
+                            <a class="g-item-lk" href="">其它生活电器</a>
+                            <a class="g-item-lk" href="">生活电器配件</a>
+                            <a style="clear:both"></a>
+                        </dd>
+                    </dl>
+                    <dl class="g-items1">
+                        <dt class="g-items-tit">个护健康&gt;</dt>
+                        <dd class="g-item">
+                            <a class="g-item-lk" href="">剃须刀</a>
+                            <a class="g-item-lk" href="">口腔护理</a>
+                            <a class="g-item-lk" href="">电吹风</a>
+                            <a class="g-item-lk" href="">美容器</a>
+                            <a class="g-item-lk" href="">洁面仪</a>
+                            <a class="g-item-lk" href="">卷/直发器理发器</a>
+                            <a class="g-item-lk" href="">剃/脱毛器</a>
+                            <a class="g-item-lk" href="">足浴盆</a>
+                            <a class="g-item-lk" href="">健康秤/厨房秤</a>
+                            <a class="g-item-lk" href="">按摩器</a>
+                            <a class="g-item-lk" href="">足疗机</a>
+                            <a class="g-item-lk" href="">按摩椅</a>
+                            <a class="g-item-lk" href="">其它健康电器</a>
+                            <a style="clear:both"></a>
+                        </dd>
+                    </dl>
+                    <dl class="g-items1">
+                        <dt class="g-items-tit">家庭影音&gt;</dt>
+                        <dd class="g-item">
+                            <a class="g-item-lk" href="">家庭影院</a>
+                            <a class="g-item-lk" href="">迷你音响</a>
+                            <a class="g-item-lk" href="">DVD</a>
+                            <a class="g-item-lk" href="">功放</a>
+                            <a class="g-item-lk" href="">回音壁</a>
+                            <a class="g-item-lk" href="">影音配件</a>
+                            <a style="clear:both"></a>
+                        </dd>
+                    </dl>
+                    <dl class="g-items1">
+                        <dt class="g-items-tit">进口电器&gt;</dt>
+                        <dd class="g-item">
+                            <a class="g-item-lk" href="">进口电器</a>
+                            <a style="clear:both"></a>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="group-fix2">
+                <div class="brand-list">
+                    <a class="brand-lk" href="#">
+                        <img src="image/midea.jpg">
+                    </a>
+                    <a class="brand-lk" href="#">
+                        <img src="image/robam.jpg">
+                    </a>
+                    <a class="brand-lk" href="#">
+                        <img src="image/siemens.jpg">
+                    </a>
+                    <a class="brand-lk" href="#">
+                        <img src="image/haier.jpg">
+                    </a>
+                    <a class="brand-lk" href="#">
+                        <img src="image/haier.jpg">
+                    </a>
+                    <a class="brand-lk" href="#">
+                        <img src="image/haier.jpg">
+                    </a>
+                </div>
+                <div class="promotion">
+                    <a class="promotion-lk">
+                        <img src="image/2.jpg">
+                    </a>
+                    <a class="promotion-lk">
+                        <img src="image/3.jpg">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="leftout-group" id="group2">
+            <div class="group-fix">
+                <div class="group-channel">
+                    <a class="channel-lk" href="#">玩3C&gt;</a>
+                    <a class="channel-lk" href="#">手机频道&gt;</a>
+                    <a class="channel-lk" href="#">网上营业厅&gt;</a>
+                    <a class="channel-lk" href="#">配件选送中心&gt;</a>
+                    <a class="channel-lk" href="#">企业购&gt;</a>
+                    <a class="channel-lk" href="#">以旧换新&gt;</a>
+                </div>
+                <div class="group-items">
+                    <dl class="g-items1">
+                        <dt class="g-items-tit">手机通讯&gt;</dt>
+                        <dd class="g-item">
+                            <a class="g-item-lk" href="">手机</a>
+                            <a class="g-item-lk" href="">对讲机</a>
+                            <a class="g-item-lk" href="">以旧换新</a>
+                            <a class="g-item-lk" href="">手机维修</a>
+                            <a style="clear:both"></a>
+                        </dd>
+                    </dl>
+                    <dl class="g-items1">
+                        <dt class="g-items-tit">运营商&gt;</dt>
+                        <dd class="g-item">
+                            <a class="g-item-lk" href="">合约机</a>
+                            <a class="g-item-lk" href="">选号码</a>
+                            <a class="g-item-lk" href="">固话宽带</a>
+                            <a class="g-item-lk" href="">办套餐</a>
+                            <a class="g-item-lk" href="">充话费/流量</a>
+                            <a class="g-item-lk" href="">中国电信</a>
+                            <a class="g-item-lk" href="">中国移动</a>
+                            <a class="g-item-lk" href="">中国联通</a>
+                            <a class="g-item-lk" href="">京东通信</a>
+                            <a class="g-item-lk" href="">170选号</a>
+                            <a style="clear:both"></a>
+                        </dd>
+                    </dl>
+                    <dl class="g-items1">
+                        <dt class="g-items-tit">洗衣机&gt;</dt>
+                        <dd class="g-item">
+                            <a class="g-item-lk" href="">滚筒式洗衣机</a>
+                            <a class="g-item-lk" href="">洗烘一体机</a>
+                            <a class="g-item-lk" href="">波轮洗衣机</a>
+                            <a class="g-item-lk" href="">迷你洗衣机</a>
+                            <a class="g-item-lk" href="">烘干机</a>
+                            <a class="g-item-lk" href="">洗衣机配件</a>
+                            <a style="clear:both"></a>
+                        </dd>
+                    </dl>
+                    <dl class="g-items1">
+                        <dt class="g-items-tit">冰箱&gt;</dt>
+                        <dd class="g-item">
+                            <a class="g-item-lk" href="">多门</a>
+                            <a class="g-item-lk" href="">对开门</a>
+                            <a class="g-item-lk" href="">三门</a>
+                            <a class="g-item-lk" href="">双门</a>
+                            <a class="g-item-lk" href="">冷柜&frasl;冰柜</a>
+                            <a class="g-item-lk" href="">酒柜</a>
+                            <a class="g-item-lk" href="">冰箱配件</a>
+                            <a style="clear:both"></a>
+                        </dd>
+                    </dl>
+                    <dl class="g-items1">
+                        <dt class="g-items-tit">厨卫大电&gt;</dt>
+                        <dd class="g-item">
+                            <a class="g-item-lk" href="">油烟机</a>
+                            <a class="g-item-lk" href="">燃气灶</a>
+                            <a class="g-item-lk" href="">烟灶套装</a>
+                            <a class="g-item-lk" href="">消毒柜</a>
+                            <a class="g-item-lk" href="">洗碗机</a>
+                            <a class="g-item-lk" href="">电热水器</a>
+                            <a class="g-item-lk" href="">燃气热水器</a>
+                            <a class="g-item-lk" href="">嵌入式厨电</a>
+                            <a class="g-item-lk" href="">商用厨房电器</a>
+                            <a style="clear:both"></a>
+                        </dd>
+                    </dl>
+                    <dl class="g-items1">
+                        <dt class="g-items-tit">厨房小电&gt;</dt>
+                        <dd class="g-item">
+                            <a class="g-item-lk" href="">电饭煲</a>
+                            <a class="g-item-lk" href="">微波炉</a>
+                            <a class="g-item-lk" href="">电烤箱</a>
+                            <a class="g-item-lk" href="">电磁炉</a>
+                            <a class="g-item-lk" href="">电压力锅</a>
+                            <a class="g-item-lk" href="">空气炸锅</a>
+                            <a class="g-item-lk" href="">豆浆机</a>
+                            <a class="g-item-lk" href="">咖啡机</a>
+                            <a class="g-item-lk" href="">面包机</a>
+                            <a class="g-item-lk" href="">榨汁机/原汁机</a>
+                            <a class="g-item-lk" href="">电饼铛</a>
+                            <a class="g-item-lk" href="">养生壶/煎药壶</a>
+                            <a class="g-item-lk" href="">酸奶机</a>
+                            <a class="g-item-lk" href="">煮蛋器</a>
+                            <a class="g-item-lk" href="">面条机</a>
+                            <a class="g-item-lk" href="">电水壶/热水瓶</a>
+                            <a class="g-item-lk" href="">电炖锅</a>
+                            <a class="g-item-lk" href="">多用途锅</a>
+                            <a class="g-item-lk" href="">电烧烤炉</a>
+                            <a class="g-item-lk" href="">电热饭盒</a>
+                            <a class="g-item-lk" href="">其它厨房电器</a>
+                            <a style="clear:both"></a>
+                        </dd>
+                    </dl>
+                    <dl class="g-items1">
+                        <dt class="g-items-tit">生活电器&gt;</dt>
+                        <dd class="g-item">
+                            <a class="g-item-lk" href="">取暖电器</a>
+                            <a class="g-item-lk" href="">吸尘器/除螨仪</a>
+                            <a class="g-item-lk" href="">空气净化器</a>
+                            <a class="g-item-lk" href="">扫地机器人</a>
+                            <a class="g-item-lk" href="">加湿器</a>
+                            <a class="g-item-lk" href="">挂烫机/熨斗</a>
+                            <a class="g-item-lk" href="">电话机</a>
+                            <a class="g-item-lk" href="">插座</a>
+                            <a class="g-item-lk" href="">电风扇</a>
+                            <a class="g-item-lk" href="">冷风扇</a>
+                            <a class="g-item-lk" href="">净水器</a>
+                            <a class="g-item-lk" href="">饮水机</a>
+                            <a class="g-item-lk" href="">除湿机</a>
+                            <a class="g-item-lk" href="">干衣机</a>
+                            <a class="g-item-lk" href="">清洁机</a>
+                            <a class="g-item-lk" href="">收录/音机</a>
+                            <a class="g-item-lk" href="">毛球修剪器</a>
+                            <a class="g-item-lk" href="">其它生活电器</a>
+                            <a class="g-item-lk" href="">生活电器配件</a>
+                            <a style="clear:both"></a>
+                        </dd>
+                    </dl>
+                    <dl class="g-items1">
+                        <dt class="g-items-tit">个护健康&gt;</dt>
+                        <dd class="g-item">
+                            <a class="g-item-lk" href="">剃须刀</a>
+                            <a class="g-item-lk" href="">口腔护理</a>
+                            <a class="g-item-lk" href="">电吹风</a>
+                            <a class="g-item-lk" href="">美容器</a>
+                            <a class="g-item-lk" href="">洁面仪</a>
+                            <a class="g-item-lk" href="">卷/直发器理发器</a>
+                            <a class="g-item-lk" href="">剃/脱毛器</a>
+                            <a class="g-item-lk" href="">足浴盆</a>
+                            <a class="g-item-lk" href="">健康秤/厨房秤</a>
+                            <a class="g-item-lk" href="">按摩器</a>
+                            <a class="g-item-lk" href="">足疗机</a>
+                            <a class="g-item-lk" href="">按摩椅</a>
+                            <a class="g-item-lk" href="">其它健康电器</a>
+                            <a style="clear:both"></a>
+                        </dd>
+                    </dl>
+                    <dl class="g-items1">
+                        <dt class="g-items-tit">家庭影音&gt;</dt>
+                        <dd class="g-item">
+                            <a class="g-item-lk" href="">家庭影院</a>
+                            <a class="g-item-lk" href="">迷你音响</a>
+                            <a class="g-item-lk" href="">DVD</a>
+                            <a class="g-item-lk" href="">功放</a>
+                            <a class="g-item-lk" href="">回音壁</a>
+                            <a class="g-item-lk" href="">影音配件</a>
+                            <a style="clear:both"></a>
+                        </dd>
+                    </dl>
+                    <dl class="g-items1">
+                        <dt class="g-items-tit">进口电器&gt;</dt>
+                        <dd class="g-item">
+                            <a class="g-item-lk" href="">进口电器</a>
+                            <a style="clear:both"></a>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="group-fix2">
+                <div class="brand-list">
+                    <a class="brand-lk" href="#">
+                        <img src="image/xiaomi.jpg">
+                    </a>
+                    <a class="brand-lk" href="#">
+                        <img src="image/apple.jpg">
+                    </a>
+                    <a class="brand-lk" href="#">
+                        <img src="image/honor.jpg">
+                    </a>
+                    <a class="brand-lk" href="#">
+                        <img src="image/haier.jpg">
+                    </a>
+                    <a class="brand-lk" href="#">
+                        <img src="image/haier.jpg">
+                    </a>
+                    <a class="brand-lk" href="#">
+                        <img src="image/haier.jpg">
+                    </a>
+                </div>
+                <div class="promotion">
+                    <a class="promotion-lk">
+                        <img src="image/2.jpg">
+                    </a>
+                    <a class="promotion-lk">
+                        <img src="image/3.jpg">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="middle-img">
+            <div class="mid-box">
+                <div class="img-box">
+                    <a class="img-lk" id="img1">
+                        <img src="image/img1.jpg">
+                    </a>
+                    <a class="img-lk" id="img2">
+                        <img src="image/img2.jpg">
+                    </a>
+                    <a class="img-lk" id="img3">
+                        <img src="image/img3.jpg">
+                    </a>
+                </div>
+                <div class="img-btn-left img-switch" onclick=img_next("left");>&lt;</div>
+                <div class="img-btn-right img-switch" onclick=img_next("right");>&gt;</div>
+                <div class="img-btn-point">
+                    <div class="btn-circle" target-data="img1" onmouseover="img_swicth(this);"></div>
+                    <div class="btn-circle" target-data="img2" onmouseover="img_swicth(this);"></div>
+                    <div class="btn-circle" target-data="img3" onmouseover="img_swicth(this);"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-right">
+            <div class="user-form">
+                <div class="user-head">
+                    <div class="user-photo">
+                        <img src="image/no_login.jpg">
+                        <a class="user-lk" href="#"></a>
+                    </div>
+                    <div class="user-msg">
+                        <p>Hi~欢迎来到京东！</p>
+                        <p>
+                            <a href="#">登录</a>
+                            <a href="#">注册</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="user-btn">
+                    <a class="new-user" href="#">新人福利</a>
+                    <a class="plus-vip" href="#">PLUS会员</a>
+                </div>
+            </div>
+            <div class="news">
+                <div class="news-title">
+                    <a class="news-tit-left" target-data="tab1" href="#" onmouseover="move_line(this);">促销</a>
+                    <div class="news-tit-space"></div>
+                    <a class="news-tit-left" target-data="tab2" href="#" onmouseover="move_line(this);">公告</a>
+                    <a class="news-tit-right" href="#">更多</a>
+                    <div class="red-line" id="line1"></div>
+                    <div style="clear:both"></div>
+                </div>
+                <div class="news-content">
+                    <div class="news-tab" id="tab1">
+                        <ul>
+                            <li><a href="#">京东健康超级品类日低5折</a></li>
+                            <li><a href="#">翼480新品独家首发</a></li>
+                            <li><a href="#">大牌家纺满799减400</a></li>
+                            <li><a href="#">每日享折扣&nbsp;京东品质游</a></li>
+                        </ul>
+                    </div>
+                    <div class="news-tab" id="tab2" style="display:none;">
+                        <ul>
+                            <li><a href="#">京东启用全新客服电话“950618”</a></li>
+                            <li><a href="#">大家电订单超期自动取消公告</a></li>
+                            <li><a href="#">关于召回普利公司（天津）轮胎有限公司2个规格乘用车轮胎的公告</a></li>
+                            <li><a href="#">京东物流推出配送员统一外呼电话"95056”</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script language="JavaScript" src="js/index.js">
+</script>
+</body>
+</html>

@@ -68,14 +68,31 @@ a:hover{
     background-color: #e3e4e5;
     z-index:22;
 }
+@media only screen and (min-width: 1190px){
+    .top-menu{
+        margin:auto;
+        padding:0 10px;
+        height:38px;
+        width:1190px;
+    }
+}
+
+@media only screen and (max-width: 1189px){
+    .top-menu{
+        margin:auto;
+        padding:0 10px;
+        height:38px;
+        width:990px;
+    }
+}
+/*
 .top-menu{
     margin:auto;
-    /*border:1px solid #BCEE68;
-    background-color:#B23AEE;*/
     padding:0 10px;
     height:38px;
     width:90%;
 }
+*/
 .provence{
     width:57px;
     float:left;
@@ -233,6 +250,117 @@ a:hover{
     height:60%;
     position:relative;
 }
+@media only screen and (min-width: 1190px){
+    .s-form{
+        position: absolute;
+        left: 320px;
+        top: 25px;
+        width: 550px;
+        height: 35px;
+    }
+    .text{
+        position: absolute;
+        left: 0;
+        top:0;
+        padding: 4px;
+        padding-right:40px;
+        width: 453px;
+        height: 25px;
+        border: 1px solid transparent;
+        line-height: 25px;
+        font-size: 14px;
+        color: #989898;
+    }
+    .s-btn{
+        position: absolute;
+        right: 0;
+        width: 50px;
+        height: 35px;
+        line-height: 35px;
+        border: none;
+        background-color: #f10215;
+        font-size: 20px;
+        font-weight: 700;
+        color: #fff;
+        top: 0;
+        outline: none;
+        background-image:url(../image/search.png);
+        background-size:35px 30px;
+        background-repeat:no-repeat;
+        background-position: center;
+    }
+    .photo{
+        position: absolute;
+        right:60px;
+        top:3px;
+        margin-top:8px;
+        background-image:url(../image/sprite-photo-search.png);
+        width:19px;
+        height:15px;
+        background-size:110px 80px;
+        background-position:0 0;
+        background-repeat:no-repeat;
+    }
+
+}
+@media only screen and (max-width: 1189px){
+    .s-form{
+        position: absolute;
+        left: 320px;
+        top: 25px;
+        width: 400px;
+        height: 35px;
+    }
+    .text{
+        position: absolute;
+        left: 0;
+        top:0;
+        padding: 4px;
+        padding-right:25px;
+        width: 319px;
+        height: 25px;
+        border: 1px solid transparent;
+        line-height: 25px;
+        font-size: 14px;
+        color: #989898;
+    }
+    .s-btn{
+        position: absolute;
+        right: 0;
+        width: 50px;
+        height: 35px;
+        line-height: 35px;
+        border: none;
+        background-color: #f10215;
+        font-size: 20px;
+        font-weight: 700;
+        color: #fff;
+        top: 0;
+        outline: none;
+        background-image:url(../image/search.png);
+        background-size:35px 30px;
+        background-repeat:no-repeat;
+        background-position: center;
+    }
+    .photo{
+        position: absolute;
+        right:55px;
+        top:3px;
+        margin-top:8px;
+        background-image:url(../image/sprite-photo-search.png);
+        width:19px;
+        height:15px;
+        background-size:110px 80px;
+        background-position:0 0;
+        background-repeat:no-repeat;
+    }
+
+}
+.photo:hover{
+    background-position:-30px 0;
+}
+
+/*
 .s-form{
     position: absolute;
     left: 320px;
@@ -240,52 +368,13 @@ a:hover{
     width: 400px;
     height: 35px;
 }
-.text{
-    position: absolute;
-    left: 0;
-    top:0;
-    padding: 4px;
-    padding-right:40px;
-    width: 353px;
-    height: 25px;
-    border: 1px solid transparent;
-    line-height: 25px;
-    font-size: 14px;
-    color: #989898;
-}
-.s-btn{
-    position: absolute;
-    right: 0;
-    width: 50px;
-    height: 35px;
-    line-height: 35px;
-    border: none;
-    background-color: #f10215;
-    font-size: 20px;
-    font-weight: 700;
-    color: #fff;
-    top: 0;
-    outline: none;
-    background-image:url(../image/search.png);
-    background-size:35px 30px;
-    background-repeat:no-repeat;
-    background-position: center;
-}
-.photo{
-    position: absolute;
-    right:57px;
-    top:7px;
-    background-image:url(../image/photo.png);
-    width:30px;
-    height:20px;
-    background-size:30px 24px;
-    background-repeat:no-repeat;
-}
+*/
+
 .shopping-car{
     position: absolute;
-    right: 99px;
+    right: 15px;
     top: 25px;
-    width: 15%;
+    width: 188px;
     height: 33px;
     border: 1px solid #e3e4e5;
     background-color: #fff;
@@ -383,7 +472,7 @@ a:hover{
 .tips{
     position:relative;
 }
-@media only screen and (min-width: 1338px) {
+@media only screen and (min-width: 1190px) {
     .content{
         position:relative;
         margin:0 auto;
@@ -392,7 +481,7 @@ a:hover{
         background-color:#f0f3ef;
     }
 }
-@media only screen and (max-width: 1337px) {
+@media only screen and (max-width: 1189px) {
     .content{
         position:relative;
         margin:0 auto;
@@ -613,6 +702,37 @@ a:hover{
     border:3px solid #CAE1FF;
     opacity: 1;
 }
+@media only screen and (min-width:1190px){
+    .col-ch{
+        position:absolute;
+        right: 200px;
+        width: 190px;
+        height: 470px;
+
+    }
+
+}
+@media only screen and (max-width:1189px){
+    .col-ch{
+        display:none;
+    }
+
+}
+.col-ch-item{
+    width: 190px;
+    height: 150px;
+    margin-top: 5px;
+}
+.col-ch-item a img{
+    display: block;
+    width: 190px;
+    height: 150px;
+
+}
+
+
+
+
 .col-right{
     position:absolute;
     overflow:hidden;
@@ -872,7 +992,7 @@ a:hover{
     border-width: 2px 6.5px;
     border-color: #e01121 #e01121 #fff;
 }
-@media only screen and (min-width: 1338px){
+@media only screen and (min-width: 1190px){
     .floors{
         position:relative;
         margin:auto;
@@ -882,7 +1002,7 @@ a:hover{
         overflow: hidden;
     }
 }
-@media only screen and (max-width: 1337px) {
+@media only screen and (max-width: 1189px) {
     .floors{
         position:relative;
         margin:auto;
@@ -1131,7 +1251,6 @@ a:hover{
 }
 */
 .fk-ch-div{
-    float:left;
     position: relative;
     overflow: hidden;
     width: 180px;
@@ -1139,19 +1258,334 @@ a:hover{
     padding: 8px 10px 7px;
 }
 .fk-ch-img{
+    float:left;
     width: 180px;
     height: 260px;
 }
 .fk-ch-img a img{
     width:180px;
 }
+.fk-ch-btn{
+    position:absolute;
+    top:90%;
+    left:50%;
+    margin-left:-18px;
+    z-index:1;
+}
+.fk-ch-circle{
+    float:left;
+    margin-left:10px;
+    width:8px;
+    height:8px;
+    background-color:#ccc;
+    border-radius:8px;
+}
+.fk-ch-circle:hover{
+    background-color:#e33333;
 
+}
+.fk-ch-circle-sel{
+    background-color:#e33333;
+}
+.more-pro{
+    margin:0 auto;
+    margin-top:10px;
+}
+@media only screen and (min-width: 1190px){
+    .more-pro{
+        width:1190px;
+    }
+}
+@media only screen and (max-width: 1189px){
+    .more-pro{
+        width:990px;
+    }
+}
+.more-item{
+    float:left;
+    width:190px;
+    height:254px;
+    margin: 0 4px 8px;
+    position: relative;
+    background-color:#fff;
+}
+.load-img{
+    width: 142px;
+    height: 142px;
+    margin: 24px 24px 16px;
+}
+.load-img img{
+    width:100%;
+    height:100%;
+}
+.more-item-info{
+    padding: 15px 10px 0;
+    line-height: 22px;
+    height: 65px;
+}
+.more-item-name{
+    font-size: 14px;
+    color: #333;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}
+.more-item-price{
+    text-align: center;
+    font-size: 14px;
+    color: #f10214;
+}
+@media only screen and (min-width: 1190px){
+    .footer-ser{
+        width:1190px;
+    }
+    .footer-help-inner{
+        width:1190px;
+    }
+    .footer-ser-item{
+        width:297px;
+    }
+    .help-nav{
+        width:198px;
+    }
+}
+@media only screen and (max-width: 1189px){
+    .footer-ser{
+        width:990px;
+    }
+    .footer-help-inner{
+        width:990px;
+    }
+    .footer-ser-item{
+        width:247px;
+    }
+    .help-nav{
+        width:158px;
+    }
+}
 
+.footer-ser{
+    margin:0 auto;
+    padding:20px 0;
+}
+.footer-ser-item{
+    float:left;
+}
+.footer-ser-unit{
+    position: relative;
+    float:left;
+    width:180px;
+    margin: 0 auto;
+    padding-left: 45px;
+}
+.footer-ser-tit{
+    background-size:36px 171px;
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 36px;
+    height: 42px;
+    background-image: url(../image/footer-tit.png);
+}
+.footer-ser-text{
+    overflow: hidden;
+    width: 100%;
+    height: 42px;
+    line-height: 42px;
+    font-size: 18px;
+    font-weight: 700;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #444;
+}
+.footer-ser-duo{
+    background-position:0 0;
+}
+.footer-ser-kuai{
+    background-position:0 -43px;
+}
+.footer-ser-hao{
+    background-position:0 -86px;
+}
+.footer-ser-shen{
+    background-position:0 -129px;
+}
+.footer-help{
+    margin:0 auto;
+    padding:20px 0;
+    border-top:1px solid #DEDEDE;
+}
+.footer-help-inner{
+    margin:0 auto;
+    border-bottom:1px solid #DEDEDE;
+}
+.help-nav{
+    float:left;
+}
+.help-tit{
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: bold;
 
+}
+.help-text{
+    height:22px;
+    line-height:22px;
+    width:100%;
+    font-weight:300;
 
-
-
-
-
-
-
+}
+.help-nav-cover{
+    float: right;
+    width: 200px;
+    height: 150px;
+    background: url(../image/ico_footer.png) no-repeat 0 0;
+}
+.cover-tit{
+    text-align:center;
+}
+.help-cover-text{
+    line-height:22px;
+    width:100%;
+    font-weight:300;
+}
+.help-cover-pos{
+    text-align:right;
+}
+.side{
+    position:fixed;
+    top:0;
+    bottom:0;
+    width:5px;
+    right:0;
+    background-color: #7a6e6e;
+}
+.sidebar{
+    position:fixed;
+    top:50%;
+    bottom:0;
+    margin-top: -61px;
+    right:0px;
+    width:34px;
+    height:219px;
+}
+.sidebar-tool{
+    float:left;
+    position:relative;
+    width: 34px;
+    height: 35px;
+    margin-bottom: 1px;
+    cursor: pointer;
+    background-color: #7a6e6e;
+    border-radius: 3px 0 0 3px;
+    background-image: url(../image/toolbars.png);
+}
+.sidebar-tool:hover{
+    background-color:#c81623;
+    border-radius:0;
+    width:97px;
+}
+.sidebar-tool:hover .sidebar-content{
+    background-color:#c81623;
+    left:-62px;
+}
+.sidebar-ico{
+    position:absolute;
+    top:0;
+    left0;
+}
+.sidebar-content{
+    position:absolute;
+    width: 62px;
+    height: 35px;
+    line-height: 35px;
+    color: #fff;
+    text-align: center;
+    font-family: 微软雅黑;
+    z-index: 1;
+    left: 35px;
+    top: 0;
+    border-radius: 3px 0 0 3px;
+    transition: left .3s ease-in-out .1s;
+    background-color: #7a6e6e;
+}
+.tool-ico-user{
+    background-position: -88px -175px;
+}
+.tool-ico-shopping-car{
+    background-position: -50px 0px;
+}
+.tool-ico-guanzhu{
+    background-position: -50px -50px;
+}
+.tool-ico-zuji{
+    background-position: -50px -100px;
+}
+.tool-ico-message{
+    background-position:-190px -150px;
+}
+.tool-ico-jimi{
+    background-position: -50px -150px;
+}
+.tool-ico-back{
+    background-position: -50px -250px;
+}
+.tool-ico-fankui{
+    background-position: -50px -300px;
+}
+.bottom-bar{
+    position:fixed;
+    bottom:0;
+    right:0;
+    width:34px;
+    height:72px;
+}
+@media only screen and (min-width: 1190px){
+    .fixed-bar-inner{
+        width: 1190px;
+    }
+}
+@media only screen and (max-width: 1189px){
+    .fixed-bar-inner{
+        width: 990px;
+    }
+}
+.fixed-bar{
+    height: 48px;
+    margin: auto;
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    background-color:#fff;
+    border-bottom:3px solid #f10215;
+    box-shadow: 2px 2px 2px rgba(0,0,0,.2);
+    z-index: 21;
+}
+.fixed-bar-inner{
+    margin:auto;
+    height:48px;
+    background-color:#fff;
+    position:relative;
+}
+.fixed-bar-logo{
+    position: absolute;
+    left: 0;
+    top: 4px;
+    width: 125px;
+    height: 40px;
+    background-image:url(../image/sprite.head@2x.png);
+    background-size:374px 339.5px;
+    background-position:-187px 0px;
+}
+.fixed-bar-text{
+    border-color: #efefef;
+    background-color: #efefef;
+}
+.fixed-form{
+    top: 6px;
+}

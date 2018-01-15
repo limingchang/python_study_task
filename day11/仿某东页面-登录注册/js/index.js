@@ -105,9 +105,11 @@ function remove_sel(){
     }
 }
 var Int;
+var fk_img_int;
 function load(){
 
     Int = setInterval("img_next('right');",3000);
+    fk_img_int = setInterval("fk_img_auto();",2000);
     img_star_stop(Int);
 
 }
@@ -242,17 +244,84 @@ function product_next(type){
     //console.log(ele.style.webkitTransform);
 }
 
+//图片切换2
+var fk_img_list = document.getElementsByClassName("fk-ch-img");
+//获得所有图片对象列表
+function fk_img_switch(obj){
+    //获取图片对象
+    var ele_img = document.getElementById(obj.attributes["target-data"].value);
+    ele_img.style.display="block";
+    obj.classList.add('fk-ch-circle-sel');
+    //取消其他图片显示
+    for(var i=0;i<fk_img_list.length;i++){
+        if(ele_img != fk_img_list[i]){
+            fk_img_list[i].style.display="none";
+            obj = document.getElementById(fk_img_list[i].attributes["bang-ele"].value);
+            obj.classList.remove('fk-ch-circle-sel');
+        }
+    }
+    //绑定事件
+    //鼠标覆盖则暂停计时器
+    window.clearInterval(fk_img_int);
+    ele_img.onmouseout = function(){
+        //鼠标移开恢复计时器
+        fk_img_int = setInterval("fk_img_auto();",2000);
+    }
+}
+//用于计时器自动切换
+var fk_img_index=0;
+function fk_img_auto(){
+    if(fk_img_index < fk_img_list.length){
 
+    }else{
+        fk_img_index=0;
+    }
+    fk_img_list[fk_img_index].style.display="block";
+    var circle = document.getElementById(fk_img_list[fk_img_index].attributes["bang-ele"].value);
+    circle.classList.add('fk-ch-circle-sel');
+    //取消其他图片显示
+    for(var i=0;i<fk_img_list.length;i++){
+        //绑定事件
+        fk_img_list[i].onmouseover=function(){
+            window.clearInterval(fk_img_int);
+        }
+        fk_img_list[i].onmouseout = function(){
+            //鼠标移开恢复计时器
+            fk_img_int = setInterval("fk_img_auto();",2000);
+        }
+        if(fk_img_list[fk_img_index] != fk_img_list[i]){
+            fk_img_list[i].style.display="none";
+            circle = document.getElementById(fk_img_list[i].attributes["bang-ele"].value);
+            circle.classList.remove('fk-ch-circle-sel');
+        }
+    }
+    fk_img_index++;
+}
 
-
-
+function back_top(){
+    scrollTo(0,0);
+}
 
 //浏览器窗口大小改变事件
 window.onresize=function(){
      //console.log(window.innerWidth+"||"+window.innerHeight);
 }
 
-
+//滚动事件
+window.onscroll = function() {
+    //为了保证兼容性，这里取两个值，哪个有值取哪一个
+    var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+　　//scrollTop就是触发滚轮事件时滚轮的高度
+    //console.log("滚动距离："+scrollTop);
+    var ele = document.getElementById("fixed-search-bar");
+    if(scrollTop>600){
+        console.log("显示搜索");
+        ele.style.display="block";
+    }else{
+        console.log("影藏搜索");
+        ele.style.display="none";
+    }
+}
 
 
 

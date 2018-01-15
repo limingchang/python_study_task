@@ -5,7 +5,7 @@
     <title>某东商城</title>
     <link rel="stylesheet" href="css/index.css" />
 </head>
-<body onload="img_load();">
+<body onload="load();">
     <div class="top-bar">
         <div class="top-menu">
             <div class="provence">
@@ -581,9 +581,9 @@
                 <div class="img-btn-left img-switch" onclick=img_next("left");>&lt;</div>
                 <div class="img-btn-right img-switch" onclick=img_next("right");>&gt;</div>
                 <div class="img-btn-point">
-                    <div class="btn-circle" target-data="img1" onmouseover="img_swicth(this);"></div>
-                    <div class="btn-circle" target-data="img2" onmouseover="img_swicth(this);"></div>
-                    <div class="btn-circle" target-data="img3" onmouseover="img_swicth(this);"></div>
+                    <div class="btn-circle" target-data="img1" onmouseover="img_switch(this);"></div>
+                    <div class="btn-circle" target-data="img2" onmouseover="img_switch(this);"></div>
+                    <div class="btn-circle" target-data="img3" onmouseover="img_switch(this);"></div>
                 </div>
             </div>
         </div>
@@ -635,7 +635,247 @@
                     </div>
                 </div>
             </div>
+            <div class="service">
+                <div class="ser-icon">
+                    <ul class="ser-list">
+                        <li class="ser-item">
+                            <a class="ser-lk" href="#">
+                                <i class="ser-ico ser-ico-money"></i>
+                            </a>
+                        </li>
+                        <li class="ser-item">
+                            <a class="ser-lk" href="#">
+                                <i class="ser-ico ser-ico-fly"></i>
+                                <span class="ser-tip">
+                                    <i class="ser-tip-text">惠</i>
+                                </span>
+                            </a>
+                        </li>
+                        <li class="ser-item">
+                            <a class="ser-lk" href="#">
+                                <i class="ser-ico ser-ico-hotel"></i>
+                            </a>
+                        </li>
+                        <li class="ser-item">
+                            <a class="ser-lk" href="#">
+                                <i class="ser-ico ser-ico-game"></i>
+                            </a>
+                        </li>
+                        <li class="ser-item">
+                            <a class="ser-lk" href="#">
+                                <i class="ser-ico ser-ico-comp"></i>
+                            </a>
+                        </li>
+                        <li class="ser-item">
+                            <a class="ser-lk" href="#">
+                                <i class="ser-ico ser-ico-water"></i>
+                            </a>
+                        </li>
+                        <li class="ser-item">
+                            <a class="ser-lk" href="#">
+                                <i class="ser-ico ser-ico-video"></i>
+                            </a>
+                        </li>
+                        <li class="ser-item">
+                            <a class="ser-lk" href="#">
+                                <i class="ser-ico ser-ico-train"></i>
+                                <span class="ser-tip">
+                                    <i class="ser-tip-text">抢</i>
+                                </span>
+                            </a>
+                        </li>
+                        <li class="ser-item">
+                            <a class="ser-lk" href="#">
+                                <i class="ser-ico ser-ico-zhongchou"></i>
+                            </a>
+                        </li>
+                        <li class="ser-item">
+                            <a class="ser-lk" href="#">
+                                <i class="ser-ico ser-ico-licai"></i>
+                            </a>
+                        </li>
+                        <li class="ser-item">
+                            <a class="ser-lk" href="#">
+                                <i class="ser-ico ser-ico-card"></i>
+                            </a>
+                        </li>
+                        <li class="ser-item">
+                            <a class="ser-lk" href="#">
+                                <i class="ser-ico ser-ico-baitiao"></i>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
         </div>
+    </div>
+    <div class="floors">
+        <div class="fk-hd">
+            <div class="fk-hd-tit">京东秒杀</div>
+            <div class="fk-hd-tit2">FLASH&nbsp;DEALS</div>
+            <i class="fk-hd-ico"></i>
+            <div class="fk-hd-desc">距离本场结束还剩</div>
+            <div class="fk-hd-time">
+                <div class="fk-hd-cd">
+                    <span class="cd-text" id="cd-hours">00</span>
+                </div>
+                <div class="fk-hd-cd">
+                    <span class="cd-text" id="cd-minutes">00</span>
+                </div>
+                <div class="fk-hd-cd">
+                    <span class="cd-text" id="cd-seconds">00</span>
+                </div>
+            </div>
+        </div>
+        <div class="fk-bd">
+            <div class="fk-list" id="fk-list">
+                <div class="fk-item">
+                    <a class="fk-item-lk" href="#">
+                        <img src="image/product/shouji.jpg" class="fk-item-img">
+                        <p class="fk-item-name">夏普 SHARP AQUOS S2 全面屏手机 全网通 4GB+64GB 晶耀黑 移动联通电信4G手机 双卡双待</p>
+                        <div class="fk-item-price">
+                            <span class="fk-item-price-new">
+                                <i>￥</i>
+                                <span>1399.00</span>
+                            </span>
+                            <span class="fk-item-price-orign">
+                                <i>￥</i>
+                                <span>1699.00</span>
+                            </span>
+                        </div>
+                    </a>
+                </div>
+                <div class="fk-item">
+                    <a class="fk-item-lk" href="#">
+                        <img src="image/product/asus.jpg" class="fk-item-img">
+                        <p class="fk-item-name">华硕（ASUS）PRIME Z370-A 主板（Intel Z370/LGA 1151）</p>
+                        <div class="fk-item-price">
+                            <span class="fk-item-price-new">
+                                <i>￥</i>
+                                <span>1698.00</span>
+                            </span>
+                            <span class="fk-item-price-orign">
+                                <i>￥</i>
+                                <span>1799.00</span>
+                            </span>
+                        </div>
+                    </a>
+                </div>
+                <div class="fk-item">
+                    <a class="fk-item-lk" href="#">
+                        <img src="image/product/hongjiu.jpg" class="fk-item-img">
+                        <p class="fk-item-name">法国进口红酒 拉菲（LAFITE）传奇波尔多干红葡萄酒 整箱装 750ml*6瓶（ASC）</p>
+                        <div class="fk-item-price">
+                            <span class="fk-item-price-new">
+                                <i>￥</i>
+                                <span>468.00</span>
+                            </span>
+                            <span class="fk-item-price-orign">
+                                <i>￥</i>
+                                <span>898.00</span>
+                            </span>
+                        </div>
+                    </a>
+                </div>
+                <div class="fk-item">
+                    <a class="fk-item-lk" href="#">
+                        <img src="image/product/shenzhou.jpg" class="fk-item-img">
+                        <p class="fk-item-name">神舟（HASEE）战神Z7-KP7GT GTX1060 6G 15.6英寸游戏本笔记本电脑(i7-7700HQ 8G 1T+128G SSD 1080P)黑色</p>
+                        <div class="fk-item-price">
+                            <span class="fk-item-price-new">
+                                <i>￥</i>
+                                <span>7088.00</span>
+                            </span>
+                            <span class="fk-item-price-orign">
+                                <i>￥</i>
+                                <span>7499.00</span>
+                            </span>
+                        </div>
+                    </a>
+                </div>
+                <div class="fk-item">
+                    <a class="fk-item-lk" href="#">
+                        <img src="image/product/meidi.jpg" class="fk-item-img">
+                        <p class="fk-item-name">美的（Midea）取暖器/电暖器/电暖气 欧式居浴两用欧式快热炉NDK20-17DW</p>
+                        <div class="fk-item-price">
+                            <span class="fk-item-price-new">
+                                <i>￥</i>
+                                <span>319.00</span>
+                            </span>
+                            <span class="fk-item-price-orign">
+                                <i>￥</i>
+                                <span>499.00</span>
+                            </span>
+                        </div>
+                    </a>
+                </div>
+                <div class="fk-item">
+                    <a class="fk-item-lk" href="#">
+                        <img src="image/product/xibu.jpg" class="fk-item-img">
+                        <p class="fk-item-name">西部数据（WD）My Passport 2TB 2.5英寸 经典黑 移动硬盘 WDBYFT0020BBK-CESN</p>
+                        <div class="fk-item-price">
+                            <span class="fk-item-price-new">
+                                <i>￥</i>
+                                <span>579.00</span>
+                            </span>
+                            <span class="fk-item-price-orign">
+                                <i>￥</i>
+                                <span>719.00</span>
+                            </span>
+                        </div>
+                    </a>
+                </div>
+                <div class="fk-item">
+                    <a class="fk-item-lk" href="#">
+                        <img src="image/product/fulinmen.jpg" class="fk-item-img">
+                        <p class="fk-item-name">福临门 食用油 浓香压榨一级 花生油4L 中粮出品</p>
+                        <div class="fk-item-price">
+                            <span class="fk-item-price-new">
+                                <i>￥</i>
+                                <span>72.90</span>
+                            </span>
+                            <span class="fk-item-price-orign">
+                                <i>￥</i>
+                                <span>199.90</span>
+                            </span>
+                        </div>
+                    </a>
+                </div>
+                <div class="fk-item">
+                    <a class="fk-item-lk" href="#">
+                        <img src="image/product/kele.jpg" class="fk-item-img">
+                        <p class="fk-item-name">百事可乐 碳酸饮料 把乐带回家 330ml*24听 整箱 (新老包装随机发货)</p>
+                        <div class="fk-item-price">
+                            <span class="fk-item-price-new">
+                                <i>￥</i>
+                                <span>38.79</span>
+                            </span>
+                            <span class="fk-item-price-orign">
+                                <i>￥</i>
+                                <span>49.90</span>
+                            </span>
+                        </div>
+                    </a>
+                </div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="fk-btn fk-btn-left" onclick="product_next('left');">&lt;</div>
+            <div class="fk-btn fk-btn-right" onclick="product_next('right');">&gt;</div>
+        </div>
+        <div class="fk-ch fk-ch-div">
+            <div class="fk-ch-img">
+                <a href="#">
+                    <img src="image/product/ch0.jpg">
+                </a>
+            </div>
+            <div class="fk-ch-img">
+                <a href="#">
+                    <img src="image/product/ch1.png">
+                </a>
+            </div>
+        </div>
+
     </div>
 <script language="JavaScript" src="js/index.js">
 </script>

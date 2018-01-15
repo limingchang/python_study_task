@@ -50,7 +50,7 @@ function Get_target_element(obj){
 }
 var btn_list = document.getElementsByClassName("btn-circle");
 var img_list = document.getElementsByClassName("img-lk");
-function img_swicth(obj){
+function img_switch(obj){
     var img_list = document.getElementsByClassName("img-lk");
     var e = Get_target_element(obj);
     remove_sel();
@@ -105,7 +105,7 @@ function remove_sel(){
     }
 }
 var Int;
-function img_load(){
+function load(){
 
     Int = setInterval("img_next('right');",3000);
     img_star_stop(Int);
@@ -153,11 +153,94 @@ function move_line(obj){
 
     //console.log(news_line.offsetLeft);
 }
+//强制数字位数
+function fix(num, length) {
+  return ('' + num).length < length ? ((new Array(length + 1)).join('0') + num).slice(-length) : '' + num;
+}
 
+//秒杀倒计时
+function cd_timeout(cd){
+    //参数cd为结束时间字符串，例2018/1/10 18:00:00,仅当天！
 
+    var end_time = new Date(cd);
+    var now_time = new Date();
+    //console.log(end_time);
+    var h = document.getElementById("cd-hours");
+    var m = document.getElementById("cd-minutes");
+    var s = document.getElementById("cd-seconds");
+    //console.log(h);
+    var cd_h = end_time.getHours()-now_time.getHours();
+    var cd_m
+    var cd_s
+    if(now_time.getSeconds()>end_time.getSeconds()){
+        cd_s = 60 - now_time.getSeconds();
+        end_time.setMinutes(end_time.getMinutes()-1);
+    }else{
+        cd_s = end_time.getSeconds()-now_time.getSeconds();
+    }
+    if(now_time.getMinutes()>end_time.getMinutes()){
+        cd_m = 60 - now_time.getMinutes();
+        end_time.setHours(end_time.getHours()-1);
+    }else{
+        cd_m = end_time.getMinutes()-now_time.getMinutes();
+    }
+    if(now_time.getHours()>end_time.getHours()){
+        cd_s = 0;
+        cd_m = 0;
+        cd_h = 0;
+        //end_time.setHours(end_time.getHours()-1);
+    }else{
+        cd_h = end_time.getHours()-now_time.getHours();
+    }
+    h.innerHTML = fix(cd_h,2);
+    m.innerHTML = fix(cd_m,2);
+    s.innerHTML = fix(cd_s,2);
+}
 
+//加入计时器
+//cd_timeout("2018/1/11 18:00:00");
+Int = setInterval("cd_timeout('2018/1/11 20:00:00');",1000);
 
+//商品切换js
+var pro_list = document.getElementsByClassName("fk-item");
+function product_next(type){
+    var way_arg = 1;//方向参数，用于确定X轴偏移正负
+    var now_offset_px = 0;//原偏移量
+    if(type =="left"){
+        way_arg = -1;
+    }else{
+        way_arg = 1;
+    }
+    var ele = document.getElementById("fk-list");
+    var trans = ele.style.transform;
+    console.log(typeof(trans));
+    if(trans.length == 0){
+        if(way_arg == 1){
+            offset_px =199*(-4);
+        }else{
+            offset_px = -199;
+        }
+    }else{
+        now_offset_px = parseInt(trans.split("(")[1].split(",")[0].split("px")[0]);
+        if(now_offset_px == 0 && way_arg==1){
+            offset_px = 199*(-4);
+        }else if(now_offset_px == -796 && way_arg==-1){
+            offset_px = 0;
+        }else{
+            offset_px = now_offset_px + (199 * way_arg);
+        }
 
+    }
+    console.log("X原偏移量："+now_offset_px+"|X现偏移量："+offset_px);
+    //var now_offset_px = trans.split("(")[1].split(",")[0].split("px")[0];
+    //console.log("X偏移量："+parseInt(now_offset_px));
+    //offset_px = -199;
+    ele.style.transform = "translate3d("+offset_px+"px, 0px, 0px)";
+    ele.style.transition = "transform 500ms ease-in-out";
+
+    //ele.style.webkitTransform = "translate3d("+offset_px+"px,0,0);";
+    //console.log(ele.style.webkitTransform);
+}
 
 
 

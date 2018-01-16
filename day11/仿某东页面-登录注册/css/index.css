@@ -8,6 +8,9 @@ body {
     color: #666;
     background-color: #f0f3ef;
 }
+input:focus{
+    outline:none;
+}
 li {
     list-style: none;
 }
@@ -1558,6 +1561,7 @@ a:hover{
     height: 48px;
     margin: auto;
     position:fixed;
+    display:none;
     top:0;
     left:0;
     right:0;
@@ -1567,7 +1571,7 @@ a:hover{
     z-index: 21;
 }
 .fixed-bar-inner{
-    margin:auto;
+    margin:0 auto;
     height:48px;
     background-color:#fff;
     position:relative;

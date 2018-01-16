@@ -315,10 +315,10 @@ window.onscroll = function() {
     //console.log("滚动距离："+scrollTop);
     var ele = document.getElementById("fixed-search-bar");
     if(scrollTop>600){
-        console.log("显示搜索");
+        //console.log("显示搜索");
         ele.style.display="block";
     }else{
-        console.log("影藏搜索");
+        //console.log("影藏搜索");
         ele.style.display="none";
     }
 }

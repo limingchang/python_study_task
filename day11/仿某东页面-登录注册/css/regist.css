@@ -9,6 +9,10 @@ body{
 input:focus{
     outline:none;
 }
+button{
+    outline:none;
+    cursor: pointer;
+}
 a{
     color: #666;
     text-decoration: none;
@@ -32,6 +36,9 @@ a:hover{
     .w{
         width:1190px;
     }
+    .links a{
+        width:107px;
+    }
 }
 @media only screen and (max-width: 1189px){
     .header-inner{
@@ -40,6 +47,9 @@ a:hover{
     }
     .w{
         width:990px;
+    }
+    .links a{
+        width:88px;
     }
 
 }
@@ -130,6 +140,7 @@ a:hover{
     position:relative;
 }
 .input-tip span{
+    display:inline-block;
     line-height:20px;
     width:100%;
     height:22px;
@@ -149,8 +160,7 @@ a:hover{
 .i-check{
     position:absolute;
     right:0px;
-    top:-35px;
-
+    top:17px;
 
 }
 .i-ico-info{
@@ -170,4 +180,98 @@ a:hover{
 }
 .i-ico-qiang{
     background-position:-34px -134px;
+}
+.hidden{
+    display:none;
+}
+.for-email{
+    padding-right:20px;
+    padding-bottom:10px;
+    font-size: 12px;
+    text-align:right;
+}
+.for-email a{
+    color: #38f;
+}
+.for-email a:hover{
+    cursor:pointer;
+}
+.form-item-authcode input{
+    width:125px;
+}
+.img-code{
+    position: absolute;
+    right: 28px;
+    top: 3px;
+    width: 110px;
+    height: 46px;
+    cursor: pointer;
+}
+.regist-btn{
+    width: 100%;
+    height: 54px;
+    color: #fff;
+    background: #e22;
+    border: 0;
+    font-size: 16px;
+    font-family: "Microsoft YaHei","Hiragino Sans GB";
+}
+.right-item{
+    width:160px;
+    height:60px;
+    margin-left: 30px;
+    margin-top: 30px;
+    border-bottom:1px solid #ddd;
+}
+.right-item a span{
+    display:inline-block;
+    float:left;
+    width:114px;
+}
+.right-item a span:hover{
+    font-weight:800;
+}
+.i-ico{
+    display: inline-block;
+    float:left;
+    width: 30px;
+    height: 29px;
+    vertical-align: middle;
+    margin-right: 15px;
+    background-image:url(../image/regist/icon.png);
+}
+.i-company{
+    background-position: 0 -50px;
+}
+.i-global{
+    background-position: -50px -50px;
+}
+.last-item{
+    border:0;
+}
+.footer{
+    font-size: 12px;
+    text-align: center;
+    border-top: solid 1px #e6e6e6;
+    color: #999;
+    padding-bottom: 30px;
+    height:118px;
+}
+.links{
+    margin:0 auto;
+    padding-top: 30px;
+    padding-bottom: 15px;
+}
+.links a{
+    float:left;
+}
+.line{
+    float:left;
+    width:1px;
+    margin-top:3px;
+    background-color:#ddd;
+    height:12px;
+}
+.copyright{
+    padding-top:30px;
 }

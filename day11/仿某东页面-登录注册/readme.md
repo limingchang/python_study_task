@@ -25,15 +25,20 @@ text-overflow: ellipsis;
 //三个一起才能生效
 ```
   - `border-radius`设置边框圆角
-   -
-
+---------
   - `box-shadow`设置阴影，参数如下：
+
+```
 none:无阴影
 <length>①：第1个长度值用来设置对象的阴影水平偏移值。可以为负值
 <length>②：第2个长度值用来设置对象的阴影垂直偏移值。可以为负值
 <length>③：如果提供了第3个长度值则用来设置对象的阴影模糊值。不允许负值
-<length>④：如果提供了第4个长度值则用来设置对象的阴影外延值。不允许负值
+<length>④：如果提供了第4个长度值则用来设置对象的阴影外延值。模糊半径
 <color>：设置对象的阴影的颜色。
+```
+  - 单边阴影示例：`box-shadow: 0px 10px 10px -6px rgba(0,0,0,.2);`设置下边阴影，设置模糊半径要大于偏移值得一半
+
+---------
 
   - `transition：[ transition-property ] || [ transition-duration ] || [ transition-timing-function ] || [ transition-delay ]`过度效果
    - 取值：
@@ -48,7 +53,7 @@ none:无阴影
     - ease-out：由快到慢。等同于贝塞尔曲线(0, 0, 0.58, 1.0)
     - ease-in-out：由慢到快再到慢。等同于贝塞尔曲线(0.42, 0, 0.58, 1.0)
 
-
+---------
 
  ## About Me
 ```python

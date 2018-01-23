@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="css/index.css" />
+		<link rel="stylesheet" href="css/plugin-lmc.css" />
+	</head>
+	<body>
+		<div class="title blue font-xl">后台管理平台-编辑表格模块</div>
+		<div class="content">
+			<div class="content-btn">
+				<div class="left"><button name="checkAll" class="btn btn-success btn-ml">全选</button></div>
+				<div class="left"><button name="reverse" class="btn btn-info btn-ml">反选</button></div>
+				<div class="left"><button name="cancel" class="btn btn-cancel btn-ml">取消</button></div>
+				<div class="right"><button name="edit-mode" class="btn btn-edit btn-ml">编辑模式</button></div>
+				<div class="right"><button name="save-mode" class="btn btn-active btn-ml hide">退出编辑</button></div>
+				<div class="clear-float"></div>
+			</div>
+			<table id="t-host">
+				<thead class="font-ml blue">
+					<tr>
+						<th class="w-2">选择</th>
+						<th class="w-5">主机名</th>
+						<th class="w-5">主机地址</th>
+						<th class="w-2">端口</th>
+						<th class="w-3">系统</th>
+						<th class="w-2">状态</th>
+						<th class="w-5">操作</th>
+					</tr>
+				</thead>
+				<tbody   class="f-center">
+				</tbody>
+			</table>
+		</div>
+		<script src="js/jquery/jquery-3.2.1.min.js"></script>
+		<script src="js/jquery/plugin-lmc.js"></script>
+		<script>
+			$('tbody').createTrByGet("data/table_data.js");
+			//编辑模式
+			$('[name="edit-mode"]').click(function(){
+				//显示退出编辑按钮
+				$.showTips('进入编辑模式','tips-info','tips-center');
+				$(this).addClass('hide');
+				$('[name="save-mode"]').removeClass('hide');
+				//创建可编辑表格及事件
+				var tr = $('#t-host').find('input:checked').parent().parent();
+				//注册Ctrl事件监听
+				$.ctrlEdit(tr.find('select'),tr.find('select')).init();
+				///
+				tr.find('select').removeAttr('disabled');
+				tr.on('click','.edit-td',function(){
+					var edit = document.createElement('input')
+					var value = $(this).text();
+					$(edit).attr('type','text').val(value).addClass('edit-input f-center');
+					$(this).text('').append(edit);
+					$(this).find('input').focus();
+					$(edit).click(function(){
+						event.stopPropagation();//阻止事件冒泡
+					})
+				})
+				tr.on('blur','.edit-input',function(){
+					var v = $(this).val();
+					if(v.length==0){
+						$(this).addClass('input-error').focus();
+						$.showTips($(this).parent().attr('name')+'不能为空！','tips-error','tips-lefttop');
+					}else{
+						$(this).parent().text(v);
+						$(this).removeClass('input-error').remove();
+					}
+				})
+			});
+			$('[name="save-mode"]').click(function(){
+				console.log('退出编辑');
+				$.showTips('退出编辑模式','tips-success','tips-center');
+				$(this).addClass('hide');
+				$('[name="edit-mode"]').removeClass('hide');
+				var tr = $('#t-host').find('input:checked').parent().parent();
+				tr.find('select').attr('disabled','disabled');
+				//销毁Ctrl注册的事件
+				$.ctrlEdit()._destory();
+				tr.off('click');//禁用事件
+				//保存数据
+				//IE使用 ActiveXObject('Scripting.FileSystemObject');创建文件可保存，Chrome不支持
+			})
+			//取消按钮
+			$('[name="cancel"]').click(function(){
+				$('#t-host tbody :checkbox').prop("checked", false);
+			})
+			//全选按钮
+			$('[name="checkAll"]').click(function(){
+				$('#t-host tbody :checkbox').prop("checked", true);
+			})
+			//反选按钮
+			$('[name="reverse"]').click(function(){
+				$('#t-host tbody :checkbox').each(function(){
+					var v = $(this).prop('checked')?false:true;
+    				$(this).prop('checked',v);
+				});
+			})
+			//删除按钮
+			$('#t-host').on('click','[name="delete"]',function(){
+				var ele = $(this).parent().parent();
+				var opt={
+					'title':'确认删除',
+					'msg':'您要删除此行数据吗？',
+					'type':'okcancel'
+				}
+				$.Dialog(ele,opt).show();
+			})
+
+			//注册拖动窗体
+			$.dragElement($('#t-host'),$('#t-host thead'),{min_x:0,min_y:75}).init();
+		</script>
+	</body>
+</html>

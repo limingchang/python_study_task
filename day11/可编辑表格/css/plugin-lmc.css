@@ -1,0 +1,157 @@
+/*组件样式*/
+.btn{
+	text-align: center;
+	color: #fff;
+	border-radius: 5px;
+	border: 0;
+	margin-right: 5px;
+	cursor: pointer;
+}
+.btn-ml{
+	font-size: 12px;
+	height: 18px;
+	line-height: 18px;
+}
+.btn-xl{
+	font-size: 14px;
+	height: 38px;
+}
+.btn-cancel{
+	background-color: #FF0033;
+}
+.btn-info{
+	background-color: #0099CC;
+}
+.btn-success{
+	background-color: #339933;
+}
+.btn-warring{
+	background-color: #FF9900;
+}
+.btn-edit{
+	background-color: #336699;
+}
+.btn-active{
+	background-color: #FFCC33;
+}
+.input-error{
+	border: 1px solid #FF0033;
+}
+.tips{
+	position: fixed;
+	height: 28px;
+	line-height: 28px;
+	padding-left: 5px;
+	padding-right: 5px;
+	margin-top: 5px;
+	color: #fff;
+	border-radius: 5px;
+	text-align: center;
+	opacity: 0;
+	z-index: 11;
+	transition: opacity 1s ease-in;
+}
+.tips-span{
+	padding-left: 15px;
+	text-align: right;
+}
+.tips-span:hover{
+	opacity: 0.3;
+	cursor: pointer;
+}
+.tips-show{
+	opacity: 1;
+}
+.tips-error{
+	background-color:#FF0033 ;
+}
+.tips-info{
+	background-color:#0099CC ;
+}
+.tips-success{
+	background-color:#339933 ;
+}
+.tips-warring{
+	background-color:#FF9900 ;
+}
+.tips-lefttop{
+	position: fixed;
+	top: 40px;
+	left: 15px;
+}
+.tips-center{
+	position: fixed;
+	left: 50%;
+	top: 50%;
+}
+.w-1{
+	width: 20px;
+}
+.w-2{
+	width: 40px;
+}
+.w-3{
+	width: 60px;
+}
+.w-4{
+	width: 80px;
+}
+.w-5{
+	width: 100px;
+}
+.w-50{
+	width: 50%;
+}
+.blue{
+	background-color: #0066CC;
+}
+.light-blue{
+	background-color: #99CCCC;
+}
+.red{
+	background-color: #FF6666;
+}
+.green{
+	background-color: #99CC33;
+}
+.shadow{
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	opacity: 0.3;
+	z-index: 21;
+}
+.modal{
+	
+}
+.modal-dialog{
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	width: 200px;
+	margin-left: -100px;
+	border-radius: 10px;
+	z-index: 31;
+}
+.modal-title{
+	color: #fff;
+	padding: 0 10px;
+	font-weight: 600;
+	font-size: 14px;
+	height: 38px;
+	line-height: 38px;
+	border-radius: 10px 10px 0 0;
+}
+.modal-dialog-text{
+	padding: 10px 10px 30px 25px;
+	font-size: 14px;
+	color: #fff;
+}
+.modal-dialog-btn{
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	padding-bottom: 15px;
+}

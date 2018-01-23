@@ -1,0 +1,95 @@
+body{
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	font-family: "微软雅黑";
+}
+input,button{
+	outline: none;
+	border: 0;
+}
+a{
+	text-decoration: none;
+}
+a:hover{
+	color: #FF6666;
+}
+table{
+	border-spacing: 0;
+	margin: 0 auto;
+}
+thead tr{
+	color: #fff;
+	text-align: center;
+}
+tbody tr{
+	height: 38px;
+	line-height: 38px;
+}
+td{
+		border-bottom:1px solid #ddd;
+}
+tbody tr:hover{
+	background-color: #ddd;
+}
+th{
+	border-bottom:2px solid #FF6666;
+	font-weight:300; 
+	padding: 0 5px 0 5px;
+}
+
+/*页面样式*/
+.title{
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 38px;
+	line-height: 38px;
+	text-align: center;
+	color: #fff;
+}
+.font-xl{
+	font-size: 18px;
+	font-weight: 200;
+}
+.font-ml{
+	font-size: 14px;
+}
+.f-center{
+	text-align: center;
+}
+.f-left{
+	text-align: left;
+}
+.f-right{
+	text-align: right;
+}
+.right{
+	float: right;
+}
+.left{
+	float: left;
+}
+.clear-float{
+	clear: both;
+}
+.content{
+	position: fixed;
+	top: 38px;
+	left: 0;
+	right: 0;
+}
+.content-btn{
+	margin: 10px auto;
+	width: 300px;
+}
+.edit-input{
+	height: 28px;
+	width: 90%;
+	margin: auto;
+	padding: 0;
+}
+.hide{
+	display: none;
+}

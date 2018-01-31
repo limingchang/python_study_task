@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>主机管理-登录</title>
+		<link rel="stylesheet"  href="/static/js/Font-Awesome-3.2.1/css/font-awesome.min.css"/>
+		<link rel="stylesheet" type="text/css" href="/static/css/login.css"/>
+		<link rel="stylesheet" type="text/css" href="/static/css/lmc.css"/>
+	</head>
+	<body>
+		<div class="col-12 header blue f-white">
+			<div class="left">
+				<i class="icon-laptop icon-large"></i>
+				<span>主机管理系统</span>
+			</div>
+			<div class="center col-4">用户登录</div>
+			<div class="clear-float"></div>
+		</div>
+		<div class="content">
+			<div class="center col-4">
+				<div class="form">
+					<div class="row">
+						<label>用户名：</label>
+						<input type="text" name="user" />
+						<i class="icon-user icon-large"></i>
+					</div>
+					<div class="row">
+						<label>密&nbsp;&nbsp;&nbsp;码：</label>
+						<input type="password" name="pwd"/>
+						<i class="icon-key icon-large"></i>
+					</div>
+					<div class="row">
+						<label>验证码：</label>
+						<input type="text" length="6" name="auth_code"/>
+						<div class="auth_code">
+                            <img src="" id="auth_code" type="image/png"/>
+                        </div>
+					</div>
+					<div class="row">
+						<div class="f-center">
+							<button class="btn btn-xl primary" id="login">登录</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="/static/js/jquery/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/static/js/lmc.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			$("#login").click(function(){
+				var input = $(".form").find("input");
+				var data = {};
+				input.each(function(){
+					data[$(this).attr("name")]=$.tools().trim($(this).val());
+					
+				});
+				var opt = {
+					"type":"USER_AUTH",
+					"ajaxType":"post",
+					"data":data,
+				}
+				var a = $.ajaxData(opt);
+				$.showTips(a.errMsg,'error','tips-center');
+			});
+			function get_authCode(){
+				var opt = {
+					"type":"AUTH_CODE",
+					"ajaxType":"get",
+					"data":{"act":"getAuthCode"},
+					"async":false,//为得到图片数据在函数域外使用，需设置为同步
+				}
+				var a = $.ajaxData(opt);
+				var img_data = a.res_data;
+				$("#auth_code").prop("src","data:image/png;base64,"+img_data);
+			}
+			get_authCode();
+			$(".auth_code").click(function(){
+			    get_authCode();
+			});
+		</script>
+	</body>
+</html>

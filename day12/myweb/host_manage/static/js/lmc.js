@@ -39,7 +39,8 @@
 			"ajaxType":"post",
 			"data":{},
 			"requestDataType":"JSON",
-			"async":true,
+			"async":false,//ajax模式，true异步，false同步
+			//同步模式会阻塞其他js运行
 			"callback":this.__callback__(),
 		}
 		this.res_data = "";
@@ -54,8 +55,8 @@
 			if(this.options.type == "API"){
 				console.log("调用api");
 			}else if(this.options.type == "USER_AUTH"){
-				console.log("用户认证");
-				this.__userAuth__();
+				console.log("登录认证");
+				this.__loginAuth__();
 			}else if(this.options.type == "AUTH_CODE"){
 			    console.log("获取验证码");
 				this.__authCode__();
@@ -66,7 +67,7 @@
 		    this.__ajax__(this,"/auth_code/");
 
 		},
-		__userAuth__:function(){
+		__loginAuth__:function(){
 			var data = this.options.data;
 			var res;
 			if(data['user'].length==0 || data['pwd'].length==0){
@@ -81,13 +82,14 @@
 				}
 			}else{
 				//密码加密,再post
+				this.options.data['pwd'] = hex_sha1(this.options.data['pwd']);
 				this.__ajax__(this,"/login/");
+				res = this.res_data;
 			}
 			this.res_data = res;
 		},
 		__ajax__:function(that,url){
 
-		    var res_data;
 			$.ajax({
 				type:that.options.ajaxType,
 				url:url,
@@ -103,10 +105,19 @@
 				complete:function(XMLHttpRequest){
 
 				},
-				async:false,
+				async:that.options.async,
 			});
 			function formatData(data){
-			    that.res_data = data;
+			    if(that.requestDataType == 'JSON'){
+                     that.res_data = data;
+			    }else{
+			        that.res_data = {
+			            "errNum":0,
+			            "errMsg":"ok",
+			            "data":data,
+			        }
+			    }
+
 
 			}
 

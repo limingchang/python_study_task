@@ -145,7 +145,7 @@
 	padding-right: 25px;
 }
 
-.form .icon-large{
+.form .form-icon{
 	position: absolute;
 	top: 30px;
 	right: 10%;
@@ -240,7 +240,7 @@
 		.form label{
 			width: 23%;
 		}
-		.form .icon-large{
+		.form .form-icon{
 			position: absolute;
 			top: 15px;
 			right: 15px;
@@ -267,7 +267,7 @@
 		.form label{
 			width: 23%;
 		}
-		.form .icon-large{
+		.form .form-icon{
 			position: absolute;
 			top: 15px;
 			right: 20px;
@@ -276,7 +276,7 @@
 		    top:5px;
 		}
 		.row{
-				height: 38px;
-				line-height: 38px;
+            height: 38px;
+            line-height: 38px;
 		}
 }

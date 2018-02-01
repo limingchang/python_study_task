@@ -22,12 +22,12 @@
 					<div class="row">
 						<label>用户名：</label>
 						<input type="text" name="user" />
-						<i class="icon-user icon-large"></i>
+						<i class="form-icon icon-user icon-large"></i>
 					</div>
 					<div class="row">
 						<label>密&nbsp;&nbsp;&nbsp;码：</label>
 						<input type="password" name="pwd"/>
-						<i class="icon-key icon-large"></i>
+						<i class="form-icon icon-key icon-large"></i>
 					</div>
 					<div class="row">
 						<label>验证码：</label>
@@ -38,6 +38,7 @@
 					</div>
 					<div class="row">
 						<div class="f-center">
+
 							<button class="btn btn-xl primary" id="login">登录</button>
 						</div>
 					</div>
@@ -45,14 +46,16 @@
 			</div>
 		</div>
 		<script src="/static/js/jquery/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="/static/js/sha1.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/static/js/lmc.js" type="text/javascript" charset="utf-8"></script>
 		<script>
 			$("#login").click(function(){
+			    $(this).attr("disabled","disabled");
+			    $(this).html("<i class='icon-spinner icon-spin icon-large'></i>登录");
 				var input = $(".form").find("input");
 				var data = {};
 				input.each(function(){
 					data[$(this).attr("name")]=$.tools().trim($(this).val());
-					
 				});
 				var opt = {
 					"type":"USER_AUTH",
@@ -60,17 +63,21 @@
 					"data":data,
 				}
 				var a = $.ajaxData(opt);
-				$.showTips(a.errMsg,'error','tips-center');
+				console.log(a.errNum);
+				if(a.errNum != 0){
+				    $.showTips(a.errMsg,'error','tips-center');
+				}
+				$(this).html("登录");
+                $(this).removeAttr("disabled");
 			});
 			function get_authCode(){
 				var opt = {
 					"type":"AUTH_CODE",
 					"ajaxType":"get",
 					"data":{"act":"getAuthCode"},
-					"async":false,//为得到图片数据在函数域外使用，需设置为同步
 				}
 				var a = $.ajaxData(opt);
-				var img_data = a.res_data;
+				var img_data = a["data"];
 				$("#auth_code").prop("src","data:image/png;base64,"+img_data);
 			}
 			get_authCode();

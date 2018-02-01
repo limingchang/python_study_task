@@ -9,7 +9,7 @@ class UserInfo(models.Model):
     pwd = models.CharField(max_length=40)
     # 用户密码，sha1加密字符串，40长度
     name = models.CharField(max_length=12)
-    trl = models.CharField(max_length=11)
+    tel = models.CharField(max_length=11)
     key = models.CharField(max_length=16)
 
     def __str__(self):

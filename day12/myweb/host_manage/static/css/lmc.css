@@ -161,6 +161,53 @@
 	width: 40%;
 	padding: 1px;
 }
+/*扁平化板块菜单*/
+.block{
+    position:relative;
+    margin:5px auto;
+    width:400px;
+    height:300px;
+    text-align:center;
+}
+.plate-1{
+    position:absolute;
+    top:0;
+    left:0;
+    width:200px;
+    height:200px;
+}
+.plate-2{
+    position:absolute;
+    top:0;
+    right:0;
+    width:200px;
+    height:100px;
+}
+.plate-3{
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:200px;
+    height:100px;
+}
+.plate-4{
+    position:absolute;
+    right:0;
+    bottom:0;
+    width:200px;
+    height:200px;
+}
+.plate{
+    /*position:relative;*/
+    cursor:pointer;
+}
+.plate div{
+    position:absolute;
+    top:50%;
+    margin-top:-40px;
+    left:50%;
+    margin-left:-36px;
+}
 /*base width and base layout*/
 /*12列栅格*/
 .col-1{
@@ -203,6 +250,10 @@
 	margin: 0 auto;
 	padding-top:20px;
 }
+.vertical-center{
+    margin:auto 0;
+    vertical-align:middle;
+}
 .center{
 	margin: 0 auto;
 }
@@ -218,6 +269,14 @@
 }
 .clear-float{
 	clear: both;
+}
+
+.header{
+	height: 48px;
+	font-size: 22px;
+	text-align: center;
+	line-height: 48px;
+	padding: 0px 0 0 15px;
 }
 /*响应式*/
 @media only screen and (min-width: 750px ) {

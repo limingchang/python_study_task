@@ -7,6 +7,16 @@ from io import BytesIO
 from base64 import b64encode
 import hashlib,time,json,random,string
 
+
+def index(request):
+    try:
+        access_token = request.META['HTTP_ACCESSTOKEN']
+    except KeyError:
+        access_token = None
+    print(access_token)
+    return render(request,"host_manage/index.html")
+
+
 def login(request):
     if request.method == 'POST':
         # print(request.META['HTTP_ACCESSTOKEN'])
@@ -38,7 +48,7 @@ def login(request):
         return HttpResponse(json.dumps(res), content_type='application/json')
     else:
         auth_code(request)
-    return render(request,'login.html')
+    return render(request,'host_manage/login.html')
 
 
 def auth_code(request):

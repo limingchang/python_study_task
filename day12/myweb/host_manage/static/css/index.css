@@ -12,3 +12,13 @@ input,button{
 a{
 	text-decoration: none;
 }
+.plate a{
+    color:#fff;
+}
+.modal{
+    width:400px !important;
+    margin-left:-200px;
+}
+.m-btn{
+    border:0 !important;
+}

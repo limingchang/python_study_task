@@ -33,6 +33,9 @@ def login(request):
             sign_array = [str(t), nonce, key]
             sign_str = "".join(sorted(sign_array))
             server_signature = hashlib.sha1(sign_str.encode()).hexdigest()
+            # 保存签名并设置过期时间
+            request.session['sign'] = server_signature
+            request.session['sign_timeout'] = time.time()+3600*24 # 默认过期时间一天
             res = {
                 "errNum":0,
                 "errMsg":"ok",

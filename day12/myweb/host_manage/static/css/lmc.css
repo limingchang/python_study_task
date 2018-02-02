@@ -208,8 +208,44 @@
     left:50%;
     margin-left:-36px;
 }
+/*modal*/
+.modal{
+    position:fixed;
+    z-index:31;
+    border-radius:10px;
+    background-color:#fff;
+    border:1px solid #ddd;
+    top:0;
+    left:50%;
+}
+.m-title{
+    color:#33CC33;
+    font-size:22px;
+    height:28px;
+    line-height:28px;
+    border-bottom:3px solid #FF6600;
+}
+.modal .row{
+    font-size:14px;
+    padding:5px 10px;
+    border-bottom:1px solid #ddd;
+}
+.modal span{
+    color:#FF0033;
+
+}
+.modal input{
+    width:85%;
+    font-size:16px;
+    padding:5px 10px;
+    border:1px solid #CCCCCC;
+    border-radius:5px;
+}
 /*base width and base layout*/
 /*12列栅格*/
+.col{
+    display:inline-block;
+}
 .col-1{
 	width:8% ;
 }
@@ -217,7 +253,7 @@
 	width:16.333% ;
 }
 .col-3{
-	width:8% ;
+	width:24.77777% ;
 }
 .col-4{
 	width:33% ;
@@ -308,8 +344,8 @@
 		    top:5px;
 		}
 		.row{
-				height: 38px;
-				line-height: 38px;
+            height: 38px;
+            line-height: 38px;
 		}
 }
 @media only screen and (min-width: 1170px) {

@@ -17,31 +17,83 @@
     <div class="content">
         <div class="block">
             <div class="plate-1 plate blue f-white">
-                <div>
+                <div target-url="/login/">
                     <i class="icon-key icon-3x"></i>
                     <h2>用户登录</h2>
                 </div>
             </div>
             <div class="plate-2  plate orange f-white">
                 <div>
-                   <i class="icon-user icon-3x"></i>
-                    <h2>用户注册</h2>
+                    <a href="/register/">
+                        <i class="icon-user icon-3x"></i>
+                        <h2>用户注册</h2>
+                    </a>
                 </div>
             </div>
             <div class="plate-3 plate success f-white">
-                <div>
+                <div target-url="/setting/">
                     <i class="icon-cogs icon-3x"></i>
                     <h2>系统设置</h2>
                 </div>
             </div>
             <div class="plate-4 plate default f-white">
-                <div>
+                <div target-url="/host/">
                     <i class="icon-desktop icon-3x"></i>
                     <h2>主机管理</h2>
                 </div>
             </div>
         </div>
-
     </div>
+    <div class="shadow blue"></div>
+    <div class="modal col-4">
+        <div class="m-title f-center">用户注册</div>
+        <div class="row">
+            <div class="col col-1"><span>*</span></div>
+            <div class="col col-3"><label>用&nbsp;&nbsp;户&nbsp;&nbsp;名：</label></div>
+            <div class="col col-6"><input type="text" name="user" /></div>
+        </div>
+        <div class="row">
+            <div class="col col-1"><span>*</span></div>
+            <div class="col col-3"><label>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：</label></div>
+            <div class="col col-6"><input type="text" name="pwd" /></div>
+        </div>
+        <div class="row">
+            <div class="col col-1"><span>*</span></div>
+            <div class="col col-3"><label>重复密码：</label></div>
+            <div class="col col-6"><input type="text" name="repwd" /></div>
+        </div>
+        <div class="row">
+            <div class="col col-1"><span>*</span></div>
+            <div class="col col-3"><label>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</label></div>
+            <div class="col col-6"><input type="text" name="name" /></div>
+        </div>
+        <div class="row">
+            <div class="col col-1"><span>*</span></div>
+            <div class="col col-3"><label>手&nbsp;&nbsp;机&nbsp;&nbsp;号：</label></div>
+            <div class="col col-6"><input type="text" name="tel" /></div>
+        </div>
+        <div class="row m-btn">
+            <div class="f-center">
+                <button class="btn btn-xl success" id="register">注册</button>
+                <button class="btn btn-xl error" id="cancel">取消</button>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script src="/static/js/jquery/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/static/js/sha1.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/static/js/lmc.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        $("div[target-url]").click(function(){
+            //$.tools().setCookie("lmc","dadadaf","s20")
+            var accessToken = $.tools().getCookie("accessToken");
+            if(accessToken == null){
+                console.log("请先登录");
+                window.location.href = $(this).attr("target-url");
+            }else{
+                console.log("验证签名");
+            }
+        });
+    </script>
 </body>
 </html>

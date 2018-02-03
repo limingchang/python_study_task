@@ -24,7 +24,7 @@
             </div>
             <div class="plate-2  plate orange f-white">
                 <div>
-                    <a href="/register/">
+                    <a id="reg">
                         <i class="icon-user icon-3x"></i>
                         <h2>用户注册</h2>
                     </a>
@@ -44,33 +44,38 @@
             </div>
         </div>
     </div>
-    <div class="shadow blue"></div>
-    <div class="modal col-4">
+    <div class="shadow blue hidden"></div>
+    <div class="modal col-4 hidden">
         <div class="m-title f-center">用户注册</div>
         <div class="row">
             <div class="col col-1"><span>*</span></div>
             <div class="col col-3"><label>用&nbsp;&nbsp;户&nbsp;&nbsp;名：</label></div>
-            <div class="col col-6"><input type="text" name="user" /></div>
+            <div class="col col-6"><input require="true" max-len="18" min-len="6" filed="string" type="text" name="user" /></div>
+            <div class="col col-1 errmsg"><i class="icon-ok f-success"></i></div>
         </div>
         <div class="row">
             <div class="col col-1"><span>*</span></div>
             <div class="col col-3"><label>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：</label></div>
-            <div class="col col-6"><input type="text" name="pwd" /></div>
+            <div class="col col-6"><input require="true" max-len="18" min-len="6" filed="string" type="password" name="pwd" /></div>
+            <div class="col col-1 errmsg"><i class="icon-ok f-success"></i></div>
         </div>
         <div class="row">
             <div class="col col-1"><span>*</span></div>
             <div class="col col-3"><label>重复密码：</label></div>
-            <div class="col col-6"><input type="text" name="repwd" /></div>
+            <div class="col col-6"><input require="true" filed="repeat" re-for="pwd" type="password" name="repwd" /></div>
+            <div class="col col-1 errmsg"><i class="icon-ok f-success"></i></div>
         </div>
         <div class="row">
             <div class="col col-1"><span>*</span></div>
             <div class="col col-3"><label>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</label></div>
-            <div class="col col-6"><input type="text" name="name" /></div>
+            <div class="col col-6"><input require="true" filed="string" type="text" name="name" /></div>
+            <div class="col col-1 errmsg"><i class="icon-ok f-success"></i></div>
         </div>
         <div class="row">
             <div class="col col-1"><span>*</span></div>
             <div class="col col-3"><label>手&nbsp;&nbsp;机&nbsp;&nbsp;号：</label></div>
-            <div class="col col-6"><input type="text" name="tel" /></div>
+            <div class="col col-6"><input require="true" filed="tel" type="text" name="tel" /></div>
+            <div class="col col-1 errmsg"><i class="icon-ok f-success"></i></div>
         </div>
         <div class="row m-btn">
             <div class="f-center">
@@ -83,6 +88,7 @@
     <script src="/static/js/jquery/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="/static/js/sha1.js" type="text/javascript" charset="utf-8"></script>
     <script src="/static/js/lmc.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/static/js/index.js" type="text/javascript" charset="utf-8"></script>
     <script>
         $("div[target-url]").click(function(){
             //$.tools().setCookie("lmc","dadadaf","s20")
@@ -93,6 +99,19 @@
             }else{
                 console.log("验证签名");
             }
+        });
+        $("#reg").click(function(){
+            $(".shadow").show();
+            $(".modal").css("margin-top",-($(".modal").height()/2)).slideDown();
+        });
+        $("#cancel").click(function(){
+            $(".shadow").hide();
+            $(".modal").hide();
+        });
+        $(".modal #register").click(function(){
+            var inputs = $(".modal").find("input");
+            console.log(inputs);
+
         });
     </script>
 </body>

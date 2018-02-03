@@ -184,5 +184,6 @@
 	$.tools  = function(){
 		var t = new tools ();
 		return t;
-	}	
+	};
+
 })();

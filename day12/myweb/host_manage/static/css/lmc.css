@@ -15,7 +15,7 @@
 	background-color: #5cb85c;
 }
 .warring{
-	background-color: #d9534f;
+	background-color: #f0ad4e;
 }
 .blue{
 	background-color: #3399CC;
@@ -32,6 +32,18 @@
  /*base font-color*/
 .f-white{
 	color: #fff;
+}
+.f-info{
+	color: #5bc0de;
+}
+.f-success{
+	color: #5cb85c;
+}
+.f-warring{
+	color: #f0ad4e;
+}
+.f-error{
+	color: #d9534f;
 }
 .f-center{
 	text-align: center;
@@ -82,7 +94,7 @@
 	border-radius: 5px;
 	text-align: center;
 	opacity: 0;
-	z-index: 11;
+	z-index: 99;
 	transition: opacity 1s ease-in;
 }
 .tips-span{
@@ -105,6 +117,9 @@
 	position: fixed;
 	left: 50%;
 	top: 50%;
+}
+.hidden{
+    display:none;
 }
 /*shadow css*/
 .shadow{
@@ -215,7 +230,7 @@
     border-radius:10px;
     background-color:#fff;
     border:1px solid #ddd;
-    top:0;
+    top:50%;
     left:50%;
 }
 .m-title{

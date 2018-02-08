@@ -29,6 +29,7 @@
 .orange{
 	background-color: #FF6600;
 }
+
  /*base font-color*/
 .f-white{
 	color: #fff;
@@ -216,13 +217,7 @@
     /*position:relative;*/
     cursor:pointer;
 }
-.plate div{
-    position:absolute;
-    top:50%;
-    margin-top:-40px;
-    left:50%;
-    margin-left:-36px;
-}
+
 /*modal*/
 .modal{
     position:fixed;
@@ -261,41 +256,8 @@
 .col{
     display:inline-block;
 }
-.col-1{
-	width:8% ;
-}
-.col-2{
-	width:16.333% ;
-}
-.col-3{
-	width:24.77777% ;
-}
-.col-4{
-	width:33% ;
-}
-.col-5{
-	width:41.33333% ;
-}
-.col-6{
-	width:49.677777% ;
-}
-.col-7{
-	width:58% ;
-}
-.col-8{
-	width:66.33333% ;
-}
-.col-9{
-	width:74.677777% ;
-}
-.col-10{
-	width:83% ;
-}
-.col-11{
-	width:91.333333% ;
-}
-.col-12{
-	width:100% ;
+.col-1,.col-2,.col-3,.col-4,.col-5,.col-6,.col-7,col-8,.col-9,.col-10,.col-11,.col-12{
+    width:100%;
 }
 .content{
 	margin: 0 auto;
@@ -329,6 +291,9 @@
 	line-height: 48px;
 	padding: 0px 0 0 15px;
 }
+.input-error{
+    border-color:#d9534f;
+}
 /*响应式*/
 @media only screen and (min-width: 750px ) {
 		.content{
@@ -340,7 +305,7 @@
 	.content{
 			width: 970px;
 		}
-		.form input[type='text'],input[type='password']{
+		.form input[type='text'],.form input[type='password']{
 			width: 65%;
 		}
 		.form input[length]{
@@ -362,12 +327,48 @@
             height: 38px;
             line-height: 38px;
 		}
+		.col-1{
+            width:8% ;
+        }
+        .col-2{
+            width:16.333% ;
+        }
+        .col-3{
+            width:24.77777% ;
+        }
+        .col-4{
+            width:33% ;
+        }
+        .col-5{
+            width:41.33333% ;
+        }
+        .col-6{
+            width:49.677777% ;
+        }
+        .col-7{
+            width:58% ;
+        }
+        .col-8{
+            width:66.33333% ;
+        }
+        .col-9{
+            width:74.677777% ;
+        }
+        .col-10{
+            width:83% ;
+        }
+        .col-11{
+            width:91.333333% ;
+        }
+        .col-12{
+            width:100% ;
+        }
 }
 @media only screen and (min-width: 1170px) {
 		.content{
 			width: 1170px;
 		}
-		.form input[type='text'],input[type='password']{
+		.form input[type='text'],.form input[type='password']{
 			width: 66%;
 		}
 		.form input[length]{
@@ -389,4 +390,40 @@
             height: 38px;
             line-height: 38px;
 		}
+		.col-1{
+            width:8% ;
+        }
+        .col-2{
+            width:16.333% ;
+        }
+        .col-3{
+            width:24.77777% ;
+        }
+        .col-4{
+            width:33% ;
+        }
+        .col-5{
+            width:41.33333% ;
+        }
+        .col-6{
+            width:49.677777% ;
+        }
+        .col-7{
+            width:58% ;
+        }
+        .col-8{
+            width:66.33333% ;
+        }
+        .col-9{
+            width:74.677777% ;
+        }
+        .col-10{
+            width:83% ;
+        }
+        .col-11{
+            width:91.333333% ;
+        }
+        .col-12{
+            width:100% ;
+        }
 }

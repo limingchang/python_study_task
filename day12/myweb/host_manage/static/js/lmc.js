@@ -3,7 +3,7 @@
 		'showTips':function(msg,tips_type='info',tips_position='tips-lefttop'){
 			//console.log(msg,tips_type,tips_position);
 			var tips = document.createElement('div');
-				$(tips).addClass('tips').addClass(tips_type).addClass(tips_position).text(msg);
+				$(tips).addClass('tips').addClass(tips_type).addClass(tips_position).html(msg);
 				var span = document.createElement('span');
 				$(span).text('X').addClass('tips-span').click(function(){
 					$(tips).hide();
@@ -54,6 +54,7 @@
 
 			if(this.options.type == "API"){
 				console.log("调用api");
+				this.__api__();
 			}else if(this.options.type == "USER_AUTH"){
 				console.log("登录认证");
 				this.__loginAuth__();
@@ -62,6 +63,9 @@
 				this.__authCode__();
 			}
 
+		},
+		__api__:function(){
+		    this.__ajax__(this,"/api/");
 		},
 		__authCode__:function(){
 		    this.__ajax__(this,"/auth_code/");
@@ -95,30 +99,17 @@
 				url:url,
 				beforeSend:function(XMLHttpRequest){
 				    if(that.options.type=="API"){
-				        XMLHttpRequest.setRequestHeader('accessToken','limich123');
+				        XMLHttpRequest.setRequestHeader('accessToken',$.tools().getCookie("accessToken"));
 				    }
 				},
 				data:that.options.data,
 				success:function(data,that){
 				    formatData(data);
 				},
-				complete:function(XMLHttpRequest){
-
-				},
 				async:that.options.async,
 			});
 			function formatData(data){
-			    if(that.requestDataType == 'JSON'){
-                     that.res_data = data;
-			    }else{
-			        that.res_data = {
-			            "errNum":0,
-			            "errMsg":"ok",
-			            "data":data,
-			        }
-			    }
-
-
+                that.res_data = data;
 			}
 
 		},
@@ -144,6 +135,7 @@
 		trim:function(str){
 			return str.replace(/(^\s*)|(\s*$)/g, ""); 
 		},
+		//cookie操作工具
 		setCookie:function(name,value,time){
 		    var getsec = function(str){
                 var str1=str.substring(1,str.length)*1;
@@ -173,12 +165,104 @@
             if(cval!=null)
             document.cookie= name + "="+cval+";expires="+exp.toGMTString();
         },
-        getCookie:function getCookie(name){
+        getCookie:function(name){
             var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
             if(arr=document.cookie.match(reg))
                 return unescape(arr[2]);
             else
                 return null;
+        },
+        //cookie操作工具
+        //表单验证工具
+        formAuth:function(btn){
+
+            btn.click(function(){
+                $("input[require]").each(function(){
+                    var flag = true;
+                    var msg = '';
+                    var err = $(this).parent().next();
+                    var min = parseInt($(this).attr("min-len"));
+                    var max = parseInt($(this).attr("max-len"));
+                    var filed = $(this).attr("filed");
+                    var require = $(this).attr("require");
+                    var val = $(this).val();
+                    if(require == "true"){
+                        if(val.length == 0){
+                            flag = false;
+                            msg = $(this).attr("name")+'不能为空！';
+                            err.html("<i class='icon-remove f-error'>"+msg+"</i>");
+                            $(this).focus().css("border-color","#d9534f");
+                            return false;
+                        }
+                    }
+                    if(min){
+                        if(val.length < min){
+                            flag = false;
+                            msg = '最小长度不能小于'+min;
+                            err.html("<i class='icon-remove f-error'>"+msg+"</i>");
+                            $(this).focus().css("border-color","#d9534f");
+                            return false;
+                        }
+
+                    }
+                    if(max){
+                        if(val.length > max){
+                            flag = false;
+                            msg = '最大长度不能大于'+max;
+                            err.html("<i class='icon-remove f-error'>"+msg+"</i>");
+                            $(this).focus().css("border-color","#d9534f");
+                            return false;
+                        }
+                    }
+                    if(filed){
+                        if(filed == "string"){
+                            var reg = /^\w+$/;
+                            if(!reg.test(val)){
+                                flag = false;
+                                msg = '请使用字符、数字';
+                                err.html("<i class='icon-remove f-error'>"+msg+"</i>");
+                                $(this).focus().css("border-color","#d9534f");
+                                return false;
+                            }
+                        }else if(filed == "tel"){
+                            var reg = /^1[34578]\d{9}$/;
+                            if(!reg.test(val)){
+                                flag = false;
+                                msg = '手机格式错误';
+                                err.html("<i class='icon-remove f-error'>"+msg+"</i>");
+                                $(this).focus().css("border-color","#d9534f");
+                                return false;
+                            }
+                        }else if(filed == "chinese"){
+                            var reg = /^[\u0391-\uFFE5]+$/;
+                            if(!reg.test(val)){
+                                flag = false;
+                                msg = '请填入中文';
+                                err.html("<i class='icon-remove f-error'>"+msg+"</i>");
+                                $(this).focus().css("border-color","#d9534f");
+                                return false;
+                            }
+                        }else if(filed == "email"){
+
+                        }else if(filed == "repeat"){
+                            var re = $(".modal").find("[name="+$(this).attr("re-for")+"]");
+                            if(re.val() != val){
+                                flag = false;
+                                msg = '两次密码输入不符';
+                                err.html("<i class='icon-remove f-error'>"+msg+"</i>");
+                                $(this).focus().css("border-color","#d9534f");
+                                return false;
+                            }
+                        }
+                    }
+                    if(flag){
+                        err.html("<i class='icon-ok f-success'></i>");
+                        $(this).css("border-color","#ccc");
+                        return true;
+                    }
+                });
+            });
+
         },
 	}
 	$.tools  = function(){

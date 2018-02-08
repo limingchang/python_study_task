@@ -11,7 +11,7 @@
 		<div class="col-12 header blue f-white">
 			<div class="left">
 				<i class="icon-laptop icon-large"></i>
-				<span>主机管理系统</span>
+				<a href="/index/"><span>主机管理系统</span></a>
 			</div>
 			<div class="center col-4">用户登录</div>
 			<div class="clear-float"></div>
@@ -63,9 +63,13 @@
 					"data":data,
 				}
 				var a = $.ajaxData(opt);
-				console.log(a.errNum);
-				if(a.errNum != 0){
+				get_authCode();
+				if(a.errNum){
 				    $.showTips(a.errMsg,'error','tips-center');
+				}else{
+				    // 登录跳转
+				    $.tools().setCookie("accessToken",a.access_token,"h1")
+				    window.location.href = "/index/";
 				}
 				$(this).html("登录");
                 $(this).removeAttr("disabled");
@@ -76,8 +80,8 @@
 					"ajaxType":"get",
 					"data":{"act":"getAuthCode"},
 				}
-				var a = $.ajaxData(opt);
-				var img_data = a["data"];
+				var img_data = $.ajaxData(opt).res_data;
+
 				$("#auth_code").prop("src","data:image/png;base64,"+img_data);
 			}
 			get_authCode();

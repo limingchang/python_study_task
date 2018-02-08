@@ -11,14 +11,43 @@ input,button{
 }
 a{
 	text-decoration: none;
+	color:#fff;
+}
+.loginout{
+    font-size:16px;
+    margin-right:50px;
+    cursor:pointer;
 }
 .plate a{
     color:#fff;
 }
+.plate div {
+    position: absolute;
+    width:108px;
+    height:100px;
+    top: 50%;
+    margin-top: -40px;
+    left: 50%;
+    margin-left: -54px;
+}
 .modal{
     width:400px !important;
     margin-left:-200px;
+    top:50px !important;
 }
+
 .m-btn{
     border:0 !important;
+}
+@media only screen and (min-width: 970px) {
+    .modal{
+        width:550px !important;
+        margin-left:-250px;
+    }
+}
+@media only screen and (min-width: 1170px) {
+    .modal{
+        width:550px !important;
+        margin-left:-250px;
+    }
 }

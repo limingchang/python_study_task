@@ -23,4 +23,8 @@ urlpatterns = [
     path('login/', hm_views.login),
     path('auth_code/', hm_views.auth_code),
     path('index/',hm_views.index),
+    path('api/',hm_views.api),
+    path('login_out/',hm_views.login_out),
+    path('host/',hm_views.host),
+    path('setting/',hm_views.setting),
 ]

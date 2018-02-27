@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.shortcuts import HttpResponse
+from django.shortcuts import HttpResponse,redirect
 from api.auth_code import create_validate_code
 from io import BytesIO
 from base64 import b64encode
@@ -15,7 +15,7 @@ def index(request):
     except KeyError:
         access_token = request.COOKIES.get("accessToken",None)
     # del request.session["user"]
-    print(access_token)
+    # print(access_token)
     user = request.session.get("user",None)
     if user == None:
         msg = "用户登录"
@@ -26,21 +26,50 @@ def index(request):
         msg = "欢迎，" + user_info[0].name
         url = ""
         lg_out = "退出登录"
-    print(user)
     return render(request,"host_manage/index.html",{"msg":msg,"url":url,"lg_out":lg_out})
 
 
 
 def login_out(request):
     request.session.clear()
-    msg = "用户登录"
-    url = "/login/"
-    lg_out = ""
-    return render(request, "host_manage/index.html", {"msg": msg, "url": url,"lg_out":lg_out})
+    # msg = "用户登录"
+    # url = "/login/"
+    # lg_out = ""
+    response = redirect('/index/')
+    response.delete_cookie('accessToken')
+    return response
+    # return render(request, "host_manage/index.html", {"msg": msg, "url": url,"lg_out":lg_out})
 
 
 def host(request):
-    pass
+    try:
+        access_token = request.META['HTTP_ACCESSTOKEN']
+    except KeyError:
+        access_token = request.COOKIES.get("accessToken",None)
+
+    print(access_token)
+    res = Host_API(request).check_sign(model_or_sign=access_token)
+    # print(res)
+    # 判断是是否有签名访问
+    if res["data"] == False:
+        res_sign = False
+    else:
+        res_sign = True
+    # 获取个人主机信息
+    user = request.session.get("user",None)
+    host_info = Host_API(request).get_host()
+    host_info = [
+        {
+            "name": "北京主机",
+            "ip": "192.168.1.102",
+            "port": 4572,
+            "status": "在线",
+            "act": "删除",
+        }
+    ]
+    if len(host_info) == 0:
+        host_info = False
+    return render(request, "host_manage/host.html",{"sign":res_sign,"host_info":host_info})
 
 
 

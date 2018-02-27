@@ -1,0 +1,63 @@
+body{
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	font-family: "微软雅黑";
+	background-color: #eee;
+}
+input,button{
+	outline: none;
+	border: 0;
+}
+a{
+	text-decoration: none;
+	color:#fff;
+}
+.div-btn{
+    margin:0 auto;
+    margin-bottom:10px;
+    text-align:center;
+}
+.tb{
+    width:550px;
+    margin:0 auto;
+    border-collapse:collapse;
+}
+.tb th{
+    border-right:1px solid #fff;
+    font-size:18px;
+    color:#fff;
+    padding:0;
+}
+.tb td{
+    text-align:center;
+    border-bottom:2px solid #FFCCCC;
+    font-size:14px;
+}
+.modal{
+    width:400px !important;
+    margin-left:-200px;
+    top:50px !important;
+}
+
+.m-btn{
+    border:0 !important;
+}
+@media only screen and (min-width: 970px) {
+    .tb{
+        width:900px;
+    }
+    .modal{
+        width:550px !important;
+        margin-left:-250px;
+    }
+}
+@media only screen and (min-width: 1170px) {
+    .tb{
+        width:900px;
+    }
+    .modal{
+        width:550px !important;
+        margin-left:-250px;
+    }
+}

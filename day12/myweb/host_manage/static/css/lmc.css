@@ -296,134 +296,134 @@
 }
 /*响应式*/
 @media only screen and (min-width: 750px ) {
-		.content{
-			width: 750px;
-		}
+    .content{
+        width: 750px;
+    }
 		
 }
 @media only screen and (min-width: 970px) {
 	.content{
 			width: 970px;
-		}
-		.form input[type='text'],.form input[type='password']{
-			width: 65%;
-		}
-		.form input[length]{
-			width: 20%;
-			padding: 1px;
-		}
-		.form label{
-			width: 23%;
-		}
-		.form .form-icon{
-			position: absolute;
-			top: 15px;
-			right: 15px;
-		}
-		.auth_code{
-		    top:5px;
-		}
-		.row{
-            height: 38px;
-            line-height: 38px;
-		}
-		.col-1{
-            width:8% ;
-        }
-        .col-2{
-            width:16.333% ;
-        }
-        .col-3{
-            width:24.77777% ;
-        }
-        .col-4{
-            width:33% ;
-        }
-        .col-5{
-            width:41.33333% ;
-        }
-        .col-6{
-            width:49.677777% ;
-        }
-        .col-7{
-            width:58% ;
-        }
-        .col-8{
-            width:66.33333% ;
-        }
-        .col-9{
-            width:74.677777% ;
-        }
-        .col-10{
-            width:83% ;
-        }
-        .col-11{
-            width:91.333333% ;
-        }
-        .col-12{
-            width:100% ;
-        }
+    }
+    .form input[type='text'],.form input[type='password']{
+        width: 65%;
+    }
+    .form input[length]{
+        width: 20%;
+        padding: 1px;
+    }
+    .form label{
+        width: 23%;
+    }
+    .form .form-icon{
+        position: absolute;
+        top: 15px;
+        right: 15px;
+    }
+    .auth_code{
+        top:5px;
+    }
+    .row{
+        height: 38px;
+        line-height: 38px;
+    }
+    .col-1{
+        width:8% ;
+    }
+    .col-2{
+        width:16.333% ;
+    }
+    .col-3{
+        width:24.77777% ;
+    }
+    .col-4{
+        width:33% ;
+    }
+    .col-5{
+        width:41.33333% ;
+    }
+    .col-6{
+        width:49.677777% ;
+    }
+    .col-7{
+        width:58% ;
+    }
+    .col-8{
+        width:66.33333% ;
+    }
+    .col-9{
+        width:74.677777% ;
+    }
+    .col-10{
+        width:83% ;
+    }
+    .col-11{
+        width:91.333333% ;
+    }
+    .col-12{
+        width:100% ;
+    }
 }
 @media only screen and (min-width: 1170px) {
-		.content{
-			width: 1170px;
-		}
-		.form input[type='text'],.form input[type='password']{
-			width: 66%;
-		}
-		.form input[length]{
-			width: 20%;
-			padding: 1px;
-		}
-		.form label{
-			width: 23%;
-		}
-		.form .form-icon{
-			position: absolute;
-			top: 15px;
-			right: 20px;
-		}
-		.auth_code{
-		    top:5px;
-		}
-		.row{
-            height: 38px;
-            line-height: 38px;
-		}
-		.col-1{
-            width:8% ;
-        }
-        .col-2{
-            width:16.333% ;
-        }
-        .col-3{
-            width:24.77777% ;
-        }
-        .col-4{
-            width:33% ;
-        }
-        .col-5{
-            width:41.33333% ;
-        }
-        .col-6{
-            width:49.677777% ;
-        }
-        .col-7{
-            width:58% ;
-        }
-        .col-8{
-            width:66.33333% ;
-        }
-        .col-9{
-            width:74.677777% ;
-        }
-        .col-10{
-            width:83% ;
-        }
-        .col-11{
-            width:91.333333% ;
-        }
-        .col-12{
-            width:100% ;
-        }
+    .content{
+        width: 1170px;
+    }
+    .form input[type='text'],.form input[type='password']{
+        width: 66%;
+    }
+    .form input[length]{
+        width: 20%;
+        padding: 1px;
+    }
+    .form label{
+        width: 23%;
+    }
+    .form .form-icon{
+        position: absolute;
+        top: 15px;
+        right: 20px;
+    }
+    .auth_code{
+        top:5px;
+    }
+    .row{
+        height: 38px;
+        line-height: 38px;
+    }
+    .col-1{
+        width:8% ;
+    }
+    .col-2{
+        width:16.333% ;
+    }
+    .col-3{
+        width:24.77777% ;
+    }
+    .col-4{
+        width:33% ;
+    }
+    .col-5{
+        width:41.33333% ;
+    }
+    .col-6{
+        width:49.677777% ;
+    }
+    .col-7{
+        width:58% ;
+    }
+    .col-8{
+        width:66.33333% ;
+    }
+    .col-9{
+        width:74.677777% ;
+    }
+    .col-10{
+        width:83% ;
+    }
+    .col-11{
+        width:91.333333% ;
+    }
+    .col-12{
+        width:100% ;
+    }
 }

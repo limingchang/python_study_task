@@ -2,16 +2,16 @@
 //$.tools().formAuth($(".modal #register"));
 $("div[target-url]").click(function(){
     //$.tools().setCookie("lmc","dadadaf","s20")
+    if($(this).attr("target-url")=="/login/"){
+        window.location.href = "/login/";
+        return;
+    }
     var accessToken = $.tools().getCookie("accessToken");
     console.log(accessToken);
     if(accessToken == null){
         alert("请先登录")
         window.location.href = "/login/";
     }else{
-        if($(this).attr("target-url") == "/login/"){
-            window.location.href = "/login/";
-            return;
-        }
         console.log("验证签名");
         var opt = {
             "type":"API",

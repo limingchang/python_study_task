@@ -33,8 +33,11 @@ class Host_API(object):
         return self.res
 
 
-    def check_sign(self):
-        access_token = self.request.POST.get("accessToken",None)
+    def check_sign(self,model_or_sign="auto"):
+        if model_or_sign == "auto":
+            access_token = self.request.POST.get("accessToken",None)
+        else:
+            access_token = model_or_sign
         server_time = time.time()
         server_sign = self.request.session.get("sign",None)
         sign_timeout = self.request.session.get("sign_timeout",None)
@@ -48,7 +51,7 @@ class Host_API(object):
             self.res['data'] = False
         elif server_time > sign_timeout:
             self.res['errNum'] = 203
-            self.res['errMsg'] = '签名失效'
+            self.res['errMsg'] = '签名过期'
             self.res['data'] = False
         else:
             self.res['errNum'] = 0
@@ -74,4 +77,10 @@ class Host_API(object):
 
 
     def get_host(self):
-        pass
+        user = self.request.session.get("user", None)
+        if user != None:
+            user_info = UserInfo.objects.filter(user=user)
+            host_info = user_info[0].hostinfo_set.all()
+        else:
+            host_info = []
+        return host_info

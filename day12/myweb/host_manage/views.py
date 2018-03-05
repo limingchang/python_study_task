@@ -48,7 +48,7 @@ def host(request):
         access_token = request.COOKIES.get("accessToken",None)
 
     print(access_token)
-    res = Host_API(request).check_sign(model_or_sign=access_token)
+    res = Host_API(request).check_sign(type_or_sign=access_token)
     # print(res)
     # 判断是是否有签名访问
     if res["data"] == False:
@@ -58,15 +58,8 @@ def host(request):
     # 获取个人主机信息
     user = request.session.get("user",None)
     host_info = Host_API(request).get_host()
-    host_info = [
-        {
-            "name": "北京主机",
-            "ip": "192.168.1.102",
-            "port": 4572,
-            "status": "在线",
-            "act": "删除",
-        }
-    ]
+    for item in host_info:
+        item.status = Host_API(request).check_ip_status(ip=item.ip)
     if len(host_info) == 0:
         host_info = False
     return render(request, "host_manage/host.html",{"sign":res_sign,"host_info":host_info})
@@ -83,12 +76,22 @@ def api(request):
         act = request.POST.get("act",None)
     else:
         act = request.GET.get("act", None)
+
+    print('API act:',act)
+
     if act == 'check_user':
         res = Host_API(request).check_user()
     elif act == 'register':
         res = Host_API(request).register()
     elif act == 'check_sign':
         res = Host_API(request).check_sign()
+    elif act == 'add_host':
+        access_token = request.META['HTTP_ACCESSTOKEN']
+        chk = Host_API(request).check_sign(access_token)
+        if chk["data"]:
+            res = Host_API(request).add_host()
+        else:
+            res = chk
     else:
         res = {
             "errNum": 301,

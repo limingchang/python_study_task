@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'Mc.Lee'
-import sys, os
-from host_manage.models import UserInfo
+import sys, os,platform
+from host_manage.models import UserInfo,HostInfo
 import hashlib,time,json,random,string
 
 
@@ -33,11 +33,11 @@ class Host_API(object):
         return self.res
 
 
-    def check_sign(self,model_or_sign="auto"):
-        if model_or_sign == "auto":
+    def check_sign(self,type_or_sign="auto"):
+        if type_or_sign == "auto":
             access_token = self.request.POST.get("accessToken",None)
         else:
-            access_token = model_or_sign
+            access_token = type_or_sign
         server_time = time.time()
         server_sign = self.request.session.get("sign",None)
         sign_timeout = self.request.session.get("sign_timeout",None)
@@ -74,6 +74,32 @@ class Host_API(object):
         self.res['data'] = True
         return self.res
 
+    def add_host(self):
+        print('add host')
+        hostname = self.request.POST.get("hostname",None)
+        hostaddr = self.request.POST.get("hostaddr", None)
+        hostport = self.request.POST.get("hostport", None)
+        hostroot = self.request.POST.get("hostroot", None)
+        hostkey = self.request.POST.get("hostkey", None)
+        host = HostInfo(name=hostname,ip=hostaddr,port=hostport,user=hostroot,pwd=hostkey)
+        host.save()
+        # 获取个人信息
+        user_info = self.get_user_info()
+        print(user_info)
+        host.host_user.add(*user_info)
+        self.res['errNum'] = 0
+        self.res['errMsg'] = '新增主机'
+        self.res['data'] = True
+        print(host)
+        return self.res
+
+    def get_user_info(self,type_or_user="auto"):
+        if type_or_user == "auto":
+            user = self.request.session.get("user", None)
+        else:
+            user = type_or_user
+        user_info = UserInfo.objects.filter(user=user)
+        return user_info
 
 
     def get_host(self):
@@ -84,3 +110,34 @@ class Host_API(object):
         else:
             host_info = []
         return host_info
+
+
+    def check_ip_status(self,ip='192.168.0.3'):
+        def get_os():
+            '''
+            获取系统类型
+            :return:
+            '''
+            os = platform.system()
+            if os == "Windows":
+                return "n"
+            else:
+                return "c"
+
+        def ping_ip(ip_str):
+            cmd = ["ping", "-{op}".format(op=get_os()),
+                   "1", ip_str]
+            output = os.popen(" ".join(cmd)).readlines()
+            flag = '停机'
+            # print(output)
+            for line in list(output):
+                if not line:
+                    continue
+                new_line = str(line).upper().strip()
+                # print(new_line)
+                if new_line.find("TTL") >= 0:
+                    n = new_line.find("TIME=")+5
+                    flag = new_line.lower()[n:]
+                    break
+            return flag
+        return ping_ip(ip)

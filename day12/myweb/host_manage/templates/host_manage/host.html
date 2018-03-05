@@ -44,8 +44,20 @@
                         <td>{{row.name}}</td>
                         <td>{{row.ip}}</td>
                         <td>{{row.port}}</td>
-                        <td>{{row.status}}</td>
-                        <td>{{row.act}}</td>
+                        {% if row.status == '停机' %}
+                            <td>
+                                <span class="f-error"><i class="icon-circle"></i></span>
+                                {{row.status}}
+                            </td>
+                        {% else %}
+                            <td>
+                                <span class="f-success"><i class="icon-circle"></i></span>
+                                {{row.status}}
+                            </td>
+                        {% endif %}
+                        <td>
+                            <button id="del-host" target-data="{{row.id}}" class="btn btn-ml error"><i class="icon-remove"></i>删除</button>
+                        </td>
                     </tr>
                 {% endfor %}
             {% endif %}
@@ -61,27 +73,27 @@
         <div class="m-title f-center">新增主机</div>
         <div class="row">
             <div class="col col-2"><label><span>*</span>主机名称：</label></div>
-            <div class="col col-5"><input require="true" max-len="18" min-len="6" filed="string" type="text" name="user" /></div>
+            <div class="col col-5"><input require="true" filed="string" type="text" name="hostname" /></div>
             <div class="col col-4 errmsg"></div>
         </div>
         <div class="row">
             <div class="col col-2"><label><span>*</span>主机地址：</label></div>
-            <div class="col col-5"><input require="true" max-len="18" min-len="6" filed="string" type="text" name="pwd" /></div>
+            <div class="col col-5"><input require="true" filed="ip" type="text" name="hostaddr" /></div>
             <div class="col col-4 errmsg"></div>
         </div>
         <div class="row">
             <div class="col col-2"><label><span>*</span>端口：</label></div>
-            <div class="col col-5"><input require="true" filed="repeat" re-for="pwd" type="password" name="repwd" /></div>
+            <div class="col col-5"><input require="true" filed="number" type="text" name="hostport" /></div>
             <div class="col col-4 errmsg"></i></div>
         </div>
         <div class="row">
             <div class="col col-2"><label><span>*</span>root：</label></div>
-            <div class="col col-5"><input require="true" filed="chinese" type="text" name="name" /></div>
+            <div class="col col-5"><input require="true" filed="string" type="text" name="hostroot" /></div>
             <div class="col col-4 errmsg"></i></div>
         </div>
         <div class="row">
             <div class="col col-2"><label><span>*</span>key：</label></div>
-            <div class="col col-5"><input require="true" filed="tel" type="text" name="tel" /></div>
+            <div class="col col-5"><input require="true" filed="string" type="password" name="hostkey" /></div>
             <div class="col col-4 errmsg"></div>
         </div>
         <div class="row m-btn">

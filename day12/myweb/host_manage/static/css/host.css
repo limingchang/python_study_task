@@ -43,6 +43,12 @@ a{
 .m-btn{
     border:0 !important;
 }
+.loginout{
+    font-size:16px;
+    margin-right:50px;
+    cursor:pointer;
+}
+
 @media only screen and (min-width: 970px) {
     .tb{
         width:900px;

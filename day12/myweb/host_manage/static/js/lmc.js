@@ -253,6 +253,10 @@
                                 $(this).focus().css("border-color","#d9534f");
                                 return false;
                             }
+                        }else if(filed == "ip"){
+
+                        }else if(filed == "number"){
+
                         }
                     }
                     if(flag){

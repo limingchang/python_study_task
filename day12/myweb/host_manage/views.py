@@ -59,7 +59,9 @@ def host(request):
     user = request.session.get("user",None)
     host_info = Host_API(request).get_host()
     for item in host_info:
-        item.status = Host_API(request).check_ip_status(ip=item.ip)
+        # item.status = Host_API(request).check_ip_status(ip=item.ip)
+        # 太慢，弃用
+        item.status = '停机'
     if len(host_info) == 0:
         host_info = False
     return render(request, "host_manage/host.html",{"sign":res_sign,"host_info":host_info})
@@ -92,6 +94,21 @@ def api(request):
             res = Host_API(request).add_host()
         else:
             res = chk
+    elif act == 'del_host':
+        access_token = request.META['HTTP_ACCESSTOKEN']
+        chk = Host_API(request).check_sign(access_token)
+        if chk["data"]:
+            res = Host_API(request).del_host()
+        else:
+            res = chk
+    elif act == 'check_ip_status':
+        ip = request.POST.get("ip", None)
+        chk = Host_API(request).check_ip_status(ip=ip)
+        res = {
+            "errNum": 0,
+            "errMsg": "IP检测",
+            "data": chk,
+        }
     else:
         res = {
             "errNum": 301,
@@ -155,7 +172,7 @@ def login(request):
                 }
         else:
             res = {
-                "errNum": 101,
+                "errNum": 102,
                 "errMsg": "验证码错误",
             }
         time.sleep(1)

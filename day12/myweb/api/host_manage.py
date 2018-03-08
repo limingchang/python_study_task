@@ -93,6 +93,17 @@ class Host_API(object):
         print(host)
         return self.res
 
+
+    def del_host(self):
+        hostid = self.request.POST.get("id", None)
+        print('删除主机：',hostid)
+        host = HostInfo.objects.filter(id=hostid)
+        host.delete()
+        self.res['errNum'] = 0
+        self.res['errMsg'] = '删除主机'
+        self.res['data'] = True
+        return self.res
+
     def get_user_info(self,type_or_user="auto"):
         if type_or_user == "auto":
             user = self.request.session.get("user", None)

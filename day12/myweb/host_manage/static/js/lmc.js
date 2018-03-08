@@ -46,7 +46,7 @@
 		this.res_data = "";
 		this.options = $.extend({},this.defaults, opt);
 		this.__inti__();
-		return this.res_data;
+		//return this.res_data;
 
 	}
 	ajaxData.prototype = {
@@ -88,9 +88,10 @@
 				//密码加密,再post
 				this.options.data['pwd'] = hex_sha1(this.options.data['pwd']);
 				this.__ajax__(this,"/login/");
-				res = this.res_data;
+				res = JSON.parse(this.res_data);
 			}
 			this.res_data = res;
+			//return res;
 		},
 		__ajax__:function(that,url){
 
@@ -125,7 +126,7 @@
 	}
 	$.ajaxData = function(opt){
 		var a = new ajaxData(opt);
-		return a;
+		return a.res_data;
 	}
 	//工具
 	var tools = function(){

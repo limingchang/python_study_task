@@ -62,13 +62,13 @@
 					"ajaxType":"post",
 					"data":data,
 				}
-				var a = $.ajaxData(opt);
+				var res = $.ajaxData(opt);
 				get_authCode();
-				if(a.errNum){
-				    $.showTips(a.errMsg,'error','tips-center');
+				if(res.errNum){
+				    $.showTips(res.errMsg,'error','tips-center');
 				}else{
 				    // 登录跳转
-				    $.tools().setCookie("accessToken",a.access_token,"h1")
+				    $.tools().setCookie("accessToken",res.access_token,"h1")
 				    window.location.href = "/index/";
 				}
 				$(this).html("登录");
@@ -80,7 +80,7 @@
 					"ajaxType":"get",
 					"data":{"act":"getAuthCode"},
 				}
-				var img_data = $.ajaxData(opt).res_data;
+				var img_data = $.ajaxData(opt);
 
 				$("#auth_code").prop("src","data:image/png;base64,"+img_data);
 			}

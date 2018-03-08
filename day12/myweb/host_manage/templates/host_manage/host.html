@@ -22,7 +22,6 @@
         {% if sign %}
             <div class="div-btn col col-12">
                 <button id="show_modal" class="btn btn-xl success"><i class="icon-plus"></i>新增</button>
-                <button class="btn btn-xl info"><i class="icon-plus"></i>新增</button>
             </div>
             <table class="tb">
                 <thead class="info">
@@ -42,21 +41,22 @@
                 {% for row in host_info %}
                     <tr>
                         <td>{{row.name}}</td>
-                        <td>{{row.ip}}</td>
+                        <td name="host-ip">{{row.ip}}</td>
                         <td>{{row.port}}</td>
                         {% if row.status == '停机' %}
-                            <td>
+                            <td name="host-status">
                                 <span class="f-error"><i class="icon-circle"></i></span>
                                 {{row.status}}
                             </td>
                         {% else %}
-                            <td>
+                            <td name="host-status">
                                 <span class="f-success"><i class="icon-circle"></i></span>
                                 {{row.status}}
                             </td>
                         {% endif %}
                         <td>
-                            <button id="del-host" target-data="{{row.id}}" class="btn btn-ml error"><i class="icon-remove"></i>删除</button>
+                            <button name="del-host" target-data="{{row.id}}" class="btn btn-ml error"><i class="icon-trash"></i>删除</button>
+                            <button name="edit-host" target-data="{{row.id}}" class="btn btn-ml orange"><i class="icon-pencil"></i>修改</button>
                         </td>
                     </tr>
                 {% endfor %}

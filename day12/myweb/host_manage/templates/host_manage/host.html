@@ -33,10 +33,9 @@
                         <th class="">操作</th>
                     </tr>
                 </thead>
+                <tbody id="tb">
             {% if host_info == False %}
-                <tbody>
                     <tr><td class="f-warring" colspan="5"><i class="icon-info-sign"></i>您还没有可管理的主机</td></tr>
-                </tbody>
             {% else %}
                 {% for row in host_info %}
                     <tr>
@@ -61,6 +60,7 @@
                     </tr>
                 {% endfor %}
             {% endif %}
+                </tbody>
             </table>
             <h1 class="f-success"><i class="icon-ok"></i>正常访问</h1>
         {% else %}

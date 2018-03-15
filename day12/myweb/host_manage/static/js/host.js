@@ -1,7 +1,8 @@
 $("#show_modal").click(function(){
-    $(".shadow").show();
-    $(".modal").slideDown();
-    $(".modal").find("input")[0].focus();
+    refresh_host();
+//    $(".shadow").show();
+//    $(".modal").slideDown();
+//    $(".modal").find("input")[0].focus();
 
 });
 $("#cancel").click(function(){
@@ -23,14 +24,14 @@ $("#add_host").click(function(){
     }
     var res = $.ajaxData(opt);
     if(!res.errNum){
-        $.showTips("<i class='icon-exclamation-sign'></i>"+res.errMsg+",添加成功",'success','tips-center');
+        $.showTips("<i class='icon-exclamation-sign'></i>【"+res.errMsg+"】操作成功",'success','tips-center');
         $(".modal input").val("");
         $(".shadow").hide();
         $(".modal").hide();
-        window.location.reload()
+        refresh_host();
     }
 });
-$("button[name='del-host']").on('click',function(){
+$("#tb").on('click',"button[name='del-host']",function(){
     var id = $(this).attr('target-data');
     var data = {};
     data["act"] = "del_host";
@@ -42,13 +43,70 @@ $("button[name='del-host']").on('click',function(){
     };
     var res = $.ajaxData(opt);
     if(!res.errNum){
-        $.showTips("<i class='icon-exclamation-sign'></i>"+res.errMsg+",删除成功",'success','tips-center');
-        window.location.reload()
+        $.showTips("<i class='icon-exclamation-sign'></i>【"+res.errMsg+"】操作成功",'success','tips-center');
+        refresh_host();
     }
 });
+$("#tb").on('click',"button[name='edit-host']",function(){
+    console.log(this);
 
+});
 
-function chk_ip(ip,ele){
+function refresh_host(){
+    var data = {};
+    data["act"] = "refresh_host";
+    var opt = {
+        "type":"API",
+        "ajaxType":"post",
+        "data":data,
+    }
+    var res = $.ajaxData(opt);
+    var tb = $("#tb").html("");
+    var data = res.data;
+    if(res.errNum){
+        tb.html("<tr><td class='f-warring' colspan='5'><i class='icon-info-sign'></i>"+res.errMsg+"</td></tr>");
+    }else{
+        if(data.length == 0){
+            tb.html("<tr><td class='f-warring' colspan='5'><i class='icon-info-sign'></i>您还没有可管理的主机</td></tr>");
+        }else{
+            for(var i=0;i<data.length;i++){
+                //console.log(data[i]);
+                var tr = document.createElement("tr");
+                $(tr).append(create_cell(data[i].name));
+                $(tr).append(create_cell(data[i].ip,"host-ip"));
+                $(tr).append(create_cell(data[i].port));
+                $(tr).append(create_cell("连接中...","host-status"));
+                var td_act = create_cell("");
+                var btn_del = document.createElement("button");
+                $(btn_del).attr("name","del-host").attr("target-data",data[i].id).addClass("btn btn-ml error");
+                //$(btn_del).html("<i class='icon-trash'></i>删除");
+                $(btn_del).text("删除").prepend($(document.createElement('i')).addClass('icon-trash'));
+                $(td_act).append(btn_del);
+                var btn_edit = document.createElement("button");
+                $(btn_edit).attr("name","edit-host").attr("target-data",data[i].id).addClass("btn btn-ml orange");
+                //$(btn_edit).html("<i class='icon-pencil'></i>修改");
+                $(btn_edit).text("修改").prepend($(document.createElement('i')).addClass('icon-pencil'));
+                $(td_act).append(btn_edit);
+                $(tr).append(td_act);
+                tb.append(tr);
+            }
+            chk_ip();
+        }
+    }
+}
+
+function create_cell(text,name=""){
+    var td = document.createElement('td');
+
+    $(td).text(text)
+    if(name != ""){
+        $(td).attr("name",name);
+    }
+
+    return td;
+}
+
+function chk_ip_res(ip,ele){
     var data = {};
     data['ip'] = ip;
     data['act'] = 'check_ip_status';
@@ -65,9 +123,13 @@ function chk_ip(ip,ele){
         },
     });
 }
-var td_ip = $("td[name='host-ip']");
-td_ip.each(function(){
-    var ip = $(this).text();
-    var td_msg = $(this).next().next();
-    chk_ip(ip,td_msg);
-});
+function chk_ip(){
+    var td_ip = $("td[name='host-ip']");
+    td_ip.each(function(){
+        var ip = $(this).text();
+        var td_msg = $(this).next().next();
+        chk_ip_res(ip,td_msg);
+    });
+
+}
+chk_ip();

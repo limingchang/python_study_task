@@ -47,7 +47,7 @@ def host(request):
     except KeyError:
         access_token = request.COOKIES.get("accessToken",None)
 
-    print(access_token)
+    # print(access_token)
     res = Host_API(request).check_sign(type_or_sign=access_token)
     # print(res)
     # 判断是是否有签名访问
@@ -59,8 +59,6 @@ def host(request):
     user = request.session.get("user",None)
     host_info = Host_API(request).get_host()
     for item in host_info:
-        # item.status = Host_API(request).check_ip_status(ip=item.ip)
-        # 太慢，弃用
         item.status = '停机'
     if len(host_info) == 0:
         host_info = False
@@ -101,6 +99,19 @@ def api(request):
             res = Host_API(request).del_host()
         else:
             res = chk
+    elif act == 'refresh_host':
+        access_token = request.META['HTTP_ACCESSTOKEN']
+        chk = Host_API(request).check_sign(access_token)
+        if chk["data"]:
+            res = {
+                "errNum": 0,
+                "errMsg": "获取个人主机",
+                "data": Host_API(request).get_host_list(),
+            }
+
+        else:
+            res = chk
+        print(res)
     elif act == 'check_ip_status':
         ip = request.POST.get("ip", None)
         chk = Host_API(request).check_ip_status(ip=ip)

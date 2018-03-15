@@ -128,6 +128,26 @@
 		var a = new ajaxData(opt);
 		return a.res_data;
 	}
+	//弹出对话框
+	var dialogBox = function(opt){
+	    this.defaults = {
+			width:null,
+			//对话框宽度
+			height:null,
+			//对话框高度
+		}
+		this.res_data = "";
+		this.options = $.extend({},this.defaults, opt);
+		this.__inti__();
+
+	}
+	dialogBox.prototype = {
+		__inti__:function(){}
+	}
+	$.dialogBox = function(opt){
+	    var d = new dialogBox(opt);
+	    return;
+	}
 	//工具
 	var tools = function(){
 		

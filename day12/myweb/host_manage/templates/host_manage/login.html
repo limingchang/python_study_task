@@ -49,6 +49,12 @@
         <script src="/static/js/sha1.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/static/js/lmc.js" type="text/javascript" charset="utf-8"></script>
 		<script>
+			//响应回车
+			$(document).keyup(function(event) {
+                if(event.keyCode === 13){
+                    $("#login").click();
+                }
+            });
 			$("#login").click(function(){
 			    $(this).attr("disabled","disabled");
 			    $(this).html("<i class='icon-spinner icon-spin icon-large'></i>登录");

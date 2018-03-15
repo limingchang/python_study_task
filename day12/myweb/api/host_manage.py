@@ -123,6 +123,23 @@ class Host_API(object):
         return host_info
 
 
+    def get_host_list(self):
+        host_info = self.get_host()
+        host_list = []
+        if len(host_info) > 0:
+            for item in host_info:
+                print(item.ip)
+                temp_dict = {}
+                temp_dict['id'] = item.id
+                temp_dict['ip'] = item.ip
+                temp_dict['name'] = item.name
+                temp_dict['port'] = item.port
+                host_list.append(temp_dict)
+        else:
+            host_list = []
+        return host_list
+
+
     def check_ip_status(self,ip='192.168.0.3'):
         def get_os():
             '''

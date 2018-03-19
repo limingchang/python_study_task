@@ -22,6 +22,7 @@
         {% if sign %}
             <div class="div-btn col col-12">
                 <button id="show_modal" class="btn btn-xl success"><i class="icon-plus"></i>新增</button>
+                <button id="test" class="btn btn-xl success"><i class="icon-plus"></i>功能测试</button>
             </div>
             <table class="tb">
                 <thead class="info">
@@ -39,7 +40,7 @@
             {% else %}
                 {% for row in host_info %}
                     <tr>
-                        <td>{{row.name}}</td>
+                        <td name="host-name">{{row.name}}</td>
                         <td name="host-ip">{{row.ip}}</td>
                         <td>{{row.port}}</td>
                         {% if row.status == '停机' %}

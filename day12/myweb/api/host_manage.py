@@ -163,7 +163,7 @@ class Host_API(object):
                     continue
                 new_line = str(line).upper().strip()
                 # print(new_line)
-                if new_line.find("TTL") >= 0:
+                if new_line.find("TIME") >= 0:
                     n = new_line.find("TIME=")+5
                     flag = new_line.lower()[n:]
                     break

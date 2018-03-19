@@ -251,6 +251,39 @@
     border:1px solid #CCCCCC;
     border-radius:5px;
 }
+/*dialog css*/
+.dialog-box{
+    width:200px;
+    background-color:#fff;
+    border-radius:5px;
+    position:fixed;
+    top:30%;
+    left:50%;
+}
+.dialog-title{
+    height: 36px;
+    line-height: 36px;
+    padding: 0 15px;
+    font-size:16px;
+    font-weight:bold;
+    border-bottom:1px solid #ddd;
+}
+.dialog-close:hover{
+    opacity:0.6;
+    font-size:18px;
+    cursor:pointer;
+}
+.dialog-content{
+    padding: 20px;
+    line-height: 24px;
+    margin: 0;
+    font-size:14px;
+}
+.dialog-btn{
+    height: 30px;
+    padding: 0 20px 20px;
+    text-align: center;
+}
 /*base width and base layout*/
 /*12列栅格*/
 .col{

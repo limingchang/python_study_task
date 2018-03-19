@@ -1,8 +1,11 @@
+$("#test").click(function(){
+
+});
 $("#show_modal").click(function(){
-    refresh_host();
-//    $(".shadow").show();
-//    $(".modal").slideDown();
-//    $(".modal").find("input")[0].focus();
+//    refresh_host();
+    $(".shadow").show();
+    $(".modal").slideDown();
+    $(".modal").find("input")[0].focus();
 
 });
 $("#cancel").click(function(){
@@ -32,24 +35,46 @@ $("#add_host").click(function(){
     }
 });
 $("#tb").on('click',"button[name='del-host']",function(){
-    var id = $(this).attr('target-data');
-    var data = {};
-    data["act"] = "del_host";
-    data["id"] = id;
+    var ele = this;
     var opt = {
-        "type":"API",
-        "ajaxType":"post",
-        "data":data,
-    };
-    var res = $.ajaxData(opt);
-    if(!res.errNum){
-        $.showTips("<i class='icon-exclamation-sign'></i>【"+res.errMsg+"】操作成功",'success','tips-center');
-        refresh_host();
+        title:"操作确认",
+        content:"您确定要删除此条记录吗？",
+        type:"ask",
     }
+    $.dialogBox(opt,callback=function(){
+        if(this.btn == 'confirm'){
+            var id = $(ele).attr('target-data');
+            var data = {};
+            data["act"] = "del_host";
+            data["id"] = id;
+            var opt = {
+                "type":"API",
+                "ajaxType":"post",
+                "data":data,
+            };
+            var res = $.ajaxData(opt);
+            if(!res.errNum){
+                $.showTips("<i class='icon-exclamation-sign'></i>【"+res.errMsg+"】操作成功",'success','tips-center');
+                refresh_host();
+            }
+        }
+    });
+
+
 });
 $("#tb").on('click',"button[name='edit-host']",function(){
-    console.log(this);
+    console.log($(this).parent().siblings());
+    var tds = $(this).parent().siblings()
+    tds.each(function(){
+        if($(this).attr("name") != "host-status"){
+            var input = $(document.createElement('input')).attr("name",$(this).attr("name")).addClass('edit-input');
+            input.val($(this).text());
+            $(this).text("");
+            $(this).append(input);
 
+        }
+    });
+    $('input[name=host-name]').focus();
 });
 
 function refresh_host(){
@@ -64,15 +89,15 @@ function refresh_host(){
     var tb = $("#tb").html("");
     var data = res.data;
     if(res.errNum){
-        tb.html("<tr><td class='f-warring' colspan='5'><i class='icon-info-sign'></i>"+res.errMsg+"</td></tr>");
+        tb.html("<tr><td class='f-warring' colspan='5'><i class='icon-exclamation-sign'></i>"+res.errMsg+"</td></tr>");
     }else{
         if(data.length == 0){
-            tb.html("<tr><td class='f-warring' colspan='5'><i class='icon-info-sign'></i>您还没有可管理的主机</td></tr>");
+            tb.html("<tr><td class='f-warring' colspan='5'><i class='icon-exclamation-sign'></i>您还没有可管理的主机</td></tr>");
         }else{
             for(var i=0;i<data.length;i++){
                 //console.log(data[i]);
                 var tr = document.createElement("tr");
-                $(tr).append(create_cell(data[i].name));
+                $(tr).append(create_cell(data[i].name,"host-name"));
                 $(tr).append(create_cell(data[i].ip,"host-ip"));
                 $(tr).append(create_cell(data[i].port));
                 $(tr).append(create_cell("连接中...","host-status"));

@@ -120,6 +120,7 @@ def api(request):
             "errMsg": "IP检测",
             "data": chk,
         }
+        # print(chk)
     else:
         res = {
             "errNum": 301,

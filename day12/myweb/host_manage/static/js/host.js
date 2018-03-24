@@ -1,5 +1,6 @@
 $("#test").click(function(){
-
+    create_cell('123',{'name':"ip","id":123});
+    refresh_host();
 });
 $("#show_modal").click(function(){
 //    refresh_host();
@@ -63,8 +64,8 @@ $("#tb").on('click',"button[name='del-host']",function(){
 
 });
 $("#tb").on('click',"button[name='edit-host']",function(){
-    console.log($(this).parent().siblings());
-    var tds = $(this).parent().siblings()
+    //console.log($(this).parent().siblings());
+    var tds = $(this).parent().siblings();
     tds.each(function(){
         if($(this).attr("name") != "host-status"){
             var input = $(document.createElement('input')).attr("name",$(this).attr("name")).addClass('edit-input');
@@ -75,6 +76,18 @@ $("#tb").on('click',"button[name='edit-host']",function(){
         }
     });
     $('input[name=host-name]').focus();
+    //修改为保存按钮icon-save
+    $(this).html("<i class='icon-save'></i>保存").attr("name","save-host").removeClass("orange").addClass("success");
+    //创建详情行
+    var tr = $(this).parent().parent();
+    var detail_tr = $(document.createElement("tr")).addClass("detail-tr");
+    detail_tr.append($(document.createElement("td")).attr("colspan","5").text("详细信息"));
+    tr.after(detail_tr);
+});
+
+$("#tb").on("click","button[name=save-host]",function(){
+   console.log("保存数据");
+
 });
 
 function refresh_host(){
@@ -97,10 +110,10 @@ function refresh_host(){
             for(var i=0;i<data.length;i++){
                 //console.log(data[i]);
                 var tr = document.createElement("tr");
-                $(tr).append(create_cell(data[i].name,"host-name"));
-                $(tr).append(create_cell(data[i].ip,"host-ip"));
+                $(tr).append(create_cell(data[i].name,{"name":"host-name","target-data":data[i].id}));
+                $(tr).append(create_cell(data[i].ip,{"name":"host-ip"}));
                 $(tr).append(create_cell(data[i].port));
-                $(tr).append(create_cell("连接中...","host-status"));
+                $(tr).append(create_cell("连接中...",{"name":"host-status"}));
                 var td_act = create_cell("");
                 var btn_del = document.createElement("button");
                 $(btn_del).attr("name","del-host").attr("target-data",data[i].id).addClass("btn btn-ml error");
@@ -120,13 +133,16 @@ function refresh_host(){
     }
 }
 
-function create_cell(text,name=""){
+function create_cell(str,attr={}){
     var td = document.createElement('td');
-
-    $(td).text(text)
-    if(name != ""){
-        $(td).attr("name",name);
+    $(td).text(str);
+    for(item in attr){
+        //console.log(item+'|'+attr[item]);
+        $(td).attr(item,attr[item]);
     }
+    // if(name != ""){
+    //     $(td).attr("name",name);
+    // }
 
     return td;
 }

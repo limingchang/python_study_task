@@ -51,6 +51,10 @@ a{
 .edit-input{
     font-size:14px;
 }
+.detail-tr{
+    height: 50px;
+
+}
 @media only screen and (min-width: 970px) {
     .tb{
         width:900px;

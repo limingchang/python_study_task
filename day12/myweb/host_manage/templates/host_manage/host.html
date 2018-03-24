@@ -40,7 +40,7 @@
             {% else %}
                 {% for row in host_info %}
                     <tr>
-                        <td name="host-name">{{row.name}}</td>
+                        <td name="host-name" target-data="{{row.id}}">{{row.name}}</td>
                         <td name="host-ip">{{row.ip}}</td>
                         <td>{{row.port}}</td>
                         {% if row.status == '停机' %}

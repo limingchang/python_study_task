@@ -111,6 +111,34 @@ def api(request):
 
         else:
             res = chk
+        # print(res)
+    elif act == 'get_host_by_id':
+        access_token = request.META['HTTP_ACCESSTOKEN']
+        chk = Host_API(request).check_sign(access_token)
+        id = request.POST.get('id',None);
+        if chk["data"]:
+            res = {
+                "errNum": 0,
+                "errMsg": "通过ID获取主机信息",
+                "data": Host_API(request).get_host_by_id(id),
+            }
+
+        else:
+            res = chk
+        print(res)
+    elif act == 'save_host':
+        access_token = request.META['HTTP_ACCESSTOKEN']
+        chk = Host_API(request).check_sign(access_token)
+        id = request.POST.get('host-id',None);
+        if chk["data"]:
+            res = {
+                "errNum": 0,
+                "errMsg": "保存主机信息",
+                "data": Host_API(request).save_host(id),
+            }
+
+        else:
+            res = chk
         print(res)
     elif act == 'check_ip_status':
         ip = request.POST.get("ip", None)

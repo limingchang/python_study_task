@@ -42,7 +42,7 @@
                     <tr>
                         <td name="host-name" target-data="{{row.id}}">{{row.name}}</td>
                         <td name="host-ip">{{row.ip}}</td>
-                        <td>{{row.port}}</td>
+                        <td name="host-port">{{row.port}}</td>
                         {% if row.status == '停机' %}
                             <td name="host-status">
                                 <span class="f-error"><i class="icon-circle"></i></span>
@@ -63,7 +63,7 @@
             {% endif %}
                 </tbody>
             </table>
-            <h1 class="f-success"><i class="icon-ok"></i>正常访问</h1>
+
         {% else %}
             <h1 class="f-error"><i class="icon-remove"></i>非法访问</h1>
         {% endif %}

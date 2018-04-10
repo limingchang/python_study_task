@@ -55,6 +55,12 @@ a{
     height: 50px;
 
 }
+.detail-div{
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 14px;
+}
 @media only screen and (min-width: 970px) {
     .tb{
         width:900px;

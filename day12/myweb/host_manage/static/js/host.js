@@ -1,6 +1,6 @@
 $("#test").click(function(){
-    create_cell('123',{'name':"ip","id":123});
-    refresh_host();
+    // create_cell('123',{'name':"ip","id":123});
+    // refresh_host();
 });
 $("#show_modal").click(function(){
 //    refresh_host();
@@ -81,13 +81,64 @@ $("#tb").on('click',"button[name='edit-host']",function(){
     //创建详情行
     var tr = $(this).parent().parent();
     var detail_tr = $(document.createElement("tr")).addClass("detail-tr");
-    detail_tr.append($(document.createElement("td")).attr("colspan","5").text("详细信息"));
+    detail_tr.append($(document.createElement("td")).attr("colspan","5").text(""));
     tr.after(detail_tr);
+    var detail_div = $(document.createElement('div')).addClass('detail-div');
+    var root_label = $(document.createElement('label')).text("Root:");
+    var root_input = $(document.createElement('input')).attr('name','root').addClass('edit-input');
+    detail_div.append(root_label).append(root_input);
+    var key_label = $(document.createElement('label')).text("Key:");
+    var key_input = $(document.createElement('input')).attr('name','key').addClass('edit-input');
+    detail_div.append(key_label).append(key_input);
+    detail_tr.find('td').append(detail_div);
+    //获取详情数据
+    var host_id = $(this).attr('target-data');
+    console.log(host_id);
+    var data = {};
+    data['act'] = 'get_host_by_id';
+    data['id'] = host_id;
+    var opt = {
+        "type":"API",
+        "ajaxType":"post",
+        "data":data,
+    }
+    var res = $.ajaxData(opt);
+    if(!res.errNum){
+        root_input.val(res.data['root']);
+        key_input.val(res.data['key']);
+    }else{
+        detail_tr.text(res.errMsg);
+    }
 });
 
 $("#tb").on("click","button[name=save-host]",function(){
-   console.log("保存数据");
+    var data = {};
+    data['act'] = 'save_host';
+    data['host-id'] = $(this).attr('target-data');
+    var inputs = $(this).parent().parent().find('input');
+    //inputs.add($(this).parent().parent().next());
+    var detail_inputs = $(this).parent().parent().next().find('input');
+    inputs.each(function(){
+        data[$(this).attr('name')] = $(this).val();
+    });
+    detail_inputs.each(function(){
+        data[$(this).attr('name')] = $(this).val();
+    });
+    console.log(data);
+    var opt = {
+        "type":"API",
+        "ajaxType":"post",
+        "data":data,
+    }
+    var res = $.ajaxData(opt);
+    console.log(res);
+    if(!res.errNum){
+        $.showTips("<i class='icon-exclamation-sign'></i>【"+res.errMsg+"】操作成功",'success','tips-center');
 
+    }else{
+        $.showTips("<i class='icon-remove-sign'></i>【"+res.errMsg+"】操作失败",'error','tips-center');
+    }
+    refresh_host();
 });
 
 function refresh_host(){
@@ -112,7 +163,7 @@ function refresh_host(){
                 var tr = document.createElement("tr");
                 $(tr).append(create_cell(data[i].name,{"name":"host-name","target-data":data[i].id}));
                 $(tr).append(create_cell(data[i].ip,{"name":"host-ip"}));
-                $(tr).append(create_cell(data[i].port));
+                $(tr).append(create_cell(data[i].port,{"name":"host-port"}));
                 $(tr).append(create_cell("连接中...",{"name":"host-status"}));
                 var td_act = create_cell("");
                 var btn_del = document.createElement("button");

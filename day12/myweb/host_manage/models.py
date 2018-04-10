@@ -30,7 +30,7 @@ class HostInfo(models.Model):
     pwd = models.CharField(max_length=32)
 
     def __str__(self):
-        msg = self.name + " | " + self.ip
+        msg = self.name + " | " + self.ip + " : " + str(self.port)
         return msg
 
 

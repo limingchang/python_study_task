@@ -140,6 +140,37 @@ class Host_API(object):
         return host_list
 
 
+
+    def get_host_by_id(self,id):
+        host_info = HostInfo.objects.filter(id=id)
+        # print(host_info)
+        info_dict = {}
+        info_dict['id'] = host_info[0].id
+        info_dict['ip'] = host_info[0].ip
+        info_dict['name'] = host_info[0].name
+        info_dict['port'] = host_info[0].port
+        info_dict['root'] = host_info[0].user
+        info_dict['key'] = host_info[0].pwd
+        return info_dict
+
+    def save_host(self,id):
+        host_info = HostInfo.objects.get(id=id)
+        print(self.request.POST)
+        print(host_info)
+        ip = self.request.POST.get('host-ip',None)
+        name = self.request.POST.get('host-name', None)
+        port = int(self.request.POST.get('host-port', None))
+        user = self.request.POST.get('root', None)
+        pwd = self.request.POST.get('key', None)
+        host_info.ip = ip if ip != None else host_info.ip
+        host_info.name = name if name != None else host_info.name
+        host_info.port = port if port != None else host_info.port
+        host_info.user = user if user != None else host_info.user
+        host_info.pwd = pwd if pwd != None else host_info.pwd
+        host_info.save()
+        print(host_info)
+        return '保存成功'
+
     def check_ip_status(self,ip='192.168.0.3'):
         def get_os():
             '''

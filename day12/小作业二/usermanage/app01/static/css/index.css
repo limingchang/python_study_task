@@ -1,0 +1,45 @@
+body{
+    margin: 0 auto;
+}
+
+.title{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+    background-color: #00BFFF;
+    color: #FFFFFF;
+    font-size: 24px;
+    line-height: 48px;
+    padding: 0 20px 0 20px;
+}
+.left-menu{
+    width: 200px;
+    position: fixed;
+    left: 0;
+    top: 48px;
+    bottom: 0;
+    background-color: #9999FF;
+    color: #FFFFFF;
+}
+.menu-list li{
+    display: inline-block;
+    margin-top: 10px;
+    cursor: pointer;
+}
+.menu-list div{
+    display: inline-block;
+    width: 20px;
+}
+.menu-list li span{
+    display: inline-block;
+    margin-left: 15px;
+}
+.content{
+    position: fixed;
+    top: 48px;
+    left: 200px;
+    right: 0;
+    bottom: 0;
+}

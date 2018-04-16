@@ -1,0 +1,462 @@
+/*base color*/
+.default{
+	background-color: #777;
+}
+.primary{
+	background-color: #337ab7;
+}
+.info{
+	background-color: #5bc0de;
+}
+.error{
+	background-color: #d9534f;
+}
+.success{
+	background-color: #5cb85c;
+}
+.warring{
+	background-color: #f0ad4e;
+}
+.blue{
+	background-color: #3399CC;
+}
+.green{
+	background-color: #33CC33;
+}
+.red{
+	background-color: #FF0033;
+}
+.orange{
+	background-color: #FF6600;
+}
+
+ /*base font-color*/
+.f-white{
+	color: #fff;
+}
+.f-info{
+	color: #5bc0de;
+}
+.f-success{
+	color: #5cb85c;
+}
+.f-warring{
+	color: #f0ad4e;
+}
+.f-error{
+	color: #d9534f;
+}
+.f-center{
+	text-align: center;
+}
+.f-left{
+	text-align: left;
+}
+.f-right{
+	text-align: right;
+}
+/*button css*/
+.btn{
+	text-align: center;
+	color: #fff;
+	border-radius: 5px;
+	border: 0;
+	/*margin-right: 5px;*/
+	padding: 0px 7px;
+	cursor: pointer;
+}
+.btn:hover{
+	opacity: 0.7;
+}
+.btn-ml{
+	font-size: 12px;
+	height: 18px;
+	line-height: 18px;
+}
+.btn-xl{
+	font-size: 16px;
+	height: 28px;
+	line-height: 28px;
+}
+.btn-lg{
+	font-size: 18px;
+	height: 34px;
+	line-height: 34px;
+}
+/*tips css*/
+.tips{
+	position: fixed;
+	height: 28px;
+	line-height: 28px;
+	padding-left: 5px;
+	padding-right: 5px;
+	margin-top: 5px;
+	color: #fff;
+	border-radius: 5px;
+	text-align: center;
+	opacity: 0;
+	z-index: 99;
+	transition: opacity 1s ease-in;
+}
+.tips-span{
+	padding-left: 15px;
+	text-align: right;
+}
+.tips-span:hover{
+	opacity: 0.3;
+	cursor: pointer;
+}
+.tips-show{
+	opacity: 1;
+}
+.tips-lefttop{
+	position: fixed;
+	top: 40px;
+	left: 15px;
+}
+.tips-center{
+	position: fixed;
+	left: 50%;
+	top: 50%;
+}
+.hidden{
+    display:none;
+}
+/*shadow css*/
+.shadow{
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	opacity: 0.3;
+	z-index: 21;
+}
+/*form css*/
+.form{
+	background-color: #D0E9FF;
+	/*D0E9FF ddf0ed*/
+	border-radius: 8px;
+	padding: 10px 5px 5px 20px;
+	min-width:250px;
+}
+/*lable css*/
+.form label{
+	color: #333333;
+	font-family: "微软雅黑";
+	font-size: 16px;
+	display: inline-block;
+	width: 90%;
+	text-align: left;
+}
+/*input css*/
+.form .row{
+	position: relative;
+}
+.form input[type='text'],input[type='password']{
+	border: 1px solid #ddd;
+	font-size: 16px;
+	border-radius: 5px;
+	width: 80%;
+	padding-right: 25px;
+}
+
+.form .form-icon{
+	position: absolute;
+	top: 30px;
+	right: 10%;
+}
+.auth_code{
+    position:absolute;
+    width:90px;
+    height:38px;
+    top:10px;
+    right:10%;
+}
+.form input[length]{
+	width: 40%;
+	padding: 1px;
+}
+/*扁平化板块菜单*/
+.block{
+    position:relative;
+    margin:5px auto;
+    width:400px;
+    height:300px;
+    text-align:center;
+}
+.plate-1{
+    position:absolute;
+    top:0;
+    left:0;
+    width:200px;
+    height:200px;
+}
+.plate-2{
+    position:absolute;
+    top:0;
+    right:0;
+    width:200px;
+    height:100px;
+}
+.plate-3{
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:200px;
+    height:100px;
+}
+.plate-4{
+    position:absolute;
+    right:0;
+    bottom:0;
+    width:200px;
+    height:200px;
+}
+.plate{
+    /*position:relative;*/
+    cursor:pointer;
+}
+
+/*modal*/
+.modal{
+    position:fixed;
+    z-index:31;
+    border-radius:10px;
+    background-color:#fff;
+    border:1px solid #ddd;
+    top:50%;
+    left:50%;
+}
+.m-title{
+    color:#33CC33;
+    font-size:22px;
+    height:28px;
+    line-height:28px;
+    border-bottom:3px solid #FF6600;
+}
+.modal .row{
+    font-size:14px;
+    padding:5px 10px;
+    border-bottom:1px solid #ddd;
+}
+.modal span{
+    color:#FF0033;
+
+}
+.modal input{
+    width:85%;
+    font-size:16px;
+    padding:5px 10px;
+    border:1px solid #CCCCCC;
+    border-radius:5px;
+}
+/*dialog css*/
+.dialog-box{
+    width:200px;
+    background-color:#fff;
+    border-radius:5px;
+    position:fixed;
+    top:30%;
+    left:50%;
+}
+.dialog-title{
+    height: 36px;
+    line-height: 36px;
+    padding: 0 15px;
+    font-size:16px;
+    font-weight:bold;
+    border-bottom:1px solid #ddd;
+}
+.dialog-close:hover{
+    opacity:0.6;
+    font-size:18px;
+    cursor:pointer;
+}
+.dialog-content{
+    padding: 20px;
+    line-height: 24px;
+    margin: 0;
+    font-size:14px;
+}
+.dialog-btn{
+    height: 30px;
+    padding: 0 20px 20px;
+    text-align: center;
+}
+/*base width and base layout*/
+/*12列栅格*/
+.col{
+    display:inline-block;
+}
+.col-1,.col-2,.col-3,.col-4,.col-5,.col-6,.col-7,col-8,.col-9,.col-10,.col-11,.col-12{
+    width:100%;
+}
+.content{
+	margin: 0 auto;
+	padding-top:20px;
+}
+.vertical-center{
+    margin:auto 0;
+    vertical-align:middle;
+}
+.center{
+	margin: 0 auto;
+}
+.row{
+	padding: 5px;
+	margin: auto;
+}
+.left{
+	float: left;
+}
+.right{
+	float:right;
+}
+.clear-float{
+	clear: both;
+}
+
+.header{
+	height: 48px;
+	font-size: 22px;
+	text-align: center;
+	line-height: 48px;
+	padding: 0px 15px 0px 15px;
+}
+.input-error{
+    border-color:#d9534f;
+}
+/*响应式*/
+@media only screen and (min-width: 750px ) {
+    .content{
+        width: 750px;
+    }
+		
+}
+@media only screen and (min-width: 970px) {
+	.content{
+			width: 970px;
+    }
+    .form input[type='text'],.form input[type='password']{
+        width: 65%;
+    }
+    .form input[length]{
+        width: 20%;
+        padding: 1px;
+    }
+    .form label{
+        width: 23%;
+    }
+    .form .form-icon{
+        position: absolute;
+        top: 15px;
+        right: 15px;
+    }
+    .auth_code{
+        top:5px;
+    }
+    .row{
+        height: 38px;
+        line-height: 38px;
+    }
+    .col-1{
+        width:8% ;
+    }
+    .col-2{
+        width:16.333% ;
+    }
+    .col-3{
+        width:24.77777% ;
+    }
+    .col-4{
+        width:33% ;
+    }
+    .col-5{
+        width:41.33333% ;
+    }
+    .col-6{
+        width:49.677777% ;
+    }
+    .col-7{
+        width:58% ;
+    }
+    .col-8{
+        width:66.33333% ;
+    }
+    .col-9{
+        width:74.677777% ;
+    }
+    .col-10{
+        width:83% ;
+    }
+    .col-11{
+        width:91.333333% ;
+    }
+    .col-12{
+        width:100% ;
+    }
+}
+@media only screen and (min-width: 1170px) {
+    .content{
+        width: 1170px;
+    }
+    .form input[type='text'],.form input[type='password']{
+        width: 66%;
+    }
+    .form input[length]{
+        width: 20%;
+        padding: 1px;
+    }
+    .form label{
+        width: 23%;
+    }
+    .form .form-icon{
+        position: absolute;
+        top: 15px;
+        right: 20px;
+    }
+    .auth_code{
+        top:5px;
+    }
+    .row{
+        height: 38px;
+        line-height: 38px;
+    }
+    .col-1{
+        width:8% ;
+    }
+    .col-2{
+        width:16.333% ;
+    }
+    .col-3{
+        width:24.77777% ;
+    }
+    .col-4{
+        width:33% ;
+    }
+    .col-5{
+        width:41.33333% ;
+    }
+    .col-6{
+        width:49.677777% ;
+    }
+    .col-7{
+        width:58% ;
+    }
+    .col-8{
+        width:66.33333% ;
+    }
+    .col-9{
+        width:74.677777% ;
+    }
+    .col-10{
+        width:83% ;
+    }
+    .col-11{
+        width:91.333333% ;
+    }
+    .col-12{
+        width:100% ;
+    }
+}

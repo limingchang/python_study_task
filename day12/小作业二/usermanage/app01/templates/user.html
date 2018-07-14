@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>用户管理</title>
-    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="stylesheet" href="/static/css/user.css">
     <link rel="stylesheet" type="text/css" href="/static/css/lmc.css"/>
     <link rel="stylesheet"  href="/static/js/Font-Awesome-3.2.1/css/font-awesome.min.css"/>
 </head>
@@ -13,38 +13,98 @@
     </div>
     <div class="left-menu">
         <ul class="menu-list">
-            <li target-link="/user.html">
+            <li target-link="/user_manage/user.html">
                 <div><i class="icon-user icon-large"></i></div>
                 <span>用户管理</span>
             </li>
-            <li target-link="/group.html">
+            <li target-link="/user_manage/group.html">
                 <div><i class="icon-group icon-large"></i></div>
                 <span>用户组管理</span>
             </li>
         </ul>
     </div>
     <div class="content">
-        <div class="tb-title"></div>
+        <div class="tb-title">
+            用户列表
+            <button id="user_add" class="btn btn-xl success">
+                <i class="icon-plus"></i>
+                新增用户
+            </button>
+        </div>
         <div class="tb-div">
-            <table>
-                <thead>
+            <table class="tb">
+                <thead class="blue">
                     <tr>
                         <th>用户名</th>
                         <th>邮箱</th>
                         <th>所属组</th>
+                        <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td></td>
-                    </tr>
+                {% if userlist|length == 0 %}
+                    <tr><td colspan="4">还没有用户，请添加</td></tr>
+                {% else %}
+                    {% for item in userlist %}
+                        <tr data-id="{{ item.id }}">
+                            <td>{{ item.user }}</td>
+                            <td>{{ item.email }}</td>
+                            <td>{{ item.group.caption }}</td>
+                            <td>
+                                <button name="edit" class="btn btn-ml orange"><i class="icon-pencil"></i>修改</button>
+                                <button name="del" class="btn btn-ml error"><i class="icon-trash"></i>删除</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
                 </tbody>
             </table>
         </div>
     </div>
-
+    <div class="shadow blue hidden"></div>
+    <div class="modal col-6 hidden">
+        <div class="m-title f-center">新增用户</div>
+        <div class="row">
+            <div class="col col-2"><label><span>*</span>用户名：</label></div>
+            <div class="col col-5"><input require="true" filed="string" min-len="6" type="text" name="user" /></div>
+            <div class="col col-4 errmsg"></div>
+        </div>
+        <div class="row">
+            <div class="col col-2"><label><span>*</span>密码：</label></div>
+            <div class="col col-5"><input require="true" filed="string" min-len="6" type="password" name="pwd" /></div>
+            <div class="col col-4 errmsg"></div>
+        </div>
+        <div class="row">
+            <div class="col col-2"><label><span>*</span>重复密码：</label></div>
+            <div class="col col-5"><input require="true" filed="repeat" re-for="pwd" type="password" name="re-pwd" /></div>
+            <div class="col col-4 errmsg"></div>
+        </div>
+        <div class="row">
+            <div class="col col-2"><label><span>*</span>邮箱：</label></div>
+            <div class="col col-5"><input require="true" filed="email" type="text" name="email" /></div>
+            <div class="col col-4 errmsg"></div>
+        </div>
+        <div class="row">
+            <div class="col col-2"><label><span>*</span>用户组：</label></div>
+            <div class="col col-5">
+                <select id="user_group">
+                    {% for item in grouplist %}
+                        <option value="{{ item.id }}">{{ item.caption }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col col-4 errmsg"></div>
+        </div>
+        <div class="row m-btn">
+            <div class="f-center">
+                <button class="btn btn-xl success" id="add_user">新增</button>
+                <button class="btn btn-xl error" id="cancel">取消</button>
+            </div>
+        </div>
+    </div>
 
 <script src="/static/js/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="/static/js/lmc.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/js/user.js" type="text/javascript" charset="utf-8"></script>
 </body>
 </html>

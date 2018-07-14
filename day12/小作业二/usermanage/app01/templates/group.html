@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+    <link rel="stylesheet" href="/static/css/user.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/lmc.css"/>
+    <link rel="stylesheet"  href="/static/js/Font-Awesome-3.2.1/css/font-awesome.min.css"/>
+</head>
+<body>
+    <div class="title">
+        用户管理系统
+    </div>
+    <div class="left-menu">
+        <ul class="menu-list">
+            <li target-link="/user_manage/user.html">
+                <div><i class="icon-user icon-large"></i></div>
+                <span>用户管理</span>
+            </li>
+            <li target-link="/user_manage/group.html">
+                <div><i class="icon-group icon-large"></i></div>
+                <span>用户组管理</span>
+            </li>
+        </ul>
+    </div>
+    <div class="content">
+        <div class="tb-title">
+            用户组列表
+            <button id="group_add" class="btn btn-xl success">
+                <i class="icon-plus"></i>
+                新增组
+            </button>
+        </div>
+        <div class="tb-div">
+            <table class="tb">
+                <thead class="blue">
+                    <tr>
+                        <th>组名</th>
+                        <th>组描述</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% if grouplist|length == 0 %}
+                    <tr><td colspan="4">还没有用户分组，请添加</td></tr>
+                {% else %}
+                    {% for item in grouplist %}
+                    <tr data-id="{{ item.id }}">
+                        <td>{{ item.caption }}</td>
+                        <td>{{ item.description }}</td>
+                        <td>
+                            <button name="edit" class="btn btn-ml orange"><i class="icon-pencil"></i>修改</button>
+                            <button name="del" class="btn btn-ml error"><i class="icon-trash"></i>删除</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="shadow blue hidden"></div>
+    <div class="modal col-6 hidden">
+        <div class="m-title f-center">新增用户组</div>
+        <div class="row">
+            <div class="col col-2"><label><span>*</span>组名：</label></div>
+            <div class="col col-5"><input type="text" name="group_name" require="true" filed="string" /></div>
+            <div class="col col-4 errmsg"></div>
+        </div>
+        <div class="row">
+            <div class="col col-2"><label><span>*</span>组描述：</label></div>
+            <div class="col col-5"><input type="text" name="description" require="true" filed="chinese" /></div>
+            <div class="col col-4 errmsg"></div>
+        </div>
+        <div class="row m-btn">
+            <div class="f-center">
+                <button class="btn btn-xl success hidden" id="save">保存</button>
+                <button class="btn btn-xl success" id="add_group">新增</button>
+                <button class="btn btn-xl error" id="cancel">取消</button>
+            </div>
+        </div>
+    </div>
+
+<script src="/static/js/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/js/lmc.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/js/group.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>

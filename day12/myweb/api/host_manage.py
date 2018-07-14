@@ -85,12 +85,12 @@ class Host_API(object):
         host.save()
         # 获取个人信息
         user_info = self.get_user_info()
-        print(user_info)
+        # print(user_info)
         host.host_user.add(*user_info)
         self.res['errNum'] = 0
         self.res['errMsg'] = '新增主机'
         self.res['data'] = True
-        print(host)
+        # print(host)
         return self.res
 
 
@@ -168,7 +168,7 @@ class Host_API(object):
         host_info.user = user if user != None else host_info.user
         host_info.pwd = pwd if pwd != None else host_info.pwd
         host_info.save()
-        print(host_info)
+        # print(host_info)
         return '保存成功'
 
     def check_ip_status(self,ip='192.168.0.3'):

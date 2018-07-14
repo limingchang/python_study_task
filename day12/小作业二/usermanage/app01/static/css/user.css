@@ -43,3 +43,13 @@ body{
     right: 0;
     bottom: 0;
 }
+.tb-title{
+    width: 50%;
+    margin: 0 auto;
+    font-size: 28px;
+    color: #7457ad;
+}
+.tb-div{
+    margin: 0 auto;
+    margin-top: 25px;
+}

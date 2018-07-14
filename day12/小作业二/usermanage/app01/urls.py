@@ -20,4 +20,6 @@ from app01 import views
 
 urlpatterns = [
     url('^user.html$',views.index),
+    url('^group.html$',views.group),
+    url('^api/$',views.api),
 ]

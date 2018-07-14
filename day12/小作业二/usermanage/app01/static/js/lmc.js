@@ -36,9 +36,11 @@
 	var ajaxData = function(opt){
 		this.defaults = {
 			"type":"API",
+			"url":null,
 			"ajaxType":"post",
 			"data":{},
 			"requestDataType":"JSON",
+			"has_token":false,//是否携带access_token
 			"async":false,//ajax模式，true异步，false同步
 			//同步模式会阻塞其他js运行
 			"callback":this.__callback__(),
@@ -53,23 +55,32 @@
 		__inti__:function(){
 
 			if(this.options.type == "API"){
-				console.log("调用api");
+				//console.log("调用api");
 				this.__api__();
 			}else if(this.options.type == "USER_AUTH"){
-				console.log("登录认证");
+				// console.log("登录认证");
 				this.__loginAuth__();
 			}else if(this.options.type == "AUTH_CODE"){
-			    console.log("获取验证码");
+			    // console.log("获取验证码");
 				this.__authCode__();
 			}
 
 		},
 		__api__:function(){
-		    this.__ajax__(this,"/api/");
+			if(this.options.url == null){
+				// console.log('默认URL');
+				this.__ajax__(this,"/api/");
+			}else {
+				this.__ajax__(this,this.options.url);
+			}
+
 		},
 		__authCode__:function(){
-		    this.__ajax__(this,"/auth_code/");
-
+			if(this.options.url == null) {
+                this.__ajax__(this, "/auth_code/");
+            }else {
+				this.__ajax__(this,this.options.url);
+			}
 		},
 		__loginAuth__:function(){
 			var data = this.options.data;
@@ -87,19 +98,22 @@
 			}else{
 				//密码加密,再post
 				this.options.data['pwd'] = hex_sha1(this.options.data['pwd']);
-				this.__ajax__(this,"/login/");
+				if(this.options.url == null){
+					this.__ajax__(this,"/login/");
+				}else {
+					this.__ajax__(this,this.options.url);
+				}
 				res = JSON.parse(this.res_data);
 			}
 			this.res_data = res;
 			//return res;
 		},
 		__ajax__:function(that,url){
-
 			$.ajax({
 				type:that.options.ajaxType,
 				url:url,
 				beforeSend:function(XMLHttpRequest){
-				    if(that.options.type=="API"){
+				    if(that.options.type=="API" && that.options.has_token){
 				        XMLHttpRequest.setRequestHeader('accessToken',$.tools().getCookie("accessToken"));
 				    }
 				},
@@ -126,6 +140,7 @@
 	}
 	$.ajaxData = function(opt){
 		var a = new ajaxData(opt);
+		// console.log(a.options);
 		return a.res_data;
 	}
 	//弹出对话框
@@ -147,12 +162,14 @@
             //点击取消后回调函数，默认关闭弹出框
             callback:callback,
             //点击按钮的回调函数
-            type: 'normal',
-            //对话框类型：normal(普通对话框),correct(正确/操作成功对话框),error(错误/警告对话框),tips(提示消息)
+            type: 'ask',
+            //对话框类型：ask(询问对话框),correct(正确/操作成功对话框),error(错误/警告对话框),tips(提示消息)
             title: '',
             //标题内容
             content: '',
             //正文内容
+			shadow:false,
+			//是否显示遮罩
             btn:null,
             //单击按钮的结果,字符串类型（confirm,cancel）
 
@@ -219,6 +236,20 @@
             }
 		    //console.log(dialogBox);
 		    this.element = dialogBox;
+		    //创建遮罩
+			if(this.options.shadow){
+				//查找遮罩
+				var shadow = $('.shadow');
+				if(shadow.length != 0){
+					this.shadow = shadow;
+					this.shadow.attr('name','dialog-shadow');
+				}else {
+					this.shadow = $(document.createElement('div')).addClass('shadow blue hidden');
+				}
+				console.log(this.shadow);
+				this.shadow.show();
+			}
+
 		},
 		//渲染插件(插入元素、设置位置、动画等)
 		__render__:function(){
@@ -236,6 +267,7 @@
             //console.log(pos);
             this.element.offset(pos);
             //$("body").append(this.element);
+
 
 		},
 		//设置样式
@@ -271,6 +303,10 @@
 		//销毁元素
 		__destroy__:function(){
 		    this.element.hide().remove();
+		    if(this.options.shadow){
+		    	this.shadow.hide();
+		    	$('div[name=dialog-shadow]').remove();
+			}
 		},
 
 	}
@@ -323,10 +359,8 @@
             else
                 return null;
         },
-        //cookie操作工具
         //表单验证工具
         formAuth:function(btn){
-
             btn.click(function(){
                 $("input[require]").each(function(){
                     var flag = true;
@@ -418,6 +452,13 @@
                 });
             });
 
+        },
+		//延时刷新页面工具
+		refresh_page:function (s) {
+			//s:延时的秒数
+			setTimeout(function(){  //使用  setTimeout（）方法设定定时2000毫秒
+            	window.location.reload(true);//页面刷新
+        	},s*1000);
         },
 	}
 	$.tools  = function(){

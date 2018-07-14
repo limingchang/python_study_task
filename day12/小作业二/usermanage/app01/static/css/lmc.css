@@ -1,3 +1,11 @@
+input,button{
+	outline: none;
+	border: 0;
+}
+a{
+	text-decoration: none;
+	color:#fff;
+}
 /*base color*/
 .default{
 	background-color: #777;
@@ -149,6 +157,29 @@
 	width: 90%;
 	text-align: left;
 }
+/*table css*/
+
+.div-btn{
+    margin:0 auto;
+    margin-bottom:10px;
+    text-align:center;
+}
+.tb{
+    width:550px;
+    margin:0 auto;
+    border-collapse:collapse;
+}
+.tb th{
+    border-right:1px solid #fff;
+    font-size:18px;
+    color:#fff;
+    padding:0;
+}
+.tb td{
+    text-align:center;
+    border-bottom:2px solid #FFCCCC;
+    font-size:14px;
+}
 /*input css*/
 .form .row{
 	position: relative;
@@ -256,9 +287,11 @@
     width:200px;
     background-color:#fff;
     border-radius:5px;
+    border: solid 1px #9999FF;
     position:fixed;
     top:30%;
     left:50%;
+    z-index: 22;
 }
 .dialog-title{
     height: 36px;

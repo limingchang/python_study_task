@@ -53,9 +53,7 @@ $("#add_user").click(function () {
         $(".modal input").val("").css("border-color","#ccc");
         $(".modal .errmsg").html("");
         $(".modal").hide();
-        setTimeout(function(){  //使用  setTimeout（）方法设定定时2000毫秒
-            window.location.reload();//页面刷新
-        },2000);
+        $.tools().refresh_page(2);
     }
 
 });
@@ -88,11 +86,84 @@ $('td').on("click","button[name=del]",function () {
             }else {
                 $.showTips(res.errMsg,tips_type='error',tips_position='tips-center');
             }
-            location.reload(true);
+            $.tools().refresh_page(2);
         }
     })
 });
 //修改按钮
 $('td').on("click","button[name=edit]",function () {
     console.log('edit');
+    //修改标题
+    $('.m-title').text('修改用户');
+    //传递ID
+    $('#save').show().attr('data-id',$(this).parent().parent().attr('data-id'));
+    $('#add_user').hide();
+    //显示modal
+    $(".shadow").show();
+    //位置修正
+    var h = ($(window).height() - $(".modal").height())/4;
+    var w = ($(window).width() - $(".modal").width())/2;
+    var pos = {
+        "left":w,
+        "top":h
+    };
+    $(".modal").css("left",pos.left + "px").css("top",pos.top + "px").show();
+    //填入信息
+    $("input[name=user]").val($(this).parent().parent().children().eq(0).text()).attr("disabled","disabled").addClass('disable');
+    $("input[name=pwd]").attr("min-len",0);
+    //加入不修改密码提示
+    //
+    $("input[name=email]").val($(this).parent().parent().children().eq(1).text());
+    var user_group = $("option");
+    var group_name = $(this).parent().parent().children().eq(2).text();
+    user_group.each(function(){
+        if($(this).text() == group_name){
+            $(this).attr("selected",true);
+        }
+    });
+
+
+
+});
+//保存按钮
+$("#save").click(function(){
+    var has_err = $(".modal .f-error");
+    // 设置密码可为空
+    $("input[name=pwd]").attr('min-len',0);
+    if(has_err.length == 0){
+        var inputs = $(".modal input");
+        var data = {};
+        inputs.each(function () {
+            data[$(this).attr("name")] = $(this).val();
+        });
+        data['act'] = "edit_user";
+        data['user_group'] = $('#user_group').val();
+        data['user_id'] = $(this).attr('data-id');
+        opt = {
+            "type":"API",
+            "url":"/user_manage/api/",
+            "data":data
+        };
+        // console.log(opt);
+        var res = $.ajaxData(opt);
+        if(res.errNum == 0){
+            $.showTips(res.errMsg,tips_type='info',tips_position='tips-center');
+        }else {
+            $.showTips(res.errMsg,tips_type='error',tips_position='tips-center');
+        }
+
+
+    }
+    $(".shadow").hide();
+    $(".modal input").val("").css("border-color","#ccc");
+    $(".modal .errmsg").html("");
+    $(".modal").hide();
+    $.tools().refresh_page(2);
+    //恢复modal
+    // $('.m-title').text('新增用户');
+    // $(".modal input").val("");
+    // $("input[name=pwd]").attr('min-len',6);
+    // $("input[name=user]").removeAttr("disabled").removeClass("disable");
+    // $('#add_user').show();
+    // $('#save').hide();
 });

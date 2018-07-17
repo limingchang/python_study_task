@@ -246,7 +246,7 @@
 				}else {
 					this.shadow = $(document.createElement('div')).addClass('shadow blue hidden');
 				}
-				console.log(this.shadow);
+				//console.log(this.shadow);
 				this.shadow.show();
 			}
 
@@ -305,7 +305,7 @@
 		    this.element.hide().remove();
 		    if(this.options.shadow){
 		    	this.shadow.hide();
-		    	$('div[name=dialog-shadow]').remove();
+		    	//$('div[name=dialog-shadow]').remove();
 			}
 		},
 

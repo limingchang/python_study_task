@@ -80,4 +80,19 @@ def api(request):
             'errNum': 0,
             'errMsg': '修改组成功',
         }
+    elif act == "edit_user":
+        user_id = request.POST.get('user_id',None)
+        user_pwd = request.POST.get('pwd',None)
+        user_email = request.POST.get('email',None)
+        user_group_id = request.POST.get('user_group',None)
+        user = models.UserInfo.objects.filter(id=user_id)[0]
+        if len(user_pwd) != 0:
+            user.pwd = user_pwd
+        user.email = user_email
+        user.group_id = user_group_id
+        user.save()
+        res = {
+            'errNum': 0,
+            'errMsg': '修改用户成功',
+        }
     return HttpResponse(json.dumps(res), content_type="application/json")

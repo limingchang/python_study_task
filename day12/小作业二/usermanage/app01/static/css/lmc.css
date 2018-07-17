@@ -37,6 +37,9 @@ a{
 .orange{
 	background-color: #FF6600;
 }
+.disable{
+    background-color: #c5c5c5;
+}
 
  /*base font-color*/
 .f-white{
